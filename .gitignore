@@ -1,5 +1,7 @@
 # Prerequisites
 *.d
+MLX42
+.vscode
 
 # Object files
 *.o
