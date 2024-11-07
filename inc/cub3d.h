@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/07 14:10:33 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/07 17:11:06 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_table
     float           player_angle;
     float           player_delta_x;
     float           player_delta_y;
+    int             player_col;
+    int             player_row;
 }   t_table;
 
 void    init_data(t_table *table);

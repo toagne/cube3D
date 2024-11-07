@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/07 14:28:28 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/07 19:49:23 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,29 @@ void    ft_keyboard(mlx_key_data_t keydata, void *param)
 		exit (EXIT_SUCCESS);
 	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-		table->player_y-=1;
+		table->player_y-=5;
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-		table->player_y+=1;
+		table->player_y+=5;
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-		table->player_x+=1;
+		table->player_x+=5;
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-		table->player_x-=1;
-	/*if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
+		table->player_x-=5;
+	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
 		table->player_angle -= 0.1;
 		if (table->player_angle < 0)
 			table->player_angle += 2 * PI;
-		table->player_delta_x = cos(table->player_angle) * 5;
-		table->player_delta_x = sin(table->player_angle) * 5;
-	}*/
+		table->player_delta_x = cos(table->player_angle) * 30;
+		table->player_delta_y = sin(table->player_angle) * 30;
+	}
+	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
+	{
+		table->player_angle += 0.1;
+		if (table->player_angle > 2 * PI)
+			table->player_angle -= 2 * PI;
+		table->player_delta_x = cos(table->player_angle) * 30;
+		table->player_delta_y = sin(table->player_angle) * 30;
+	}
 	draw_map(table);
     draw_player(table);
 }
