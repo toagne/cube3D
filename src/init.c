@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/06 10:40:02 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:03:22 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void    init_data(t_table *table)
 {
-    table->height = 1000;
-    table->width = 1000;
+    table->width = 2048;
+    table->height = 1024;
+    table->player_angle = 90;
 }

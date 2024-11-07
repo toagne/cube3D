@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/06 11:44:42 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:10:33 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <math.h> 
 # include <MLX42/MLX42.h>
+
+# define PI 3.14159265358979323846
 
 typedef struct s_table
 {
@@ -29,9 +32,17 @@ typedef struct s_table
     char            map[1024];
     int             columns;
     int             rows;
+    float           player_x;
+    float           player_y;
+    float           player_angle;
+    float           player_delta_x;
+    float           player_delta_y;
 }   t_table;
 
 void    init_data(t_table *table);
 void    ft_keyboard(mlx_key_data_t keydata, void *param);
+
+void    draw_map(t_table *table);
+void    draw_player(t_table *table);
 
 #endif
