@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/07 19:46:42 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/08 09:52:47 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,17 +85,32 @@ void draw_map(t_table *table)
     mlx_image_to_window(table->mlx_start, table->mlx_image, 0, 0);
 }
 
-void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color) {
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = (x0 < x1) ? 1 : -1;
-    int sy = (y0 < y1) ? 1 : -1;
-    int err = dx - dy;
+void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color)
+{
+    int dx;
+    int dy;
+    int sx;
+    int sy;
+    int err;
+    int e2;
 
-    while (1) {
+    dx = abs(x1 - x0);
+    dy = abs(y1 - y0);
+    err = dx - dy;
+    if (x0 < x1)
+        sx = 1;
+    else
+        sx = -1;
+    if (y0 < y1)
+        sy = 1;
+    else
+        sy = -1;   
+    while (1)
+    {
         mlx_put_pixel(img, x0, y0, color);  // Draw the pixel at (x0, y0)
-        if (x0 == x1 && y0 == y1) break;    // Stop if we’ve reached the end point
-        int e2 = 2 * err;
+        if (x0 == x1 && y0 == y1)
+            break;    // Stop if we’ve reached the end point
+        e2 = 2 * err;
         if (e2 > -dy) {
             err -= dy;
             x0 += sx;
@@ -109,40 +124,8 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color)
 
 void    draw_player(t_table *table)
 {
-    /*double      cell_width;
-    double      cell_height;
-    int         x;
-    int         y;
-    int         row;
-    int         col;
-    int         i;
-    int         j;
-    uint32_t    color;
-
-    cell_width = (float)500 / table->columns;
-    cell_height = (float)500 / table->rows;
-    color = 0x0000FFFF;
-    row = -1;
-    while (++row < table->player_row)
-    {
-        col = -1;
-        while (++col < table->player_col)
-            ;
-    }
-    x = (col - 1) * cell_width + (cell_width / 4);
-    y = (row - 1) * cell_height + (cell_height / 4);
-    i = -1;
-    while (++i < cell_height / 2)
-    {
-        j = -1;
-        while (++j < cell_width / 2)
-            mlx_put_pixel(table->mlx_image, x + j, y + i, color);
-    }*/
    int  x;
    int  y;
-   //int  step_x;
-   //int  step_y;
-   //int  dir_y;
 
     y = table->player_y - 10;
     while (y++ < table->player_y + 10)
@@ -152,14 +135,6 @@ void    draw_player(t_table *table)
             mlx_put_pixel(table->mlx_image, x, y, 0x000000FF);
     }
     draw_line(table->mlx_image, table->player_x, table->player_y, table->player_x+table->player_delta_x, table->player_y+table->player_delta_y, 0x000000FF);
-    /*y = table->player_y;
-    dir_y = y - 30;
-    while (y-- > dir_y)
-    {
-        x = table->player_x - 2;
-        while (x++ < table->player_x + 2)
-            mlx_put_pixel(table->mlx_image, x, y, 0x000000FF);
-    }*/
 }
 
 int main (int argc, char **argv)
