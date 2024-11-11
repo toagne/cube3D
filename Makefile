@@ -6,7 +6,7 @@
 #    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/11/06 10:39:28 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/11/11 09:39:29 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ MLX42_LIB       = $(MLX42_DIR)/build/libmlx42.a
 
 RM              = rm -f
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code \
+CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -g \
 					-I$(INC_DIR) \
 					-I$(MLX42_DIR)/include
 LDFLAGS         = -ldl -lglfw -pthread -lm
