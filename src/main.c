@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/13 15:24:31 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/13 19:15:11 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,11 @@ void draw_line_w_thk(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t 
 		}
 	}
 }
+float	deg_to_rad(int deg)
+{
+	return ((float)deg / 180 * PI);
+}
+
 void    draw_player(t_table *table)
 {
 	int	x;
@@ -224,114 +229,121 @@ void    draw_player(t_table *table)
 	//printf("\n%f x %f\n", x1, y1);
 	draw_line(table->mlx_2D, px, py, x1, y1, 0xFFFF00FF);*/
 
+	
 	// ----vertical lines----
-	float angle = table->player_angle;
-	float sx, sy, dx, dy, vv, vh, hx, hy, vx, vy;
-	if (table->player_angle > 3 *PI / 2 || table->player_angle < PI / 2)
+	
+	float pa = table->player_angle - 30;
+	int r = -1;
+	while (++r < 60)
 	{
-		sx = (int)(table->player_x / T_SIZE) * T_SIZE + T_SIZE;
-		sy = -(table->player_x - sx) * tan(angle) + table->player_y;
-		dx = T_SIZE;
-		dy = T_SIZE * tan(angle);
-	}
-	else
-	{
-		sx = (int)(table->player_x / T_SIZE) * T_SIZE - 0.0001;
-		sy = -(table->player_x - sx) * tan(angle) + table->player_y;
-		dx = -T_SIZE;
-		dy = -T_SIZE * tan(angle);
-	}
-	/*printf("----vertical lines----\nsx = %f\n", sx);
-	printf("sy = %f\n", sy);
-	printf("dx = %f\n", dx);
-	printf("dy = %f\n", dy);
-	printf("angle = %.0f\n", table->player_angle*180/PI);*/
-	int mx, my, mp;
-	while (sx > 0 && sy > 0 && sx < 640 && sy < 640) //check if need to add more conditins
-	{
-		mx = sx / T_SIZE;
-		my = sy / T_SIZE;
-		mp = my * (table->columns + 1) + mx;
-		/*printf("mx = %d\n", mx);
-		printf("my = %d\n", my);
-		printf("mp = %d\n", mp);
-		printf("%c\n----vertical lines----\n\n", table->map[mp]);*/
-		if (table->map[mp] == '1')
-			break;
+		float angle = deg_to_rad(pa);
+		float sx, sy, dx, dy, vv, vh, hx, hy, vx, vy;
+		if (angle > 3 *PI / 2 || angle < PI / 2)
+		{
+			sx = (int)(table->player_x / T_SIZE) * T_SIZE + T_SIZE;
+			sy = -(table->player_x - sx) * tan(angle) + table->player_y;
+			dx = T_SIZE;
+			dy = T_SIZE * tan(angle);
+		}
 		else
 		{
-			sx+=dx;
-			sy+=dy;
+			sx = (int)(table->player_x / T_SIZE) * T_SIZE - 0.0001;
+			sy = -(table->player_x - sx) * tan(angle) + table->player_y;
+			dx = -T_SIZE;
+			dy = -T_SIZE * tan(angle);
 		}
-	}
-	//printf("sx = %f\n", sx);
-	//printf("sy = %f\n", sy);
-	vv = sqrt((table->player_x - sx) * (table->player_x -  sx) + (table->player_y - sy) * (table->player_y - sy));
-	vx = sx;
-	vy = sy;
-	// ----horizontals lines----
+		//printf("----vertical lines----\nsx = %f\n", sx);
+		//printf("sy = %f\n", sy);
+		//printf("dx = %f\n", dx);
+		//printf("dy = %f\n", dy);
+		//printf("angle = %.0f\n", table->player_angle*180/PI);
+		int mx, my, mp;
+		while (sx > 0 && sy > 0 && sx < 640 && sy < 640) //check if need to add more conditins
+		{
+			mx = sx / T_SIZE;
+			my = sy / T_SIZE;
+			mp = my * (table->columns + 1) + mx;
+			//printf("mx = %d\n", mx);
+			//printf("my = %d\n", my);
+			//printf("mp = %d\n", mp);
+			//printf("%c\n----vertical lines----\n\n", table->map[mp]);
+			if (table->map[mp] == '1')
+				break;
+			else
+			{
+				sx+=dx;
+				sy+=dy;
+			}
+		}
+		//printf("sx = %f\n", sx);
+		//printf("sy = %f\n", sy);
+		vv = sqrt((table->player_x - sx) * (table->player_x -  sx) + (table->player_y - sy) * (table->player_y - sy));
+		vx = sx;
+		vy = sy;
+		// ----horizontals lines----
 
-	if (table->player_angle > 0 && table->player_angle < PI)
-	{
-		sy = (int)(table->player_y / T_SIZE) * T_SIZE + T_SIZE;
-		sx = -(table->player_y - sy) / tan(angle) + table->player_x;
-		dy = T_SIZE;
-		dx = T_SIZE / tan(angle);
-	}
-	else
-	{
-		sy = (int)(table->player_y / T_SIZE) * T_SIZE - 0.0001;
-		sx = -(table->player_y - sy) / tan(angle) + table->player_x;
-		dy = -T_SIZE;
-		dx = -(T_SIZE / tan(angle));
-	}
-	/*printf("----horizontals lines----\nsx = %f\n", sx);
-	printf("sy = %f\n", sy);
-	printf("dx = %f\n", dx);
-	printf("dy = %f\n", dy);
-	printf("angle = %.0f\n", table->player_angle*180/PI);*/
-	//int mx, my, mp;
-	while (sx > 0 && sy > 0 && sx < 640 && sy < 640) //check if need to add more conditins
-	{
-		mx = sx / T_SIZE;
-		my = sy / T_SIZE;
-		mp = my * (table->columns + 1) + mx;
-		/*printf("mx = %d\n", mx);
-		printf("my = %d\n", my);
-		printf("mp = %d\n", mp);
-		printf("%c\n----horizontals lines----\n\n", table->map[mp]);*/
-		if (table->map[mp] == '1')
-			break;
+		if (angle > 0 && angle < PI)
+		{
+			sy = (int)(table->player_y / T_SIZE) * T_SIZE + T_SIZE;
+			sx = -(table->player_y - sy) / tan(angle) + table->player_x;
+			dy = T_SIZE;
+			dx = T_SIZE / tan(angle);
+		}
 		else
 		{
-			sx+=dx;
-			sy+=dy;
+			sy = (int)(table->player_y / T_SIZE) * T_SIZE - 0.0001;
+			sx = -(table->player_y - sy) / tan(angle) + table->player_x;
+			dy = -T_SIZE;
+			dx = -(T_SIZE / tan(angle));
 		}
-	}
-	//printf("sy = %f\n", sy);
-	//printf("sx = %f\n", sx);
-	vh = sqrt((table->player_x - sx) * (table->player_x -  sx) + (table->player_y - sy) * (table->player_y - sy));
-	hx = sx;
-	hy = sy;
-	//printf("vy = %f\n", vy);
+		//printf("----horizontals lines----\nsx = %f\n", sx);
+		//printf("sy = %f\n", sy);
+		//printf("dx = %f\n", dx);
+		//printf("dy = %f\n", dy);
+		//printf("angle = %.0f\n", table->player_angle*180/PI);
+		//int mx, my, mp;
+		while (sx > 0 && sy > 0 && sx < 640 && sy < 640) //check if need to add more conditins
+		{
+			mx = sx / T_SIZE;
+			my = sy / T_SIZE;
+			mp = my * (table->columns + 1) + mx;
+			//printf("mx = %d\n", mx);
+			//printf("my = %d\n", my);
+			//printf("mp = %d\n", mp);
+			//printf("%c\n----horizontals lines----\n\n", table->map[mp]);
+			if (table->map[mp] == '1')
+				break;
+			else
+			{
+				sx+=dx;
+				sy+=dy;
+			}
+		}
+		//printf("sy = %f\n", sy);
+		//printf("sx = %f\n", sx);
+		vh = sqrt((table->player_x - sx) * (table->player_x -  sx) + (table->player_y - sy) * (table->player_y - sy));
+		hx = sx;
+		hy = sy;
+		//printf("vy = %f\n", vy);
 
-	if (vv > vh)
-	{
-		//printf("vh = %f\n", vh);
-		//printf("hx = %f; hy = %f\n", hx, hy);
-		draw_line(table->mlx_2D, table->player_x, table->player_y, hx, hy, 0xFFFF00FF);
+		if (vv > vh)
+		{
+			//printf("vh = %f\n", vh);
+			//printf("hx = %f; hy = %f\n", hx, hy);
+			draw_line(table->mlx_2D, table->player_x, table->player_y, hx, hy, 0xFFFF00FF);
+		}
+		else
+		{
+			//printf("vv = %f\n", vv);
+			//printf("vx = %f; vy = %f\n\n", vx, vy);
+			draw_line(table->mlx_2D, table->player_x, table->player_y, vx, vy, 0xFFFF00FF);
+		}
+		//printf("mx = %d\n", mx);
+		//printf("my = %d\n", my);
+		//printf("mp = %d\n", mp);
+		//printf("%c\n", table->map[mp]);
+		pa++;
 	}
-	else
-	{
-		//printf("vv = %f\n", vv);
-		//printf("vx = %f; vy = %f\n\n", vx, vy);
-		draw_line(table->mlx_2D, table->player_x, table->player_y, vx, vy, 0xFFFF00FF);
-	}
-	/*printf("mx = %d\n", mx);
-	printf("my = %d\n", my);
-	printf("mp = %d\n", mp);
-	printf("%c\n", table->map[mp]);*/
-	//angle+=step_angle;
 }
 
 /*void	draw_3d(t_table *table)
