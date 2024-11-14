@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/14 13:24:48 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:15:23 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void    draw_player(t_table *table)
 		while (x++ < table->player_x + 5)
 			mlx_put_pixel(table->mlx_2D, x, y, 0xFFFF00FF);
 	}
-	draw_line_w_thk(table->mlx_2D, table->player_x, table->player_y, table->player_x+table->player_delta_x, table->player_y+table->player_delta_y, 0xFFFF00FF, 4);
+	//draw_line_w_thk(table->mlx_2D, table->player_x, table->player_y, table->player_x+table->player_delta_x, table->player_y+table->player_delta_y, 0xFFFF00FF, 4);
 
 	/*y = -1;
 	while (++y < 800)
