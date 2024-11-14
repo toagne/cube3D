@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/14 09:52:30 by omartela         ###   ########.fr       */
+/*   Updated: 2024/11/14 10:45:02 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,8 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param);
 
 void	draw_map(t_table *table);
 void	draw_player(t_table *table);
+
+// read_map.c
+int		read_map(t_table *table);
 
 #endif

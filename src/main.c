@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/14 09:59:22 by omartela         ###   ########.fr       */
+/*   Updated: 2024/11/14 10:32:40 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void draw_map(t_table *table)
 			x = col * T_SIZE;
 			y = row * T_SIZE;
 
-			if (table->map[row * (table->columns + 1) + col] == '1')
+			if (table->map[row][col] == '1')
 				color = 0xFFFFFFFF;
-			else if (table->map[row * (table->columns + 1) + col] == '0')
+			else if (table->map[row][col] == '0')
 				color = 0x000000FF;
 			//else if (table->map[row * (table->columns + 1) + col] == 'N')
 				//color = 0x0000FFFF;
@@ -258,17 +258,16 @@ void    draw_player(t_table *table)
 		//printf("dx = %f\n", dx);
 		//printf("dy = %f\n", dy);
 		//printf("angle = %.0f\n", table->player_angle*180/PI);
-		int mx, my, mp;
+		int mx, my;
 		while (sx > 0 && sy > 0 && sx < 640 && sy < 640) //check if need to add more conditins
 		{
 			mx = sx / T_SIZE;
 			my = sy / T_SIZE;
-			mp = my * (table->columns + 1) + mx;
 			//printf("mx = %d\n", mx);
 			//printf("my = %d\n", my);
 			//printf("mp = %d\n", mp);
 			//printf("%c\n----vertical lines----\n\n", table->map[mp]);
-			if (table->map[mp] == '1')
+			if (table->map[mx][my] == '1')
 				break;
 			else
 			{
@@ -307,12 +306,11 @@ void    draw_player(t_table *table)
 		{
 			mx = sx / T_SIZE;
 			my = sy / T_SIZE;
-			mp = my * (table->columns + 1) + mx;
 			//printf("mx = %d\n", mx);
 			//printf("my = %d\n", my);
 			//printf("mp = %d\n", mp);
 			//printf("%c\n----horizontals lines----\n\n", table->map[mp]);
-			if (table->map[mp] == '1')
+			if (table->map[mx][my] == '1')
 				break;
 			else
 			{

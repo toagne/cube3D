@@ -6,11 +6,11 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/13 18:31:17 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/14 10:51:56 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../inc/cub3d.h"
 
 void	init_data(t_table *table)
 {
