@@ -43,7 +43,6 @@ typedef struct s_table
 	int				player_col;
 	int				player_row;
 	int				player;
-}	t_table;
 	float			player_delta_x_ad;
 	float			player_delta_y_ad;
 }   t_table;
