@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/13 19:15:11 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/14 13:24:48 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void draw_line_w_thk(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t 
 		}
 	}
 }
-float	deg_to_rad(int deg)
+float	deg_to_rad(float deg)
 {
 	return ((float)deg / 180 * PI);
 }
@@ -188,6 +188,14 @@ void    draw_player(t_table *table)
 			mlx_put_pixel(table->mlx_2D, x, y, 0xFFFF00FF);
 	}
 	draw_line_w_thk(table->mlx_2D, table->player_x, table->player_y, table->player_x+table->player_delta_x, table->player_y+table->player_delta_y, 0xFFFF00FF, 4);
+
+	/*y = -1;
+	while (++y < 800)
+	{
+		x = -1;
+		while (++x < 1200)
+			mlx_put_pixel(table->mlx_3D, x, y, 0x000000FF);
+	}*/
 
 	/*float px, py, x1, y1, delta_x, delta_y, vx, vy;
 	px = table->player_x;
@@ -230,14 +238,22 @@ void    draw_player(t_table *table)
 	draw_line(table->mlx_2D, px, py, x1, y1, 0xFFFF00FF);*/
 
 	
-	// ----vertical lines----
+
 	
 	float pa = table->player_angle - 30;
+	//printf("\nplayer angle = %f\n", table->player_angle);
+	//printf("player angle - 30 = %f\n", pa);
 	int r = -1;
-	while (++r < 60)
+	while (++r < 120)
 	{
+		if (pa > 359)
+			pa -= 360;
+		if (pa < 0)
+			pa += 360;
 		float angle = deg_to_rad(pa);
-		float sx, sy, dx, dy, vv, vh, hx, hy, vx, vy;
+		float sx, sy, dx, dy, vv, vh, hx, hy, vx, vy, fx, fy, fv;
+		// ----vertical lines----
+		vv = 10000;
 		if (angle > 3 *PI / 2 || angle < PI / 2)
 		{
 			sx = (int)(table->player_x / T_SIZE) * T_SIZE + T_SIZE;
@@ -280,8 +296,9 @@ void    draw_player(t_table *table)
 		vv = sqrt((table->player_x - sx) * (table->player_x -  sx) + (table->player_y - sy) * (table->player_y - sy));
 		vx = sx;
 		vy = sy;
+		//printf("\nvertical vector = %f\n", vv);
 		// ----horizontals lines----
-
+		vh = 10000;
 		if (angle > 0 && angle < PI)
 		{
 			sy = (int)(table->player_y / T_SIZE) * T_SIZE + T_SIZE;
@@ -324,26 +341,76 @@ void    draw_player(t_table *table)
 		vh = sqrt((table->player_x - sx) * (table->player_x -  sx) + (table->player_y - sy) * (table->player_y - sy));
 		hx = sx;
 		hy = sy;
-		//printf("vy = %f\n", vy);
-
+		//printf("horizontal vector = %f\n", vh);
+		uint32_t color;
 		if (vv > vh)
 		{
 			//printf("vh = %f\n", vh);
 			//printf("hx = %f; hy = %f\n", hx, hy);
-			draw_line(table->mlx_2D, table->player_x, table->player_y, hx, hy, 0xFFFF00FF);
+			fx  = hx;
+			fy = hy;
+			fv = vh;
+			color = 0xFFFF00FF;
+			//draw_line(table->mlx_2D, table->player_x, table->player_y, hx, hy, 0xFFFF00FF);
 		}
 		else
 		{
 			//printf("vv = %f\n", vv);
 			//printf("vx = %f; vy = %f\n\n", vx, vy);
-			draw_line(table->mlx_2D, table->player_x, table->player_y, vx, vy, 0xFFFF00FF);
+			fx  = vx;
+			fy = vy;
+			fv = vv;
+			color = 0xCCCC00FF;
+			//draw_line(table->mlx_2D, table->player_x, table->player_y, vx, vy, 0xFFFF00FF);
 		}
 		//printf("mx = %d\n", mx);
 		//printf("my = %d\n", my);
 		//printf("mp = %d\n", mp);
 		//printf("%c\n", table->map[mp]);
-		pa++;
+		
+		//printf("final vector = %f\n", fv);
+
+		draw_line(table->mlx_2D, table->player_x, table->player_y, fx, fy, 0xFFFF00FF);
+
+		int ca=(table->player_angle - pa);
+		if (ca > 359)
+			ca -= 360;
+		if (ca < 0)
+			ca += 360;
+		fv=fv*cos(deg_to_rad(ca));
+
+		//printf("\nvector %d angle = %f\n", r, pa);
+		//printf("vextor %d = %f\n", r, fv);
+		int wall_h = T_SIZE * 800 / fv;
+		//printf("wall h %d = %d\n", r, wall_h);
+		if (wall_h > 800)
+			wall_h = 800;
+		int drawStart = -wall_h / 2 + 800 / 2;
+		if(drawStart < 0)
+			drawStart = 0;
+		int drawEnd = wall_h / 2 + 800 / 2;
+		if(drawEnd >= 800)
+			drawEnd = 800 - 1;
+		//printf("wall_h = %d\n", wall_h);
+		//printf("render_x = %d\n", render_x);
+		//printf("draw start = %d\n", drawStart);
+		//printf("draw end = %d\n", drawEnd);
+		
+		int scaled_x_start = r * (1200 / 120);
+		int scaled_x_end = (r + 1) * (1200 / 120) - 1;
+		int i = scaled_x_start;
+		// Draw the wider vertical slice across the scaled width range
+		while (i <= scaled_x_end)
+		{
+			draw_line(table->mlx_3D, i, drawStart, i, drawEnd, color);
+			draw_line(table->mlx_3D, i, 0, i, drawStart, 0xADD8E6FF);
+			draw_line(table->mlx_3D, i, drawEnd, i, 799, 0x8B4513FF);
+			i++;
+		}
+		pa = pa + 0.5;
 	}
+	mlx_image_to_window(table->mlx_start, table->mlx_3D, 750, 0);
+	//printf("player angle + 30 = %f\n", pa);
 }
 
 /*void	draw_3d(t_table *table)
@@ -387,12 +454,12 @@ int main (int argc, char **argv)
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
 		;//error
-	draw_map(&table);
-	draw_player(&table);
-	/*table.mlx_3D = mlx_new_image(table.mlx_start, 1024, 512);
+	table.mlx_3D = mlx_new_image(table.mlx_start, 1200, 800);
 	if (!table.mlx_3D)
 		;//error
-	draw_3d(&table);*/
+	draw_map(&table);
+	draw_player(&table);
+	//draw_3d(&table);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
 	mlx_loop(table.mlx_start);
 }
