@@ -6,7 +6,7 @@
 /*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/14 10:45:02 by omartela         ###   ########.fr       */
+/*   Updated: 2024/11/14 14:11:30 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ typedef struct s_table
 	int				height;
 	char			*filename;
 	char			**map;
-	int				columns;
-	int				rows;
+	size_t			columns;
+	size_t			rows;
 	float			player_x;
 	float			player_y;
 	float			player_angle;
@@ -42,6 +42,7 @@ typedef struct s_table
 	float			player_delta_y;
 	int				player_col;
 	int				player_row;
+	int				player;
 }	t_table;
 
 void	init_data(t_table *table);
@@ -52,5 +53,11 @@ void	draw_player(t_table *table);
 
 // read_map.c
 int		read_map(t_table *table);
+
+// error.c
+void    ft_error(char *s1);
+
+// validate_map.c
+int		validate_map(t_table *table);
 
 #endif

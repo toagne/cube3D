@@ -14,6 +14,7 @@
 
 void	init_data(t_table *table)
 {
+	ft_memset(table, 0, sizeof(t_table));
 	table->width = 2048;
 	table->height = 1024;
 	table->player_angle = 270; // to ghange according NSEW where the player is looking on the map

@@ -47,29 +47,33 @@ void draw_map(t_table *table)
 {
 	//double		cell_width;
 	//double		cell_height;
-	int			x;
-	int			y;
-	int			row;
-	int			col;
+	size_t		x;
+	size_t		y;
+	size_t		row;
+	size_t		col;
 	int			i;
 	int			j;
 	uint32_t	color;
 
 	//cell_width = (float)500 / table->columns;
 	//cell_height = (float)500 / table->rows;
-	y = -1;
-	while (++y < T_SIZE * table->rows)
+	y = 0;
+	while (y < T_SIZE * table->rows)
 	{
-		x = -1;
-		while (++x < T_SIZE * table->columns)
+		x = 0;
+		while (x < T_SIZE * table->columns)
+		{
 			mlx_put_pixel(table->mlx_2D, x, y, 0xFF0000FF);
+			++x;
+		}
+		++y;
 	}
 	
-	row = -1;
-	while (++row < table->rows)
+	row = 0;
+	while (row < table->rows)
 	{
-		col = -1;
-		while (++col < table->columns)
+		col = 0;
+		while (col < table->columns)
 		{
 			x = col * T_SIZE;
 			y = row * T_SIZE;
@@ -89,7 +93,9 @@ void draw_map(t_table *table)
 				while (++j < T_SIZE - 1)
 					mlx_put_pixel(table->mlx_2D, x + j, y + i, color);
 			}
+			++col;
 		}
+		++row;
 	}
 	mlx_image_to_window(table->mlx_start, table->mlx_2D, 0, 0);
 }
@@ -381,13 +387,15 @@ int	main (int argc, char **argv)
 	// check that argc 1 is a file that can be opened and read and ends with .cub
 	//parse_input();
 	init_data(&table);
+	table.filename = argv[1];
+	read_map(&table);
+	if (!validate_map(&table))
+		return (1);
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
 	{
 		;//error
 	}
-	table.filename = argv[1];
-	read_map(&table);
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
 	{

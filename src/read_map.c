@@ -11,13 +11,6 @@
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
 
-void	error(char *s1)
-{
-	ft_putstr_fd("Error\n", 1);
-	ft_putstr_fd(s1, 1);
-	ft_putchar_fd('\n', 1);
-}
-
 void	free_map(char **map, size_t i)
 {
 	while (i > 0)
@@ -34,7 +27,7 @@ static int	check_empty_file(int fd, char **line, char **map)
 	if (!(*line))
 	{
 		free(map);
-		error("Read failed or empty file");
+		ft_error("Read failed or empty file");
 		return (0);
 	}
 	return (1);
@@ -44,26 +37,36 @@ static int	read_lines(int fd, char ***map, t_table *table)
 {
 	char	*line;
 	int		ln;
+	char	*trimmed;
 
 	line = NULL;
 	if (!check_empty_file(fd, &line, *map))
 		return (0);
-	(*map)[0] = line;
+	trimmed = ft_strtrim(line, "\n");
+	if (!trimmed)
+	{
+		free(map);
+		return (0);
+	}
+	(*map)[0] = trimmed;
 	ln = 1;
 	while (line != NULL)
 	{
 		line = get_next_line(fd);
 		*map = ft_realloc(*map, ln * sizeof(char *), (ln + 1) * sizeof(char *));
-		if (!*map)
+		if (line)
+			trimmed = ft_strtrim(line, "\n");
+		if (!*map || !trimmed)
 		{
 			free_map(*map, ln);
 			free(line);
 			line = NULL;
 			return (0);
 		}
-		(*map)[ln] = line;
+		(*map)[ln] = trimmed;
 		if (line)
 			++ln;
+		free(line);
 	}
 	table->rows = ln;
 	return (1);
@@ -84,8 +87,8 @@ int	check_player_dir(char dir)
 
 void set_player_position(t_table *table)
 {
-	int	player_pos_x;
-	int	player_pos_y;
+	size_t	player_pos_x;
+	size_t	player_pos_y;
 
 	player_pos_y = 0;
 	while (player_pos_y < table->rows)
@@ -116,7 +119,7 @@ int	read_map(t_table *table)
 	fd = open(table->filename, O_RDONLY);
 	if (fd == -1)
 	{
-		error("File could not be opened");
+		ft_error("File could not be opened");
 		return (0);
 	}
 	map = malloc(1 * sizeof(char *));
@@ -130,7 +133,7 @@ int	read_map(t_table *table)
 		close(fd);
 		return (0);
 	}
-	table->columns = ft_strlen(map[0]) - 1;
+	table->columns = ft_strlen(map[0]);
 	table->map = map;
 	close(fd);
 	set_player_position(table);
