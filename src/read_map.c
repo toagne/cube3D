@@ -69,12 +69,49 @@ static int	read_lines(int fd, char ***map, t_table *table)
 	return (1);
 }
 
+int	check_player_dir(char dir)
+{
+	if (dir == 'N')
+		return (1);
+	else if (dir == 'W')
+		return (1);
+	else if (dir == 'S')
+		return (1);
+	else if (dir == 'E')
+		return (1);
+	return (0);
+}
+
+void set_player_position(t_table *table)
+{
+	int	player_pos_x;
+	int	player_pos_y;
+
+	player_pos_y = 0;
+	while (player_pos_y < table->rows)
+	{
+		player_pos_x = 0;
+		while (player_pos_x < table->columns)
+		{
+			if (check_player_dir(table->map[player_pos_y][player_pos_x]))
+			{
+				table->player_row = player_pos_y;
+				table->player_col = player_pos_x;
+			}
+			++player_pos_x;
+		}
+		++player_pos_y;
+	}
+	printf("%d x %d\n", table->player_col, table->player_row);
+	table->player_x = (float)table->player_col * T_SIZE - T_SIZE / 2;
+	table->player_y = (float)table->player_row * T_SIZE - T_SIZE / 2;
+	printf("%f x %f\n", table->player_x, table->player_y);
+}
+
 int	read_map(t_table *table)
 {
 	int		fd;
 	char	**map;
-	int		player_pos_x;
-	int		player_pos_y;
 
 	fd = open(table->filename, O_RDONLY);
 	if (fd == -1)
@@ -96,25 +133,6 @@ int	read_map(t_table *table)
 	table->columns = ft_strlen(map[0]) - 1;
 	table->map = map;
 	close(fd);
-
-	player_pos_y = 0;
-	while (player_pos_y < table->rows)
-	{
-		player_pos_x = 0;
-		while (player_pos_x < table->columns)
-		{
-			if (table->map[player_pos_y][player_pos_x] != 'N')
-			{
-				table->player_row = player_pos_y;
-				table->player_col = player_pos_x;
-			}
-			++player_pos_x;
-		}
-		++player_pos_y;
-	}
-	printf("%d x %d\n", table->player_col, table->player_row);
-	table->player_x = (float)table->player_col * T_SIZE - T_SIZE / 2;
-	table->player_y = (float)table->player_row * T_SIZE - T_SIZE / 2;
-	printf("%f x %f\n", table->player_x, table->player_y);
+	set_player_position(table);
 	return (1);
 }
