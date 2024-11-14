@@ -468,12 +468,11 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
-	draw_map(&table);
-	draw_player(&table);
-	/*table.mlx_3D = mlx_new_image(table.mlx_start, 1024, 512);
 	table.mlx_3D = mlx_new_image(table.mlx_start, 1200, 800);
 	if (!table.mlx_3D)
+	{
 		;//error
+	}
 	draw_map(&table);
 	draw_player(&table);
 	//draw_3d(&table);
