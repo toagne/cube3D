@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/11 10:43:34 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/14 09:52:30 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <math.h> 
 # include <MLX42/MLX42.h>
+# include "../libft/libft.h"
 
 # define PI 3.14159265358979323846
 # define T_SIZE 64
@@ -30,8 +31,8 @@ typedef struct s_table
 	mlx_image_t		*mlx_3D;
 	int				width;
 	int				height;
-	int				map_fd;
-	char			map[1024];
+	char			*filename;
+	char			**map;
 	int				columns;
 	int				rows;
 	float			player_x;
@@ -41,7 +42,7 @@ typedef struct s_table
 	float			player_delta_y;
 	int				player_col;
 	int				player_row;
-}   t_table;
+}	t_table;
 
 void	init_data(t_table *table);
 void	ft_keyboard(mlx_key_data_t keydata, void *param);

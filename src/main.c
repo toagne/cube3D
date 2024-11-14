@@ -6,12 +6,12 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/13 19:15:11 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/14 09:59:22 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-
+#include "../inc/cub3d.h"
+/*
 void    read_map(t_table *table, char *infile)
 {
 	int		i;
@@ -41,6 +41,7 @@ void    read_map(t_table *table, char *infile)
 	table->player_y = (float)table->player_row * T_SIZE - T_SIZE / 2;
 	printf("%f x %f\n", table->player_x, table->player_y);
 }
+*/
 
 void draw_map(t_table *table)
 {
@@ -366,7 +367,7 @@ void    draw_player(t_table *table)
 	mlx_image_to_window(table->mlx_start, table->mlx_3D, 1024, 0);
 }*/
 
-int main (int argc, char **argv)
+int	main (int argc, char **argv)
 {
 	t_table	table;
 
@@ -382,11 +383,16 @@ int main (int argc, char **argv)
 	init_data(&table);
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
+	{
 		;//error
-	read_map(&table, argv[1]);
+	}
+	table.filename = argv[1];
+	read_map(&table);
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
+	{
 		;//error
+	}
 	draw_map(&table);
 	draw_player(&table);
 	/*table.mlx_3D = mlx_new_image(table.mlx_start, 1024, 512);
