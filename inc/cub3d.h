@@ -6,7 +6,7 @@
 /*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/14 14:11:30 by omartela         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:19:51 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ typedef struct s_table
 	int				player_row;
 	int				player;
 }	t_table;
+	float			player_delta_x_ad;
+	float			player_delta_y_ad;
+}   t_table;
 
 void	init_data(t_table *table);
 void	ft_keyboard(mlx_key_data_t keydata, void *param);
