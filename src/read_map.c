@@ -96,15 +96,22 @@ int	read_map(t_table *table)
 	table->columns = ft_strlen(map[0]) - 1;
 	table->map = map;
 	close(fd);
-	player_pos_x = 0;
+
 	player_pos_y = 0;
-	while (table->map[player_pos_x][player_pos_y] != 'N')
+	while (player_pos_y < table->rows)
 	{
-		++player_pos_x;
+		player_pos_x = 0;
+		while (player_pos_x < table->columns)
+		{
+			if (table->map[player_pos_y][player_pos_x] != 'N')
+			{
+				table->player_row = player_pos_y;
+				table->player_col = player_pos_x;
+			}
+			++player_pos_x;
+		}
 		++player_pos_y;
 	}
-	table->player_row = player_pos_x;
-	table->player_col = player_pos_y;
 	printf("%d x %d\n", table->player_col, table->player_row);
 	table->player_x = (float)table->player_col * T_SIZE - T_SIZE / 2;
 	table->player_y = (float)table->player_row * T_SIZE - T_SIZE / 2;

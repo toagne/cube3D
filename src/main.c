@@ -181,6 +181,8 @@ void    draw_player(t_table *table)
 	int	x;
 	int	y;
 
+	x = 0;
+	y = 0;
 	y = table->player_y - 5;
 	while (y++ < table->player_y + 5)
 	{
