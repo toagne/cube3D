@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/14 14:15:23 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:53:43 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,6 @@ void    draw_player(t_table *table)
 	draw_line(table->mlx_2D, px, py, x1, y1, 0xFFFF00FF);*/
 
 	
-
 	
 	float pa = table->player_angle - 30;
 	//printf("\nplayer angle = %f\n", table->player_angle);
@@ -289,9 +288,9 @@ void    draw_player(t_table *table)
 			my = sy / T_SIZE;
 			//printf("mx = %d\n", mx);
 			//printf("my = %d\n", my);
-			//printf("mp = %d\n", mp);
+			//printf("table->map[%d][%d] = %c\n", mx, my, table->map[mx][my]);
 			//printf("%c\n----vertical lines----\n\n", table->map[mp]);
-			if (table->map[mx][my] == '1')
+			if (table->map[my][mx] == '1')
 				break;
 			else
 			{
@@ -325,7 +324,7 @@ void    draw_player(t_table *table)
 		//printf("sy = %f\n", sy);
 		//printf("dx = %f\n", dx);
 		//printf("dy = %f\n", dy);
-		//printf("angle = %.0f\n", table->player_angle*180/PI);
+		//printf("angle = %f\n", table->player_angle);
 		//int mx, my, mp;
 		while (sx > 0 && sy > 0 && sx < 640 && sy < 640) //check if need to add more conditins
 		{
@@ -333,9 +332,9 @@ void    draw_player(t_table *table)
 			my = sy / T_SIZE;
 			//printf("mx = %d\n", mx);
 			//printf("my = %d\n", my);
-			//printf("mp = %d\n", mp);
-			//printf("%c\n----horizontals lines----\n\n", table->map[mp]);
-			if (table->map[mx][my] == '1')
+			//printf("table->map[%d][%d] = %c\n", mx, my, table->map[mx][my]);
+			//printf("----horizontals lines----\n\n");
+			if (table->map[my][mx] == '1')
 				break;
 			else
 			{
@@ -463,10 +462,10 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
-	table.es_image = load_image(table.mlx_start, "texture_es.png");
-	table.ws_image = load_image(table.mlx_start, "texture_ws.png");
-	table.no_image = load_image(table.mlx_start, "texture_no.png");
-	table.so_image = load_image(table.mlx_start, "texture_so.png");
+	table.es_image = load_image(table.mlx_start, "pngs/texture_es.png");
+	//table.ws_image = load_image(table.mlx_start, "texture_ws.png");
+	//table.no_image = load_image(table.mlx_start, "texture_no.png");
+	//table.so_image = load_image(table.mlx_start, "texture_so.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
 	{

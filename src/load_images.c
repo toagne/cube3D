@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_images.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:32:58 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/15 09:36:06 by omartela         ###   ########.fr       */
+/*   Updated: 2024/11/15 10:03:51 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ mlx_texture_t *load_texture(char *str)
 	texture = mlx_load_png(str);
 	if (!texture)
 	{
-		error("Load texture failed");
+		ft_error("Load texture failed");
 		return (NULL);
 	}
 	return (texture);
@@ -40,7 +40,7 @@ mlx_image_t *load_image(mlx_t *mlx, char *str)
 		return (NULL);
 	if (!img)
 	{
-		error("Load image failed");
+		ft_error("Load image failed");
 		return (NULL);
 	}
 	return (img);

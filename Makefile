@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+         #
+#    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/11/15 08:13:15 by omartela         ###   ########.fr        #
+#    Updated: 2024/11/15 11:55:51 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ INC_DIR         = inc
 MLX42_DIR		= ./MLX42
 LIBFT_DIR		= ./libft
 
-SRC             = $(SRC_DIR)/main.c $(SRC_DIR)/init.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/read_map.c $(SRC_DIR)/validate_map.c $(SRC_DIR)/error.c
+SRC             = $(SRC_DIR)/main.c $(SRC_DIR)/init.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/read_map.c $(SRC_DIR)/validate_map.c $(SRC_DIR)/error.c \
+					$(SRC_DIR)/load_images.c
 OBJ_DIR         = obj
 OBJ             = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 MLX42_LIB       = $(MLX42_DIR)/build/libmlx42.a
