@@ -111,31 +111,23 @@ void set_player_position(t_table *table)
 	printf("%f x %f\n", table->player_x, table->player_y);
 }
 
-int	read_map(t_table *table)
+int	read_map(t_table *table, int fd)
 {
-	int		fd;
 	char	**map;
 
-	fd = open(table->filename, O_RDONLY);
-	if (fd == -1)
-	{
-		ft_error("File could not be opened");
-		return (0);
-	}
 	map = malloc(1 * sizeof(char *));
 	if (!map)
 	{
 		close(fd);
-		return (0);
+		return (1);
 	}
 	if (!read_lines(fd, &map, table))
 	{
 		close(fd);
-		return (0);
+		return (1);
 	}
 	table->columns = ft_strlen(map[0]);
 	table->map = map;
-	close(fd);
 	set_player_position(table);
-	return (1);
+	return (0);
 }

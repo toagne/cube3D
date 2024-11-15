@@ -68,7 +68,7 @@ void	draw_map(t_table *table);
 void	draw_player(t_table *table);
 
 // read_map.c
-int		read_map(t_table *table);
+int		read_map(t_table *table, int fd);
 
 // error.c
 void    ft_error(char *s1);

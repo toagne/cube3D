@@ -108,4 +108,22 @@ int	read_file(t_table *table)
 		free(line);
 		free(temp);
 	}
+	if (i == 6)
+	{
+		if (!read_map(&table, fd))
+		{
+			close(fd);
+			return (1);
+		}
+		if (!validate_map(&table))
+		{
+			close(fd);
+			return (1);
+		}
+		return (0);
+	}
+	else
+		ft_error("invalid file");
+	close(fd);
+	return (0);
 }
