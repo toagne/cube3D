@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
+#    By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/11/11 09:39:29 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/11/15 08:13:15 by omartela         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,13 @@ NAME            = cub3D
 SRC_DIR         = src
 INC_DIR         = inc
 MLX42_DIR		= ./MLX42
+LIBFT_DIR		= ./libft
 
-SRC             = $(SRC_DIR)/main.c $(SRC_DIR)/init.c $(SRC_DIR)/keyboard.c 
-
+SRC             = $(SRC_DIR)/main.c $(SRC_DIR)/init.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/read_map.c $(SRC_DIR)/validate_map.c $(SRC_DIR)/error.c
 OBJ_DIR         = obj
 OBJ             = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 MLX42_LIB       = $(MLX42_DIR)/build/libmlx42.a
+LIBFT           = $(LIBFT_DIR)/libft.a
 
 RM              = rm -f
 CC              = cc
@@ -28,7 +29,7 @@ CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -g \
 					-I$(MLX42_DIR)/include
 LDFLAGS         = -ldl -lglfw -pthread -lm
 
-all:	$(MLX42_LIB) $(NAME)
+all:	$(LIBFT) $(MLX42_LIB) $(NAME)
 
 $(MLX42_LIB):
 	@if [ ! -d $(MLX42_DIR) ]; then \
@@ -44,18 +45,23 @@ $(MLX42_LIB):
 		fi && \
 		cmake --build .
 
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR)
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(MLX42_LIB) $(LDFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX42_LIB) $(LDFLAGS) -o $(NAME)
 
 clean:
 	$(RM) -r $(OBJ_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
