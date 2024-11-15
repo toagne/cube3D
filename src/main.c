@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
-
+#include "../inc/cub3d.h"
+/*
 void    read_map(t_table *table, char *infile)
 {
 	int		i;
@@ -41,41 +41,46 @@ void    read_map(t_table *table, char *infile)
 	table->player_y = (float)table->player_row * T_SIZE - T_SIZE / 2;
 	printf("%f x %f\n", table->player_x, table->player_y);
 }
+*/
 
 void draw_map(t_table *table)
 {
 	//double		cell_width;
 	//double		cell_height;
-	int			x;
-	int			y;
-	int			row;
-	int			col;
+	size_t		x;
+	size_t		y;
+	size_t		row;
+	size_t		col;
 	int			i;
 	int			j;
 	uint32_t	color;
 
 	//cell_width = (float)500 / table->columns;
 	//cell_height = (float)500 / table->rows;
-	y = -1;
-	while (++y < T_SIZE * table->rows)
+	y = 0;
+	while (y < T_SIZE * table->rows)
 	{
-		x = -1;
-		while (++x < T_SIZE * table->columns)
+		x = 0;
+		while (x < T_SIZE * table->columns)
+		{
 			mlx_put_pixel(table->mlx_2D, x, y, 0xFF0000FF);
+			++x;
+		}
+		++y;
 	}
 	
-	row = -1;
-	while (++row < table->rows)
+	row = 0;
+	while (row < table->rows)
 	{
-		col = -1;
-		while (++col < table->columns)
+		col = 0;
+		while (col < table->columns)
 		{
 			x = col * T_SIZE;
 			y = row * T_SIZE;
 
-			if (table->map[row * (table->columns + 1) + col] == '1')
+			if (table->map[row][col] == '1')
 				color = 0xFFFFFFFF;
-			else if (table->map[row * (table->columns + 1) + col] == '0')
+			else if (table->map[row][col] == '0')
 				color = 0x000000FF;
 			//else if (table->map[row * (table->columns + 1) + col] == 'N')
 				//color = 0x0000FFFF;
@@ -88,7 +93,9 @@ void draw_map(t_table *table)
 				while (++j < T_SIZE - 1)
 					mlx_put_pixel(table->mlx_2D, x + j, y + i, color);
 			}
+			++col;
 		}
+		++row;
 	}
 	mlx_image_to_window(table->mlx_start, table->mlx_2D, 0, 0);
 }
@@ -180,6 +187,8 @@ void    draw_player(t_table *table)
 	int	x;
 	int	y;
 
+	x = 0;
+	y = 0;
 	y = table->player_y - 5;
 	while (y++ < table->player_y + 5)
 	{
@@ -273,17 +282,16 @@ void    draw_player(t_table *table)
 		//printf("dx = %f\n", dx);
 		//printf("dy = %f\n", dy);
 		//printf("angle = %.0f\n", table->player_angle*180/PI);
-		int mx, my, mp;
+		int mx, my;
 		while (sx > 0 && sy > 0 && sx < 640 && sy < 640) //check if need to add more conditins
 		{
 			mx = sx / T_SIZE;
 			my = sy / T_SIZE;
-			mp = my * (table->columns + 1) + mx;
 			//printf("mx = %d\n", mx);
 			//printf("my = %d\n", my);
 			//printf("mp = %d\n", mp);
 			//printf("%c\n----vertical lines----\n\n", table->map[mp]);
-			if (table->map[mp] == '1')
+			if (table->map[mx][my] == '1')
 				break;
 			else
 			{
@@ -323,12 +331,11 @@ void    draw_player(t_table *table)
 		{
 			mx = sx / T_SIZE;
 			my = sy / T_SIZE;
-			mp = my * (table->columns + 1) + mx;
 			//printf("mx = %d\n", mx);
 			//printf("my = %d\n", my);
 			//printf("mp = %d\n", mp);
 			//printf("%c\n----horizontals lines----\n\n", table->map[mp]);
-			if (table->map[mp] == '1')
+			if (table->map[mx][my] == '1')
 				break;
 			else
 			{
@@ -433,7 +440,7 @@ void    draw_player(t_table *table)
 	mlx_image_to_window(table->mlx_start, table->mlx_3D, 1024, 0);
 }*/
 
-int main (int argc, char **argv)
+int	main (int argc, char **argv)
 {
 	t_table	table;
 
@@ -447,16 +454,29 @@ int main (int argc, char **argv)
 	// check that argc 1 is a file that can be opened and read and ends with .cub
 	//parse_input();
 	init_data(&table);
+	table.filename = argv[1];
+	read_map(&table);
+	if (!validate_map(&table))
+		return (1);
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
+	{
 		;//error
-	read_map(&table, argv[1]);
+	}
+	table.es_image = load_image(table.mlx_start, "texture_es.png");
+	table.ws_image = load_image(table.mlx_start, "texture_ws.png");
+	table.no_image = load_image(table.mlx_start, "texture_no.png");
+	table.so_image = load_image(table.mlx_start, "texture_so.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
+	{
 		;//error
+	}
 	table.mlx_3D = mlx_new_image(table.mlx_start, 1200, 800);
 	if (!table.mlx_3D)
+	{
 		;//error
+	}
 	draw_map(&table);
 	draw_player(&table);
 	//draw_3d(&table);
