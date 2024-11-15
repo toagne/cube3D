@@ -45,18 +45,20 @@ typedef struct s_table
 	int				player;
 	float			player_delta_x_ad;
 	float			player_delta_y_ad;
+	char			*f_color;
+	char			*c_color;
 	char			*no_path_texture;
 	char			*so_path_texture;
-	char			*es_path_texture;
-	char			*ws_path_texture;
+	char			*ea_path_texture;
+	char			*we_path_texture;
 	mlx_texture_t	*no_texture;
 	mlx_image_t		*no_image;
 	mlx_texture_t	*so_texture;
 	mlx_image_t		*so_image;
-	mlx_texture_t	*es_texture;
-	mlx_image_t		*es_image;
-	mlx_texture_t	*ws_texture;
-	mlx_image_t		*ws_image;
+	mlx_texture_t	*ea_texture;
+	mlx_image_t		*ea_image;
+	mlx_texture_t	*we_texture;
+	mlx_image_t		*we_image;
 }   t_table;
 
 void	init_data(t_table *table);

@@ -463,8 +463,8 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
-	table.es_image = load_image(table.mlx_start, "texture_es.png");
-	table.ws_image = load_image(table.mlx_start, "texture_ws.png");
+	table.ea_image = load_image(table.mlx_start, "texture_es.png");
+	table.we_image = load_image(table.mlx_start, "texture_ws.png");
 	table.no_image = load_image(table.mlx_start, "texture_no.png");
 	table.so_image = load_image(table.mlx_start, "texture_so.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
