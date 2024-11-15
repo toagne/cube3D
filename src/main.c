@@ -455,18 +455,19 @@ int	main (int argc, char **argv)
 	//parse_input();
 	init_data(&table);
 	table.filename = argv[1];
-	read_map(&table);
-	if (!validate_map(&table))
+	if (read_file(&table))
+	{
 		return (1);
+	}
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
 	{
 		;//error
 	}
-	table.ea_image = load_image(table.mlx_start, "texture_es.png");
+	/* table.ea_image = load_image(table.mlx_start, "texture_es.png");
 	table.we_image = load_image(table.mlx_start, "texture_ws.png");
 	table.no_image = load_image(table.mlx_start, "texture_no.png");
-	table.so_image = load_image(table.mlx_start, "texture_so.png");
+	table.so_image = load_image(table.mlx_start, "texture_so.png"); */
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
 	{

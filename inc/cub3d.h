@@ -79,4 +79,10 @@ int		validate_map(t_table *table);
 // load_images.c
 mlx_image_t *load_image(mlx_t *mlx, char *str);
 
+// read_file.c
+int	read_file(t_table *table);
+
+// free.c
+void	free_map(char **map, size_t i);
+
 #endif

@@ -100,7 +100,7 @@ int	read_file(t_table *table)
 			return (1);
 		}
 		temp1 = ft_skipwhitespace(temp);
-		if (!check_element_identifier(table, temp1))
+		if (check_element_identifier(table, temp1))
 		{
 			ft_error("failed to set element\n");	 
 		}
@@ -110,13 +110,15 @@ int	read_file(t_table *table)
 	}
 	if (i == 6)
 	{
-		if (!read_map(&table, fd))
+		if (read_map(&table, fd))
 		{
+			ft_error("Read failed or empty file");
 			close(fd);
 			return (1);
 		}
 		if (!validate_map(&table))
 		{
+			free_map(table->map, table->columns);
 			close(fd);
 			return (1);
 		}
@@ -125,5 +127,5 @@ int	read_file(t_table *table)
 	else
 		ft_error("invalid file");
 	close(fd);
-	return (0);
+	return (1);
 }

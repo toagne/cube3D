@@ -11,23 +11,12 @@
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
 
-void	free_map(char **map, size_t i)
-{
-	while (i > 0)
-	{
-		i--;
-		free(map[i]);
-	}
-	free(map);
-}
-
 static int	check_empty_file(int fd, char **line, char **map)
 {
 	*line = get_next_line(fd);
 	if (!(*line))
 	{
 		free(map);
-		ft_error("Read failed or empty file");
 		return (0);
 	}
 	return (1);
