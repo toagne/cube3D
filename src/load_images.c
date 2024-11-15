@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:32:58 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/15 10:03:51 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:06:19 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ mlx_texture_t *load_texture(char *str)
 		ft_error("Load texture failed");
 		return (NULL);
 	}
+	/*uint32_t y = -1;
+	while (++y < texture->height)
+	{
+		uint32_t x = -1;
+		while (++x < texture->width)
+			printf("%d", texture->pixels[y * texture->width + x]);
+		printf("\n");
+	}*/
 	return (texture);
 }
 
@@ -32,12 +40,9 @@ mlx_image_t *load_image(mlx_t *mlx, char *str)
 
 	texture = load_texture(str);
 	if (!texture)
-	{
-		img = mlx_texture_to_image(mlx, texture);
-		mlx_delete_texture(texture);
-	}
-	else
 		return (NULL);
+	img = mlx_texture_to_image(mlx, texture);
+	mlx_delete_texture(texture);
 	if (!img)
 	{
 		ft_error("Load image failed");
