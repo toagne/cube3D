@@ -45,8 +45,8 @@ typedef struct s_table
 	int				player;
 	float			player_delta_x_ad;
 	float			player_delta_y_ad;
-	char			*f_color;
-	char			*c_color;
+	int				*f_color;
+	int				*c_color;
 	char			*no_path_texture;
 	char			*so_path_texture;
 	char			*ea_path_texture;
@@ -84,5 +84,6 @@ int	read_file(t_table *table);
 
 // free.c
 void	free_map(char **map, size_t i);
+void	free_table(char ***table);
 
 #endif
