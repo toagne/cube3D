@@ -6,7 +6,7 @@
 #    By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/11/14 10:40:44 by omartela         ###   ########.fr        #
+#    Updated: 2024/11/15 08:13:15 by omartela         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -g \
 					-I$(MLX42_DIR)/include
 LDFLAGS         = -ldl -lglfw -pthread -lm
 
-all:	$(MLX42_LIB) $(NAME)
+all:	$(LIBFT) $(MLX42_LIB) $(NAME)
 
 $(MLX42_LIB):
 	@if [ ! -d $(MLX42_DIR) ]; then \
@@ -57,9 +57,11 @@ $(NAME): $(OBJ)
 
 clean:
 	$(RM) -r $(OBJ_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
