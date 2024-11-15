@@ -61,7 +61,7 @@ int	check_element_identifier(t_table *table, char *line)
 		temp = ft_strtrim(line, " ");
 		if (!temp)
 			return (0);
-		table->we_path_texture = temp;
+		table->f_color = temp;
 		return (1);
 	}
 	else if (ft_strncmp(line, "C", 2))
@@ -69,7 +69,7 @@ int	check_element_identifier(t_table *table, char *line)
 		temp = ft_strtrim(line, " ");
 		if (!temp)
 			return (0);
-		table->we_path_texture = temp;
+		table->c_color = temp;
 		return (1);
 	}
 	return (0);
