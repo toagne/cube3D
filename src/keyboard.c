@@ -3,22 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/15 13:45:09 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/16 16:31:43 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/*int	wall_collision_w_circular_biumper(t_table *table)
+{
+	int	radius;
+	int new_x;
+	int	new_y;
+	int	mpx;
+	int	mpy;
+	int x;
+	int y;
+	int check_tile_x;
+	int	check_tile_y;
+	int wall_x;
+	int	wall_y;
+	int	offset;
+
+	radius = 20 + T_SIZE / 2;
+	new_x = table->player_x + table->player_delta_x * 5;
+	new_y = table->player_y + table->player_delta_y * 5;
+	mpx = table->player_x / T_SIZE;
+	mpy = table->player_y / T_SIZE;
+	y = -1;
+	while (y <= 1)
+	{
+		x = -1;
+		while (x <= 1)
+		{
+			check_tile_x = mpx + x;
+			check_tile_y = mpy + y;
+			if (check_tile_x >= 0 && check_tile_x < (int)table->columns && check_tile_y >= 0 && check_tile_y < (int)table->rows)
+			{
+				if (table->map[check_tile_y][check_tile_x] == '1')
+				{
+					wall_x = check_tile_x * T_SIZE + T_SIZE / 2;
+					wall_y = check_tile_y * T_SIZE + T_SIZE / 2;
+					offset = (new_x - wall_x) * (new_x - wall_x) + (new_y - wall_y) * (new_y - wall_y);
+					if (offset < radius * radius)
+						return (1);
+				}
+			}
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}*/
+
 void	ft_keyboard(mlx_key_data_t keydata, void *param)
 {
 	t_table	*table;
-	int	avoid_wall_collision;
+	//int	avoid_wall_collision;
 
 	table = (t_table *)param;
-	avoid_wall_collision = 20;
+	
+	// ---offset wall collision---
+	/*avoid_wall_collision = 20;
 	int mpy = table->player_y / T_SIZE;
 	int mpx = table->player_x / T_SIZE;
 	int mpycw, mpxcw;
@@ -76,6 +124,12 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 	//int mpy_pos = (table->player_y + avoid_wall_collision) / T_SIZE;
 	//int mpx_neg = (table->player_x - avoid_wall_collision) / T_SIZE;
 	//int mpx_pos = (table->player_x + avoid_wall_collision) / T_SIZE;
+	*/
+	// ---offset wall collision---
+
+	// ---circular wall collision---
+	
+	
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		mlx_terminate(table->mlx_start);
@@ -83,30 +137,33 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		if (table->map[mpy][mpxcw] != '1')
+		//if (!wall_collision_w_circular_biumper(table))
+		//{
+		//if (table->map[mpy][mpxcw] != '1')
 			table->player_x+=table->player_delta_x * 5;
-		if (table->map[mpycw][mpx] != '1')
+		//if (table->map[mpycw][mpx] != '1')
 			table->player_y+=table->player_delta_y * 5;
+		//}
 	}
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		if (table->map[mpy][mpxcs] != '1')
+		//if (table->map[mpy][mpxcs] != '1')
 			table->player_x-=table->player_delta_x * 5;
-		if (table->map[mpycs][mpx] != '1')
+		//if (table->map[mpycs][mpx] != '1')
 			table->player_y-=table->player_delta_y * 5;
 	}
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		if (table->map[mpy][mpxcd] != '1')
+		//if (table->map[mpy][mpxcd] != '1')
 			table->player_x+=table->player_delta_x_ad * 5;
-		if (table->map[mpycd][mpx] != '1')
+		//if (table->map[mpycd][mpx] != '1')
 			table->player_y+=table->player_delta_y_ad * 5;
 	}
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		if (table->map[mpy][mpxca] != '1')
+		//if (table->map[mpy][mpxca] != '1')
 			table->player_x-=table->player_delta_x_ad * 5;
-		if (table->map[mpyca][mpx] != '1')
+		//if (table->map[mpyca][mpx] != '1')
 			table->player_y-=table->player_delta_y_ad * 5;
 	}
 	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))

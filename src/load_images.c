@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_images.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:32:58 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/15 15:06:19 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:26:52 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ mlx_texture_t *load_texture(char *str)
 		ft_error("Load texture failed");
 		return (NULL);
 	}
-	/*uint32_t y = -1;
-	while (++y < texture->height)
-	{
-		uint32_t x = -1;
-		while (++x < texture->width)
-			printf("%d", texture->pixels[y * texture->width + x]);
-		printf("\n");
-	}*/
 	return (texture);
 }
 

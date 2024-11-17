@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/14 15:19:51 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/16 18:36:44 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_table
 	mlx_image_t		*es_image;
 	mlx_texture_t	*ws_texture;
 	mlx_image_t		*ws_image;
+	uint32_t		es_texture_colors[1100][1100];
 }   t_table;
 
 void	init_data(t_table *table);
@@ -76,5 +77,6 @@ int		validate_map(t_table *table);
 
 // load_images.c
 mlx_image_t *load_image(mlx_t *mlx, char *str);
+mlx_texture_t *load_texture(char *str);
 
 #endif

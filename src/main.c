@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/15 11:53:43 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/17 15:22:29 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,38 @@ void draw_line_w_thk(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t 
 		}
 	}
 }
+void draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color) {
+    /*int	x;
+	int	y;
+    
+	y = -radius;
+	while (y <= radius)
+	{
+		x = -radius;
+		while (x <= radius)
+		{
+			if ((x * x + y * y) <= (radius * radius))
+				mlx_put_pixel(image, x_center + x, y_center + y, color);
+			x++;
+		}
+		y++;
+	}*/
+
+	const double step = 0.01;
+    double angle;
+	int x;
+	int y;
+
+	angle = 0;
+	while (angle <= 2 * PI)
+	{
+		x = x_center + (int)(radius * cos(angle));
+		y = y_center + (int)(radius * sin(angle));
+		mlx_put_pixel(image, x, y, color);
+		angle += step;
+	}
+}
+
 float	deg_to_rad(float deg)
 {
 	return ((float)deg / 180 * PI);
@@ -348,7 +380,7 @@ void    draw_player(t_table *table)
 		hx = sx;
 		hy = sy;
 		//printf("horizontal vector = %f\n", vh);
-		uint32_t color;
+		//uint32_t color;
 		if (vv > vh)
 		{
 			//printf("vh = %f\n", vh);
@@ -356,7 +388,7 @@ void    draw_player(t_table *table)
 			fx  = hx;
 			fy = hy;
 			fv = vh;
-			color = 0xFFFF00FF;
+			//color = 0xFFFF00FF;
 			//draw_line(table->mlx_2D, table->player_x, table->player_y, hx, hy, 0xFFFF00FF);
 		}
 		else
@@ -366,7 +398,7 @@ void    draw_player(t_table *table)
 			fx  = vx;
 			fy = vy;
 			fv = vv;
-			color = 0xCCCC00FF;
+			//color = 0xCCCC00FF;
 			//draw_line(table->mlx_2D, table->player_x, table->player_y, vx, vy, 0xFFFF00FF);
 		}
 		//printf("mx = %d\n", mx);
@@ -377,7 +409,6 @@ void    draw_player(t_table *table)
 		//printf("final vector = %f\n", fv);
 
 		draw_line(table->mlx_2D, table->player_x, table->player_y, fx, fy, 0xFFFF00FF);
-
 		int ca=(table->player_angle - pa);
 		if (ca > 359)
 			ca -= 360;
@@ -405,16 +436,37 @@ void    draw_player(t_table *table)
 		int scaled_x_start = r * (1200 / 120);
 		int scaled_x_end = (r + 1) * (1200 / 120) - 1;
 		int i = scaled_x_start;
+		//printf("scaled x end = %d\n", scaled_x_end);
+
+		float tx_vertical_step = (float)table->es_texture->height / wall_h;
+		//printf("vertical step = %f\n", tx_vertical_step);
+		float ty = 0;
+		float tx = ((int)fv % T_SIZE) * table->es_texture->width / T_SIZE;
+		//printf("tx = %f\n", tx);
+
 		// Draw the wider vertical slice across the scaled width range
 		while (i <= scaled_x_end)
 		{
-			draw_line(table->mlx_3D, i, drawStart, i, drawEnd, color);
+			//draw_line(table->mlx_3D, i, drawStart, i, drawEnd, color);
+			int a = drawStart;
+			ty = 0;
+			while (a < drawEnd)
+			{
+				int tex_x = (int)tx;
+				int tex_y = (int)ty;
+				//printf("%d x %d\n", i, a);
+				//printf("colour [%d][%d] = %08X\n", tex_y, tex_x, table->es_texture_colors[tex_y][tex_x]);
+				mlx_put_pixel(table->mlx_3D, i, a, table->es_texture_colors[tex_y][tex_x]);
+				ty += tx_vertical_step;
+				a++;
+			}
 			draw_line(table->mlx_3D, i, 0, i, drawStart, 0xADD8E6FF);
 			draw_line(table->mlx_3D, i, drawEnd, i, 799, 0x8B4513FF);
 			i++;
 		}
 		pa = pa + 0.5;
 	}
+	draw_circle(table->mlx_2D, table->player_x, table->player_y, 20, 0x00FF00FF);
 	mlx_image_to_window(table->mlx_start, table->mlx_3D, 750, 0);
 	//printf("player angle + 30 = %f\n", pa);
 }
@@ -438,6 +490,11 @@ void    draw_player(t_table *table)
 	}
 	mlx_image_to_window(table->mlx_start, table->mlx_3D, 1024, 0);
 }*/
+
+static unsigned int	get_rgba(int r, int g, int b, int a)
+{
+	return ((r << 24) | (g << 16) | (b << 8) | (a));
+}
 
 int	main (int argc, char **argv)
 {
@@ -463,19 +520,75 @@ int	main (int argc, char **argv)
 		;//error
 	}
 	table.es_image = load_image(table.mlx_start, "pngs/texture_es.png");
+	table.es_texture = load_texture("pngs/texture_es.png");
+	uint32_t i, x, y;
+	i = 0;
+	y = -1;
+	while (++y < table.es_texture->height)
+	{
+		x = -1;
+		while (++x < table.es_texture->width)
+		{
+			table.es_texture_colors[y][x] = get_rgba(table.es_texture->pixels[i], table.es_texture->pixels[i + 1], table.es_texture->pixels[i + 2], table.es_texture->pixels[i + 3]);
+			i += 4;
+		}
+	}
+	/*y = -1;
+	while (++y < table.es_texture->height)
+	{
+		x = -1;
+		while (++x < table.es_texture->width)
+			printf("%08X ", my_texture[y][x]);
+	}*/
 	//table.ws_image = load_image(table.mlx_start, "texture_ws.png");
 	//table.no_image = load_image(table.mlx_start, "texture_no.png");
 	//table.so_image = load_image(table.mlx_start, "texture_so.png");
+	mlx_resize_image(table.es_image, 200, 200);
+	mlx_image_to_window(table.mlx_start, table.es_image, 650, 0);
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
 	{
 		;//error
 	}
-	table.mlx_3D = mlx_new_image(table.mlx_start, 1200, 800);
+	table.mlx_3D = mlx_new_image(table.mlx_start, 1200, 1200);
 	if (!table.mlx_3D)
 	{
 		;//error
 	}
+
+	// ---how to scale a texture---
+	/*int h = 300;
+	int w = 300;
+	float sh = (float)table.es_texture->height / h;
+	float sw = (float)table.es_texture->width / w;
+	printf("sh = %f\n", sh);
+	printf("sw = %f\n", sw);
+	int a = -1;
+	float c = 0;
+	while (++a < h)
+	{
+		int b = -1;
+		float d = 0;
+		while (++b < w)
+		{
+			int tex_c = (int)c;
+       		int tex_d = (int)d;
+			mlx_put_pixel(table.mlx_3D, b, a, table.es_texture_colors[tex_c][tex_d]);
+			d += sw;
+			printf("%d\n", tex_d);
+		}
+		c += sh;
+	}
+	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);*/
+
+	/*y = -1;
+	while (++y < table.es_texture->height)
+	{
+		x = -1;
+		while (++x < table.es_texture->width)
+			mlx_put_pixel(table.mlx_3D, x, y, table.es_texture_colors[y][x]);
+	}
+	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);*/
 	draw_map(&table);
 	draw_player(&table);
 	//draw_3d(&table);
