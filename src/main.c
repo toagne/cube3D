@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/18 14:48:33 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:07:44 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -557,7 +557,28 @@ int	main (int argc, char **argv)
 	read_map(&table);
 	if (!validate_map(&table))
 		return (1);
-	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
+	
+	// window dimensions according monitor size
+
+	mlx_t	*test;
+
+	test = mlx_init(1, 1, "", false);
+
+	int32_t w;
+	int32_t h;
+
+	mlx_get_monitor_size(0, &w, &h);
+
+	mlx_terminate(test);
+
+	//printf("%d, x %d\n", h, w);
+
+	w /= 1.5;
+	h /= 1.5;
+
+	// window dimensions according monitor size
+
+	table.mlx_start = mlx_init(w, h, "cub3D", false);
 	if (!table.mlx_start)
 	{
 		;//error
