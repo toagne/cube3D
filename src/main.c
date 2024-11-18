@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/18 19:07:44 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/18 20:23:27 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ void    draw_player(t_table *table)
 	
 	
 	float pa = table->player_angle - 30;
-	int n_of_rays = 1200;
+	int n_of_rays = table->width / 2;
 	//printf("\nplayer angle = %f\n", table->player_angle);
 	//printf("player angle - 30 = %f\n", pa);
 	int r = -1;
@@ -420,28 +420,28 @@ void    draw_player(t_table *table)
 
 		//printf("\nvector %d angle = %f\n", r, pa);
 		//printf("vextor %d = %f\n", r, fv);
-		int wall_h = T_SIZE * 800 / fv;
-		float tx_vertical_step = (float)table->es_texture->height / wall_h;
+		int wall_h = T_SIZE * table->height / 2 / fv;
+		float tx_vertical_step = (float)table->es_texture->height / 2 / wall_h;
 		float tx_v_offset = 0;
 		//printf("wall h %d = %d\n", r, wall_h);
-		if (wall_h > 800)
+		if (wall_h > table->height / 2)
 		{
-			tx_v_offset = (wall_h - 800) / 2;
-			wall_h = 800;
+			tx_v_offset = (wall_h - table->height / 2) / 2;
+			wall_h = table->height / 2;
 		}
-		int drawStart = -wall_h / 2 + 800 / 2;
+		int drawStart = -wall_h / 2 + table->height / 2 / 2;
 		if(drawStart < 0)
 			drawStart = 0;
-		int drawEnd = wall_h / 2 + 800 / 2;
-		if(drawEnd >= 800)
-			drawEnd = 800 - 1;
+		int drawEnd = wall_h / 2 + table->height / 2 / 2;
+		if(drawEnd >= table->height / 2)
+			drawEnd = table->height / 2 - 1;
 		//printf("wall_h = %d\n", wall_h);
 		//printf("render_x = %d\n", render_x);
 		//printf("draw start = %d\n", drawStart);
 		//printf("draw end = %d\n", drawEnd);
 		
-		int scaled_x_start = r * (1200 / n_of_rays);
-		int scaled_x_end = (r + 1) * (1200 / n_of_rays) - 1;
+		int scaled_x_start = r * (table->width / 2 / n_of_rays);
+		int scaled_x_end = (r + 1) * (table->width / 2 / n_of_rays) - 1;
 		int i = scaled_x_start;
 		//printf("scaled x end = %d\n", scaled_x_end);
 
@@ -487,7 +487,7 @@ void    draw_player(t_table *table)
 		while (i <= scaled_x_end)
 		{
 			draw_line(table->mlx_3D, i, 0, i, drawStart, 0xADD8E6FF);
-			draw_line(table->mlx_3D, i, drawEnd, i, 799, 0x8B4513FF);
+			draw_line(table->mlx_3D, i, drawEnd, i, table->height / 2 - 1, 0x8B4513FF);
 			//draw_line(table->mlx_3D, i, drawStart, i, drawEnd, color);
 			int a = drawStart;
 			ty = tx_v_offset * tx_vertical_step;
@@ -510,7 +510,7 @@ void    draw_player(t_table *table)
 		pa = pa + ((float)60 / n_of_rays);
 	}
 	draw_circle(table->mlx_2D, table->player_x, table->player_y, 20, 0x00FF00FF);
-	mlx_image_to_window(table->mlx_start, table->mlx_3D, 750, 0);
+	mlx_image_to_window(table->mlx_start, table->mlx_3D, table->width / 2, 0);
 	//printf("player angle + 30 = %f\n", pa);
 }
 
@@ -578,6 +578,9 @@ int	main (int argc, char **argv)
 
 	// window dimensions according monitor size
 
+	table.width = w;
+	table.height = h;
+
 	table.mlx_start = mlx_init(w, h, "cub3D", false);
 	if (!table.mlx_start)
 	{
@@ -607,8 +610,10 @@ int	main (int argc, char **argv)
 	//table.ws_image = load_image(table.mlx_start, "texture_ws.png");
 	//table.no_image = load_image(table.mlx_start, "texture_no.png");
 	//table.so_image = load_image(table.mlx_start, "texture_so.png");
-	mlx_resize_image(table.es_image, 200, 200);
-	mlx_image_to_window(table.mlx_start, table.es_image, 0, 650);
+	
+	//mlx_resize_image(table.es_image, 200, 200);
+	//mlx_image_to_window(table.mlx_start, table.es_image, 0, 650);
+	
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
 	{
