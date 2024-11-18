@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/18 13:06:59 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:48:33 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -457,9 +457,26 @@ void    draw_player(t_table *table)
 
 		float tx;
 		if (vv > vh)
+		{
 			tx = ((int)fx % T_SIZE) * table->es_texture->width / T_SIZE;
+			if (table->player_angle < 180)
+			{
+				if (tx == 0)
+					tx = table->es_texture->width;
+				tx = table->es_texture->width - tx;
+			}
+		}
 		else
+		{
 			tx = ((int)fy % T_SIZE) * table->es_texture->width / T_SIZE;
+			if (table->player_angle > 90 && table->player_angle < 270)
+			{
+				if (tx == 0)
+					tx = table->es_texture->width;
+				tx = table->es_texture->width - tx;
+			}
+		}
+			
 		//printf("tx x hitting point = %f\n", tx);
 		
 		//float tx = ((int)fv % T_SIZE) * table->es_texture->width / T_SIZE;
