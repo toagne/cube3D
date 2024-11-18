@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/17 15:22:29 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/18 10:17:47 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,10 +281,11 @@ void    draw_player(t_table *table)
 	
 	
 	float pa = table->player_angle - 30;
+	int n_of_rays = 1200;
 	//printf("\nplayer angle = %f\n", table->player_angle);
 	//printf("player angle - 30 = %f\n", pa);
 	int r = -1;
-	while (++r < 120)
+	while (++r < n_of_rays)
 	{
 		if (pa > 359)
 			pa -= 360;
@@ -406,9 +407,10 @@ void    draw_player(t_table *table)
 		//printf("mp = %d\n", mp);
 		//printf("%c\n", table->map[mp]);
 		
-		//printf("final vector = %f\n", fv);
+		//printf("ray %d, final vector = %f\n", r, fv);
 
 		draw_line(table->mlx_2D, table->player_x, table->player_y, fx, fy, 0xFFFF00FF);
+		
 		int ca=(table->player_angle - pa);
 		if (ca > 359)
 			ca -= 360;
@@ -433,15 +435,26 @@ void    draw_player(t_table *table)
 		//printf("draw start = %d\n", drawStart);
 		//printf("draw end = %d\n", drawEnd);
 		
-		int scaled_x_start = r * (1200 / 120);
-		int scaled_x_end = (r + 1) * (1200 / 120) - 1;
+		int scaled_x_start = r * (1200 / n_of_rays);
+		int scaled_x_end = (r + 1) * (1200 / n_of_rays) - 1;
 		int i = scaled_x_start;
 		//printf("scaled x end = %d\n", scaled_x_end);
 
 		float tx_vertical_step = (float)table->es_texture->height / wall_h;
+		//float tx_horizntal_step = (float)table->es_texture->width / (scaled_x_end - scaled_x_start + 1);
+		//printf("h step = %f\n", tx_horizntal_step);
 		//printf("vertical step = %f\n", tx_vertical_step);
 		float ty = 0;
-		float tx = ((int)fv % T_SIZE) * table->es_texture->width / T_SIZE;
+
+		float tx;
+		if (vv > vh)
+			tx = ((int)fx % T_SIZE) * table->es_texture->width / T_SIZE;
+		else
+			tx = ((int)fy % T_SIZE) * table->es_texture->width / T_SIZE;
+		//printf("tx x hitting point = %f\n", tx);
+		
+		//float tx = ((int)fv % T_SIZE) * table->es_texture->width / T_SIZE;
+		
 		//printf("tx = %f\n", tx);
 
 		// Draw the wider vertical slice across the scaled width range
@@ -462,9 +475,10 @@ void    draw_player(t_table *table)
 			}
 			draw_line(table->mlx_3D, i, 0, i, drawStart, 0xADD8E6FF);
 			draw_line(table->mlx_3D, i, drawEnd, i, 799, 0x8B4513FF);
+			//tx += tx_horizntal_step;
 			i++;
 		}
-		pa = pa + 0.5;
+		pa = pa + ((float)60 / n_of_rays);
 	}
 	draw_circle(table->mlx_2D, table->player_x, table->player_y, 20, 0x00FF00FF);
 	mlx_image_to_window(table->mlx_start, table->mlx_3D, 750, 0);
@@ -544,7 +558,7 @@ int	main (int argc, char **argv)
 	//table.no_image = load_image(table.mlx_start, "texture_no.png");
 	//table.so_image = load_image(table.mlx_start, "texture_so.png");
 	mlx_resize_image(table.es_image, 200, 200);
-	mlx_image_to_window(table.mlx_start, table.es_image, 650, 0);
+	mlx_image_to_window(table.mlx_start, table.es_image, 0, 650);
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
 	{
@@ -572,7 +586,7 @@ int	main (int argc, char **argv)
 		while (++b < w)
 		{
 			int tex_c = (int)c;
-       		int tex_d = (int)d;
+			int tex_d = (int)d;
 			mlx_put_pixel(table.mlx_3D, b, a, table.es_texture_colors[tex_c][tex_d]);
 			d += sw;
 			printf("%d\n", tex_d);

@@ -6,7 +6,7 @@
 #    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/11/15 11:55:51 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/11/18 11:14:50 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ LIBFT           = $(LIBFT_DIR)/libft.a
 
 RM              = rm -f
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -g \
+CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -Ofast -g \
 					-I$(INC_DIR) \
 					-I$(MLX42_DIR)/include
 LDFLAGS         = -ldl -lglfw -pthread -lm
@@ -42,9 +42,11 @@ $(MLX42_LIB):
 	fi
 	@cd $(MLX42_DIR)/build && \
 		if [ ! -f CMakeCache.txt ]; then \
-			cmake .. -D CMAKE_OSX_ARCHITECTURES=arm64; \
+			cmake ..; \
 		fi && \
 		cmake --build .
+
+#for macOS add -D CMAKE_OSX_ARCHITECTURES=(check uname -m) after cmake ..
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
