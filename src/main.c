@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/18 10:17:47 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:06:59 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,9 +421,14 @@ void    draw_player(t_table *table)
 		//printf("\nvector %d angle = %f\n", r, pa);
 		//printf("vextor %d = %f\n", r, fv);
 		int wall_h = T_SIZE * 800 / fv;
+		float tx_vertical_step = (float)table->es_texture->height / wall_h;
+		float tx_v_offset = 0;
 		//printf("wall h %d = %d\n", r, wall_h);
 		if (wall_h > 800)
+		{
+			tx_v_offset = (wall_h - 800) / 2;
 			wall_h = 800;
+		}
 		int drawStart = -wall_h / 2 + 800 / 2;
 		if(drawStart < 0)
 			drawStart = 0;
@@ -440,11 +445,15 @@ void    draw_player(t_table *table)
 		int i = scaled_x_start;
 		//printf("scaled x end = %d\n", scaled_x_end);
 
-		float tx_vertical_step = (float)table->es_texture->height / wall_h;
+		//float tx_vertical_step = (float)table->es_texture->height / wall_h;
 		//float tx_horizntal_step = (float)table->es_texture->width / (scaled_x_end - scaled_x_start + 1);
 		//printf("h step = %f\n", tx_horizntal_step);
 		//printf("vertical step = %f\n", tx_vertical_step);
-		float ty = 0;
+		//float ty = tx_v_offset * tx_vertical_step;
+		float ty = tx_v_offset * tx_vertical_step;
+
+		//if (tx_v_offset > 0)
+		//	printf("ray n = %d	wall h = %d	offset = %f	vertical step = %f	ty = %f\n", r, (int)(T_SIZE * 800 / fv), tx_v_offset, tx_vertical_step, ty);
 
 		float tx;
 		if (vv > vh)
@@ -460,21 +469,24 @@ void    draw_player(t_table *table)
 		// Draw the wider vertical slice across the scaled width range
 		while (i <= scaled_x_end)
 		{
+			draw_line(table->mlx_3D, i, 0, i, drawStart, 0xADD8E6FF);
+			draw_line(table->mlx_3D, i, drawEnd, i, 799, 0x8B4513FF);
 			//draw_line(table->mlx_3D, i, drawStart, i, drawEnd, color);
 			int a = drawStart;
-			ty = 0;
-			while (a < drawEnd)
+			ty = tx_v_offset * tx_vertical_step;
+			while (a <= drawEnd)
 			{
 				int tex_x = (int)tx;
 				int tex_y = (int)ty;
+				//printf("ty_int = %d\n", tex_y);
 				//printf("%d x %d\n", i, a);
 				//printf("colour [%d][%d] = %08X\n", tex_y, tex_x, table->es_texture_colors[tex_y][tex_x]);
 				mlx_put_pixel(table->mlx_3D, i, a, table->es_texture_colors[tex_y][tex_x]);
+				//if (tx_v_offset > 0)
+				//	mlx_put_pixel(table->mlx_3D, i, a, 0x000000FF);
 				ty += tx_vertical_step;
 				a++;
 			}
-			draw_line(table->mlx_3D, i, 0, i, drawStart, 0xADD8E6FF);
-			draw_line(table->mlx_3D, i, drawEnd, i, 799, 0x8B4513FF);
 			//tx += tx_horizntal_step;
 			i++;
 		}
