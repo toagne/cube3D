@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/18 20:23:27 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/19 09:17:20 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,7 +421,7 @@ void    draw_player(t_table *table)
 		//printf("\nvector %d angle = %f\n", r, pa);
 		//printf("vextor %d = %f\n", r, fv);
 		int wall_h = T_SIZE * table->height / 2 / fv;
-		float tx_vertical_step = (float)table->es_texture->height / 2 / wall_h;
+		float tx_vertical_step = (float)table->es_texture->height / wall_h;
 		float tx_v_offset = 0;
 		//printf("wall h %d = %d\n", r, wall_h);
 		if (wall_h > table->height / 2)
@@ -611,15 +611,15 @@ int	main (int argc, char **argv)
 	//table.no_image = load_image(table.mlx_start, "texture_no.png");
 	//table.so_image = load_image(table.mlx_start, "texture_so.png");
 	
-	//mlx_resize_image(table.es_image, 200, 200);
-	//mlx_image_to_window(table.mlx_start, table.es_image, 0, 650);
+	mlx_resize_image(table.es_image, 200, 200);
+	mlx_image_to_window(table.mlx_start, table.es_image, 0, 650);
 	
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
 	{
 		;//error
 	}
-	table.mlx_3D = mlx_new_image(table.mlx_start, 1200, 1200);
+	table.mlx_3D = mlx_new_image(table.mlx_start, table.width / 2, table.height / 2);
 	if (!table.mlx_3D)
 	{
 		;//error

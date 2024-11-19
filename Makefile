@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: giuls <giuls@student.42.fr>                +#+  +:+       +#+         #
+#    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/11/18 20:00:55 by giuls            ###   ########.fr        #
+#    Updated: 2024/11/19 09:05:51 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ LIBFT           = $(LIBFT_DIR)/libft.a
 
 RM              = rm -f
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -Ofast -g -fsanitize=address\
+CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -Ofast -g\
 					-I$(INC_DIR) \
 					-I$(MLX42_DIR)/include
 LDFLAGS         = -ldl -lglfw -pthread -lm
