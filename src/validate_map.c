@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:44:07 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/14 14:10:36 by omartela         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:55:13 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,9 @@ static int	validate_walls_top_bot(t_table *table)
 	row = 0;
 	while (row < table->rows)
 	{
-		while (table->map[table->columns][row] == ' ')
+		while (table->map[table->columns - 1][row] == ' ')
 			--row;
-		if (table->map[table->columns][row] != '1')
+		if (table->map[table->columns - 1][row] != '1')
 		{
 			ft_error("Map has invalid characters top or bot");
 			return (0);
