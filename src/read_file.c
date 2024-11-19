@@ -173,7 +173,7 @@ int	read_file(t_table *table)
 		}
 		if (!validate_map(table))
 		{
-			free_map(table->map, table->columns);
+			free_map(table->map, table->rows);
 			close(fd);
 			return (1);
 		}
