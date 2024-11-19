@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:30 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 17:10:07 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:24:23 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	draw_background_not_needed(t_table *table)
 	size_t	y;
 
 	y = -1;
-	while (++y < T_SIZE * table->rows)
+	while (++y < T_SIZE * table->rows / 4)
 	{
 		x = -1;
-		while (++x < T_SIZE * table->columns)
+		while (++x < T_SIZE * table->columns / 4)
 			mlx_put_pixel(table->mlx_2D, x, y, 0xFF0000FF);
 	}
 }
@@ -34,17 +34,17 @@ void	draw_tile(t_table *table, int col, int row)
 	int			j;
 	uint32_t	color;
 
-	x = col * T_SIZE;
-	y = row * T_SIZE;
+	x = col * T_SIZE / 4;
+	y = row * T_SIZE / 4;
 	if (table->map[row][col] == '1')
 		color = 0xFFFFFFFF;
 	else
 		color = 0x000000FF;
 	i = -1;
-	while (++i < T_SIZE - 1)
+	while (++i < T_SIZE / 4 - 1)
 	{
 		j = -1;
-		while (++j < T_SIZE - 1)
+		while (++j < T_SIZE / 4 - 1)
 			mlx_put_pixel(table->mlx_2D, x + j, y + i, color);
 	}
 }
@@ -56,11 +56,11 @@ void	draw_player(t_table *table)
 
 	x = 0;
 	y = 0;
-	y = table->player_y - 5;
-	while (y++ < table->player_y + 5)
+	y = table->player_y / 4 - 1;
+	while (y++ < table->player_y / 8 + 1)
 	{
-		x = table->player_x - 5;
-		while (x++ < table->player_x + 5)
+		x = table->player_x / 4 - 1;
+		while (x++ < table->player_x / 4 + 1)
 			mlx_put_pixel(table->mlx_2D, x, y, 0xFFFF00FF);
 	}
 }

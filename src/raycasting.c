@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 18:00:10 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:21:10 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	draw_raycasting(t_table *table)
 		//printf("dy = %f\n", dy);
 		//printf("angle = %.0f\n", table->player_angle*180/PI);
 		int mx, my;
-		while (sx > 0 && sy > 0 && sx < 640 && sy < 640) //check if need to add more conditins
+		while (sx > 0 && sy > 0 && sx < T_SIZE * table->columns && sy < T_SIZE * table->rows) //check if need to add more conditins
 		{
 			mx = sx / T_SIZE;
 			my = sy / T_SIZE;
@@ -135,7 +135,7 @@ void	draw_raycasting(t_table *table)
 		//printf("dy = %f\n", dy);
 		//printf("angle = %f\n", table->player_angle);
 		//int mx, my, mp;
-		while (sx > 0 && sy > 0 && sx < 640 && sy < 640) //check if need to add more conditins
+		while (sx > 0 && sy > 0 && sx < T_SIZE * table->columns && sy < T_SIZE * table->rows) //check if need to add more conditins
 		{
 			mx = sx / T_SIZE;
 			my = sy / T_SIZE;
@@ -185,7 +185,7 @@ void	draw_raycasting(t_table *table)
 		
 		//printf("ray %d, final vector = %f\n", r, fv);
 
-		draw_line(table->mlx_2D, table->player_x, table->player_y, fx, fy, 0xFFFF00FF);
+		draw_line(table->mlx_2D, table->player_x / 4, table->player_y / 4, fx / 4, fy / 4, 0xFFFF00FF);
 
 		uint32_t	**tx_color;
 
@@ -226,28 +226,28 @@ void	draw_raycasting(t_table *table)
 
 		//printf("\nvector %d angle = %f\n", r, pa);
 		//printf("vextor %d = %f\n", r, fv);
-		int wall_h = T_SIZE * table->height / 2 / fv;
+		int wall_h = T_SIZE * table->height / fv;
 		float tx_vertical_step = (float)table->es_texture->height / wall_h;
 		float tx_v_offset = 0;
 		//printf("wall h %d = %d\n", r, wall_h);
-		if (wall_h > table->height / 2)
+		if (wall_h > table->height)
 		{
-			tx_v_offset = (wall_h - table->height / 2) / 2;
-			wall_h = table->height / 2;
+			tx_v_offset = (wall_h - table->height) / 2;
+			wall_h = table->height;
 		}
-		int drawStart = -wall_h / 2 + table->height / 2 / 2;
+		int drawStart = -wall_h / 2 + table->height / 2;
 		if(drawStart < 0)
 			drawStart = 0;
-		int drawEnd = wall_h / 2 + table->height / 2 / 2;
-		if(drawEnd >= table->height / 2)
-			drawEnd = table->height / 2 - 1;
+		int drawEnd = wall_h / 2 + table->height / 2;
+		if(drawEnd >= table->height)
+			drawEnd = table->height - 1;
 		//printf("wall_h = %d\n", wall_h);
 		//printf("render_x = %d\n", render_x);
 		//printf("draw start = %d\n", drawStart);
 		//printf("draw end = %d\n", drawEnd);
 		
-		int scaled_x_start = r * (table->width / 2 / n_of_rays);
-		int scaled_x_end = (r + 1) * (table->width / 2 / n_of_rays) - 1;
+		int scaled_x_start = r * (table->width / n_of_rays);
+		int scaled_x_end = (r + 1) * (table->width / n_of_rays) - 1;
 		int i = scaled_x_start;
 		//printf("scaled x end = %d\n", scaled_x_end);
 
@@ -293,7 +293,7 @@ void	draw_raycasting(t_table *table)
 		while (i <= scaled_x_end)
 		{
 			draw_line(table->mlx_3D, i, 0, i, drawStart, 0xADD8E6FF);
-			draw_line(table->mlx_3D, i, drawEnd, i, table->height / 2 - 1, 0x8B4513FF);
+			draw_line(table->mlx_3D, i, drawEnd, i, table->height - 1, 0x8B4513FF);
 			//draw_line(table->mlx_3D, i, drawStart, i, drawEnd, color);
 			int a = drawStart;
 			ty = tx_v_offset * tx_vertical_step;
@@ -319,6 +319,6 @@ void	draw_raycasting(t_table *table)
 		}
 		pa = pa + ((float)60 / n_of_rays);
 	}
-	mlx_image_to_window(table->mlx_start, table->mlx_3D, table->width / 2, 0);
+	mlx_image_to_window(table->mlx_start, table->mlx_3D, 0, 0);
 	mlx_image_to_window(table->mlx_start, table->mlx_2D, 0, 0);
 }
