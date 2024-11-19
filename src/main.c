@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 14:04:01 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:32:40 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,7 +410,37 @@ void    draw_player(t_table *table)
 		//printf("ray %d, final vector = %f\n", r, fv);
 
 		draw_line(table->mlx_2D, table->player_x, table->player_y, fx, fy, 0xFFFF00FF);
-		
+
+		uint32_t	**tx_color;
+
+		tx_color = NULL;
+
+		int tile_x, tile_y;
+		tile_x = (int)(fx / T_SIZE) * T_SIZE;
+		tile_y = (int)(fy / T_SIZE) * T_SIZE;
+		//printf("tile_x = %d	tile_y = %d\n", tile_x, tile_y);
+		//printf("fx = %f	fy = %f\n", fx, fy);
+
+		//printf("int fy = %d\n", (int)fy);
+		//printf("%d\n", tile_y + T_SIZE - 1);
+
+		//printf("int fx = %d\n", (int)fx);
+		//printf("%d\n", tile_x + T_SIZE);
+
+		float ndx = fx - tile_x;
+		float ndy = fy - tile_y;
+
+		//printf("ndx = %f	ndy = %f\n", ndx, ndy);
+
+		if (ndy > ndx && ndy > (T_SIZE - ndx))
+			tx_color = table->no_texture_colors; // N
+		else if (ndy < ndx && ndy < (T_SIZE - ndx))
+			tx_color = table->so_texture_colors; // S
+		else if (ndx <= ndy && ndx <= (T_SIZE - ndy))
+			tx_color = table->ws_texture_colors; // W
+		else
+			tx_color = table->es_texture_colors; // E
+
 		int ca=(table->player_angle - pa);
 		if (ca > 359)
 			ca -= 360;
@@ -502,7 +532,7 @@ void    draw_player(t_table *table)
 				//printf("%d x %d\n", i, a);
 				//printf("colour [%d][%d] = %08X\n", tex_y, tex_x, table->es_texture_colors[tex_y][tex_x]);
 				//printf("%d	%d\n", tex_x, tex_y);
-				mlx_put_pixel(table->mlx_3D, i, a, table->es_texture_colors[tex_y][tex_x]);
+				mlx_put_pixel(table->mlx_3D, i, a, tx_color[tex_y][tex_x]);
 				//if (tx_v_offset > 0)
 				//	mlx_put_pixel(table->mlx_3D, i, a, 0x000000FF);
 				ty += tx_vertical_step;
