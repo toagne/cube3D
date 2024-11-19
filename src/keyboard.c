@@ -3,20 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/16 16:31:43 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/19 10:25:44 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*int	wall_collision_w_circular_biumper(t_table *table)
+int circle_rectangle_collision(int circle_x, int circle_y, int radius, int rect_x, int rect_y, int rect_size)
+{
+	// Find the closest point on the rectangle to the circle
+	int closest_x = fmax(rect_x, fmin(circle_x, rect_x + rect_size));
+	int closest_y = fmax(rect_y, fmin(circle_y, rect_y + rect_size));
+
+	// Calculate distance from circle's center to closest point
+	int dx = circle_x - closest_x;
+	int dy = circle_y - closest_y;
+
+	// Check if the distance is less than the circle's radius
+	return (dx * dx + dy * dy) < (radius * radius);
+}
+
+
+int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y)
 {
 	int	radius;
-	int new_x;
-	int	new_y;
+	//int new_x;
+	//int	new_y;
 	int	mpx;
 	int	mpy;
 	int x;
@@ -25,11 +40,11 @@
 	int	check_tile_y;
 	int wall_x;
 	int	wall_y;
-	int	offset;
+	//int	offset;
 
-	radius = 20 + T_SIZE / 2;
-	new_x = table->player_x + table->player_delta_x * 5;
-	new_y = table->player_y + table->player_delta_y * 5;
+	radius = 20;// + T_SIZE / 2;
+	//new_x = table->player_x + table->player_delta_x * 5;
+	//new_y = table->player_y + table->player_delta_y * 5;
 	mpx = table->player_x / T_SIZE;
 	mpy = table->player_y / T_SIZE;
 	y = -1;
@@ -44,11 +59,16 @@
 			{
 				if (table->map[check_tile_y][check_tile_x] == '1')
 				{
-					wall_x = check_tile_x * T_SIZE + T_SIZE / 2;
-					wall_y = check_tile_y * T_SIZE + T_SIZE / 2;
-					offset = (new_x - wall_x) * (new_x - wall_x) + (new_y - wall_y) * (new_y - wall_y);
-					if (offset < radius * radius)
-						return (1);
+					//printf("tile x = %d	tile y = %d\n", check_tile_x, check_tile_y);
+					wall_x = check_tile_x * T_SIZE;// + T_SIZE / 2;
+					wall_y = check_tile_y * T_SIZE;// + T_SIZE / 2;
+					//offset = (new_x - wall_x) * (new_x - wall_x) + (new_y - wall_y) * (new_y - wall_y);
+					//printf("offset = %d\n", offset);
+					//printf("r2 = %d\n", radius * radius);
+					//if (offset < radius * radius)
+					//	return (1);
+					if (circle_rectangle_collision(new_x, new_y, radius, wall_x, wall_y, T_SIZE))
+						return 1;
 				}
 			}
 			x++;
@@ -56,12 +76,14 @@
 		y++;
 	}
 	return (0);
-}*/
+}
 
 void	ft_keyboard(mlx_key_data_t keydata, void *param)
 {
 	t_table	*table;
 	//int	avoid_wall_collision;
+	int		new_x;
+	int		new_y;
 
 	table = (t_table *)param;
 	
@@ -137,34 +159,47 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
-		//if (!wall_collision_w_circular_biumper(table))
-		//{
+		new_x = table->player_x + table->player_delta_x * 5;
+		new_y = table->player_y + table->player_delta_y * 5;
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
 		//if (table->map[mpy][mpxcw] != '1')
-			table->player_x+=table->player_delta_x * 5;
+			table->player_x = new_x;
 		//if (table->map[mpycw][mpx] != '1')
-			table->player_y+=table->player_delta_y * 5;
-		//}
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+			table->player_y = new_y;
 	}
 	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
+		new_x = table->player_x - table->player_delta_x * 5;
+		new_y = table->player_y - table->player_delta_y * 5;
 		//if (table->map[mpy][mpxcs] != '1')
-			table->player_x-=table->player_delta_x * 5;
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+			table->player_x = new_x;
 		//if (table->map[mpycs][mpx] != '1')
-			table->player_y-=table->player_delta_y * 5;
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+			table->player_y = new_y;
 	}
 	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
+		new_x = table->player_x + table->player_delta_x_ad * 5;
+		new_y = table->player_y + table->player_delta_y_ad * 5;
 		//if (table->map[mpy][mpxcd] != '1')
-			table->player_x+=table->player_delta_x_ad * 5;
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+			table->player_x = new_x;
 		//if (table->map[mpycd][mpx] != '1')
-			table->player_y+=table->player_delta_y_ad * 5;
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+			table->player_y  = new_y;
 	}
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
+		new_x = table->player_x - table->player_delta_x_ad * 5;
+		new_y = table->player_y - table->player_delta_y_ad * 5;
 		//if (table->map[mpy][mpxca] != '1')
-			table->player_x-=table->player_delta_x_ad * 5;
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+			table->player_x = new_x;
 		//if (table->map[mpyca][mpx] != '1')
-			table->player_y-=table->player_delta_y_ad * 5;
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+			table->player_y = new_y;
 	}
 	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
 	{
