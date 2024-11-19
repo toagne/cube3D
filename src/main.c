@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 09:17:20 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:04:01 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -495,9 +495,13 @@ void    draw_player(t_table *table)
 			{
 				int tex_x = (int)tx;
 				int tex_y = (int)ty;
+				if (tex_y >= (int)table->es_texture->height)
+					tex_y = table->es_texture->height - 1;
+				//printf("%08X\n", table->no_texture_colors[tex_y][tex_x]);
 				//printf("ty_int = %d\n", tex_y);
 				//printf("%d x %d\n", i, a);
 				//printf("colour [%d][%d] = %08X\n", tex_y, tex_x, table->es_texture_colors[tex_y][tex_x]);
+				//printf("%d	%d\n", tex_x, tex_y);
 				mlx_put_pixel(table->mlx_3D, i, a, table->es_texture_colors[tex_y][tex_x]);
 				//if (tx_v_offset > 0)
 				//	mlx_put_pixel(table->mlx_3D, i, a, 0x000000FF);
@@ -513,32 +517,6 @@ void    draw_player(t_table *table)
 	mlx_image_to_window(table->mlx_start, table->mlx_3D, table->width / 2, 0);
 	//printf("player angle + 30 = %f\n", pa);
 }
-
-/*void	draw_3d(t_table *table)
-{
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-
-	dir_x = -1;
-	dir_y = 0;
-	plane_x = 0;
-	plane_y = 0.66;
-
-	int x = -1;
-	while (++x < 1024)
-	{
-
-	}
-	mlx_image_to_window(table->mlx_start, table->mlx_3D, 1024, 0);
-}*/
-
-static unsigned int	get_rgba(int r, int g, int b, int a)
-{
-	return ((r << 24) | (g << 16) | (b << 8) | (a));
-}
-
 int	main (int argc, char **argv)
 {
 	t_table	table;
@@ -557,63 +535,16 @@ int	main (int argc, char **argv)
 	read_map(&table);
 	if (!validate_map(&table))
 		return (1);
-	
-	// window dimensions according monitor size
-
-	mlx_t	*test;
-
-	test = mlx_init(1, 1, "", false);
-
-	int32_t w;
-	int32_t h;
-
-	mlx_get_monitor_size(0, &w, &h);
-
-	mlx_terminate(test);
-
-	//printf("%d, x %d\n", h, w);
-
-	w /= 1.5;
-	h /= 1.5;
-
-	// window dimensions according monitor size
-
-	table.width = w;
-	table.height = h;
-
-	table.mlx_start = mlx_init(w, h, "cub3D", false);
+	get_monitor_size(&table.width, &table.height);
+	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
 	{
 		;//error
 	}
-	table.es_image = load_image(table.mlx_start, "pngs/texture_es.png");
-	table.es_texture = load_texture("pngs/texture_es.png");
-	uint32_t i, x, y;
-	i = 0;
-	y = -1;
-	while (++y < table.es_texture->height)
-	{
-		x = -1;
-		while (++x < table.es_texture->width)
-		{
-			table.es_texture_colors[y][x] = get_rgba(table.es_texture->pixels[i], table.es_texture->pixels[i + 1], table.es_texture->pixels[i + 2], table.es_texture->pixels[i + 3]);
-			i += 4;
-		}
-	}
-	/*y = -1;
-	while (++y < table.es_texture->height)
-	{
-		x = -1;
-		while (++x < table.es_texture->width)
-			printf("%08X ", my_texture[y][x]);
-	}*/
-	//table.ws_image = load_image(table.mlx_start, "texture_ws.png");
-	//table.no_image = load_image(table.mlx_start, "texture_no.png");
-	//table.so_image = load_image(table.mlx_start, "texture_so.png");
-	
-	mlx_resize_image(table.es_image, 200, 200);
-	mlx_image_to_window(table.mlx_start, table.es_image, 0, 650);
-	
+	convert_texture(&table.no_texture, &table.no_texture_colors, "pngs/texture_no.png");
+	convert_texture(&table.so_texture, &table.so_texture_colors, "pngs/texture_so.png");
+	convert_texture(&table.es_texture, &table.es_texture_colors, "pngs/texture_es.png");
+	convert_texture(&table.ws_texture, &table.ws_texture_colors, "pngs/texture_ws.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.columns * T_SIZE, table.rows * T_SIZE);
 	if (!table.mlx_2D)
 	{
@@ -660,7 +591,6 @@ int	main (int argc, char **argv)
 	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);*/
 	draw_map(&table);
 	draw_player(&table);
-	//draw_3d(&table);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
 	mlx_loop(table.mlx_start);
 }
