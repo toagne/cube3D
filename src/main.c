@@ -565,6 +565,7 @@ int	main (int argc, char **argv)
 	if (read_file(&table))
 	{
 		return (1);
+	}
 	get_monitor_size(&table.width, &table.height);
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
