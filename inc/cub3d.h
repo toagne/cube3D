@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/14 15:19:51 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:04:54 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,32 +52,37 @@ typedef struct s_table
 	char			*ea_path_texture;
 	char			*we_path_texture;
 	mlx_texture_t	*no_texture;
-	mlx_image_t		*no_image;
 	mlx_texture_t	*so_texture;
-	mlx_image_t		*so_image;
-	mlx_texture_t	*ea_texture;
-	mlx_image_t		*ea_image;
-	mlx_texture_t	*we_texture;
-	mlx_image_t		*we_image;
-}   t_table;
+	mlx_texture_t	*es_texture;
+	mlx_texture_t	*ws_texture;
+	uint32_t		**no_texture_colors;
+	uint32_t		**so_texture_colors;
+	uint32_t		**es_texture_colors;
+	uint32_t		**ws_texture_colors;
+}	t_table;
 
-void	init_data(t_table *table);
-void	ft_keyboard(mlx_key_data_t keydata, void *param);
+void			init_data(t_table *table);
+void			ft_keyboard(mlx_key_data_t keydata, void *param);
 
-void	draw_map(t_table *table);
-void	draw_player(t_table *table);
+void			draw_map(t_table *table);
+void			draw_player(t_table *table);
 
 // read_map.c
 int		read_map(t_table *table, int fd);
 
 // error.c
-void    ft_error(char *s1);
+void    		ft_error(char *s1);
 
 // validate_map.c
-int		validate_map(t_table *table);
+int				validate_map(t_table *table);
 
 // load_images.c
-mlx_image_t *load_image(mlx_t *mlx, char *str);
+mlx_image_t 	*load_image(mlx_t *mlx, char *str);
+mlx_texture_t 	*load_texture(char *str);
+void			convert_texture(mlx_texture_t **tx, uint32_t ***tx_colors, char *str);
+
+unsigned int	get_rgba(int r, int g, int b, int a);
+void			get_monitor_size(int *width, int *height);
 
 // read_file.c
 int	read_file(t_table *table);

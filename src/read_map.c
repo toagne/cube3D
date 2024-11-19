@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:37:42 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/14 10:48:29 by omartela         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:54:52 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../inc/cub3d.h"
+
+#include "cub3d.h"
 
 static int	check_empty_file(int fd, char **line, char **map)
 {
@@ -160,10 +161,10 @@ void set_player_position(t_table *table)
 		}
 		++player_pos_y;
 	}
-	printf("%d x %d\n", table->player_col, table->player_row);
-	table->player_x = (float)table->player_col * T_SIZE - T_SIZE / 2;
-	table->player_y = (float)table->player_row * T_SIZE - T_SIZE / 2;
-	printf("%f x %f\n", table->player_x, table->player_y);
+	//printf("%d x %d\n", table->player_col, table->player_row);
+	table->player_x = (float)table->player_col * T_SIZE + T_SIZE / 2;
+	table->player_y = (float)table->player_row * T_SIZE + T_SIZE / 2;
+	//printf("%f x %f\n", table->player_x, table->player_y);
 }
 
 int	find_length_of_longest_line(char **map)
@@ -250,6 +251,7 @@ int	read_map(t_table *table, int fd)
 		return (0);
 	}
 	table->columns = ft_strlen(map[0]);
+	//printf("table->columns = %zu\n", table->columns);
 	table->map = map;
 	set_player_position(table);
 	return (0);

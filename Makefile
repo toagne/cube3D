@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+         #
+#    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/11/15 08:13:15 by omartela         ###   ########.fr        #
+#    Updated: 2024/11/19 10:42:13 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,14 +16,8 @@ INC_DIR         = inc
 MLX42_DIR		= ./MLX42
 LIBFT_DIR		= ./libft
 
-SRC             = $(SRC_DIR)/main.c \
-				  $(SRC_DIR)/init.c \
-				  $(SRC_DIR)/keyboard.c \
-				  $(SRC_DIR)/read_map.c \
-				  $(SRC_DIR)/validate_map.c \
-				  $(SRC_DIR)/error.c \
-				  $(SRC_DIR)/read_file.c \
-				  $(SRC_DIR)/free.c
+SRC             = $(SRC_DIR)/main.c $(SRC_DIR)/init.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/read_map.c $(SRC_DIR)/validate_map.c $(SRC_DIR)/error.c \
+					$(SRC_DIR)/load_images.c $(SRC_DIR)/utils.c $(SRC_DIR)/free.c $(SRC_DIR)/read_file.c \
 OBJ_DIR         = obj
 OBJ             = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 MLX42_LIB       = $(MLX42_DIR)/build/libmlx42.a
@@ -31,7 +25,7 @@ LIBFT           = $(LIBFT_DIR)/libft.a
 
 RM              = rm -f
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -g \
+CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -Ofast -g\
 					-I$(INC_DIR) \
 					-I$(MLX42_DIR)/include
 LDFLAGS         = -ldl -lglfw -pthread -lm
@@ -48,9 +42,11 @@ $(MLX42_LIB):
 	fi
 	@cd $(MLX42_DIR)/build && \
 		if [ ! -f CMakeCache.txt ]; then \
-			cmake .. -D CMAKE_OSX_ARCHITECTURES=arm64; \
+			cmake ..; \
 		fi && \
 		cmake --build .
+
+#for macOS add -D CMAKE_OSX_ARCHITECTURES=(check uname -m) after cmake ..
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
