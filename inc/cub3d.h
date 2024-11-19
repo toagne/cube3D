@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 14:04:54 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:13:07 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ typedef struct s_table
 void			init_data(t_table *table);
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 
-void			draw_map(t_table *table);
-void			draw_player(t_table *table);
+void			draw_raycasting(t_table *table);
 
 // read_map.c
 int				read_map(t_table *table);
@@ -81,5 +80,8 @@ void			convert_texture(mlx_texture_t **tx, uint32_t ***tx_colors, char *str);
 
 unsigned int	get_rgba(int r, int g, int b, int a);
 void			get_monitor_size(int *width, int *height);
+float			deg_to_rad(float deg);
+
+void			draw_minimap(t_table *table);
 
 #endif
