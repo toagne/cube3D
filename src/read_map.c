@@ -22,6 +22,71 @@ static int	check_empty_file(int fd, char **line, char **map)
 	return (1);
 }
 
+static	int count_chars(char *line, int c)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	if (!line)
+		return (0);
+	while (line[i] != '\0')
+	{
+		if (line[i] != c)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+static char	*remove_spaces(char *line)
+{
+	char	*newstr;
+	int		j;
+	int		i;
+	int		nspaces;
+
+	i = 0;
+	j = 0;
+	nspaces = count_chars(line, ' ');
+	if (!line)
+		return (NULL);
+	if (nspaces != 0)
+	{
+		newstr = ft_calloc((ft_strlen(line) - nspaces) + 1, sizeof(char));
+		if (!newstr)
+			return (NULL);
+		while (line[j])
+		{
+			if (line[j] != ' ')
+			{
+				newstr[i] = line[j];
+				++i;
+			}
+			++j;
+		}
+		newstr[i] = '\0';
+		return (newstr);
+	}
+	return (line);
+}
+
+static char *remove_spaces_and_nl(char *line)
+{
+	char	*trimmed;
+	char	*newstr;
+
+	trimmed = ft_strtrim(line, " \n");
+	if (!trimmed)
+		return (NULL);
+	newstr = remove_spaces(trimmed);
+	free(trimmed);
+	if (!newstr)
+		return (NULL);
+	return (newstr);
+}
+
 static int	read_lines(int fd, char ***map, t_table *table)
 {
 	char	*line;
@@ -31,7 +96,7 @@ static int	read_lines(int fd, char ***map, t_table *table)
 	line = NULL;
 	if (!check_empty_file(fd, &line, *map))
 		return (0);
-	trimmed = ft_strtrim(line, "\n");
+	trimmed = remove_spaces_and_nl(line);
 	if (!trimmed)
 	{
 		free(map);
@@ -44,7 +109,7 @@ static int	read_lines(int fd, char ***map, t_table *table)
 		line = get_next_line(fd);
 		*map = ft_realloc(*map, ln * sizeof(char *), (ln + 1) * sizeof(char *));
 		if (line)
-			trimmed = ft_strtrim(line, "\n");
+			trimmed = remove_spaces_and_nl(line);
 		if (!*map || !trimmed)
 		{
 			free_map(*map, ln);
