@@ -49,21 +49,21 @@ static int	validate_map_chars(t_table *table)
 	size_t	col;
 	size_t	row;
 
-	col = 0;
-	while (col < table->columns)
+	row = 0;
+	while (row < table->rows)
 	{
-		row = 0;
-		while (row < table->rows)
+		col = 0;
+		while (col < table->columns)
 		{
-			if (!validate_map_char(table->map[col][row]))
+			if (!validate_map_char(table->map[row][col]))
 			{
 				ft_error("Map has invalid characters");
 				return (0);
 			}
-			check_character(table, table->map[col][row]);
-			++row;
+			check_character(table, table->map[row][col]);
+			++col;
 		}
-		++col;
+		++row;
 	}
 	if (table->player != 1)
 	{
@@ -89,62 +89,75 @@ static int	validate_walls_sides(t_table *table)
 
 	col = 0;
 	row = 0;
-	while (col < table->columns)
+	while (row < table->rows)
 	{
-		row = 0;
-		while (table->map[col][row] == ' ')
-			++row;
-		if (table->map[col][row] != '1')
+		col = 0;
+		while (table->map[row][col] == ' ')
+			++col;
+		if (table->map[row][col] != '1')
 		{
 			ft_error("Map has invalid characters at sides");
 			return (0);
 		}
-		++col;
+		++row;
 	}
-	col = 0;
-	row = table->rows;
-	while (col < table->columns)
+	row = 0;
+	col = table->columns;
+	while (row < table->rows)
 	{
-		row = 0;
-		while (table->map[col][row] == ' ')
-			--row;
-		if (table->map[col][row] != '1')
+		col = 0;
+		while (table->map[row][col] == ' ')
+			--col;
+		if (table->map[row][col] != '1')
 		{
 			ft_error("Map has invalid characters at sides");
 			return (0);
 		}
-		++col;
+		++row;
 	}
 	return (1);
 }
 
-static int	validate_walls_top_bot(t_table *table)
+static int	print_map(t_table *table)
 {
 	size_t	row;
 
 	row = 0;
 	while (row < table->rows)
 	{
-		while (table->map[0][row] == ' ')
-			++row;
-		if (table->map[0][row] != '1')
-		{
-			ft_error("Map has invalid characters top or bot");
-			return (0);
-		}
+		printf("%s\n", table->map[row]);
+		printf("%zu\n", ft_strlen(table->map[row]));
 		++row;
 	}
-	row = 0;
-	while (row < table->rows)
+	return (0);
+}
+
+static int	validate_walls_top_bot(t_table *table)
+{
+	size_t	col;
+
+	col = 0;
+	print_map(table);
+	while (col < table->columns)
 	{
-		while (table->map[table->columns - 1][row] == ' ')
-			--row;
-		if (table->map[table->columns - 1][row] != '1')
+		if (table->map[0][col] != '1' && table->map[0][col] != ' ')
 		{
+			printf("we are here 2 %zu\n", col);
 			ft_error("Map has invalid characters top or bot");
 			return (0);
 		}
-		++row;
+		++col;
+	}
+	col = 0;
+	while (col < table->columns)
+	{
+		if (table->map[table->rows - 1][col] != '1' && table->map[table->rows - 1][col] != ' ')
+		{
+			printf("we are here 1\n");
+			ft_error("Map has invalid characters top or bot");
+			return (0);
+		}
+		++col;
 	}
 	return (1);
 }
