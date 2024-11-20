@@ -45,10 +45,12 @@ typedef struct s_table
 	int				player;
 	float			player_delta_x_ad;
 	float			player_delta_y_ad;
+	int				*f_color;
+	int				*c_color;
 	char			*no_path_texture;
 	char			*so_path_texture;
-	char			*es_path_texture;
-	char			*ws_path_texture;
+	char			*ea_path_texture;
+	char			*we_path_texture;
 	mlx_texture_t	*no_texture;
 	mlx_texture_t	*so_texture;
 	mlx_texture_t	*es_texture;
@@ -65,7 +67,7 @@ void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			draw_raycasting(t_table *table);
 
 // read_map.c
-int				read_map(t_table *table);
+int		read_map(t_table *table, int fd);
 
 // error.c
 void    		ft_error(char *s1);
@@ -83,5 +85,12 @@ void			get_monitor_size(int *width, int *height);
 float			deg_to_rad(float deg);
 
 void			draw_minimap(t_table *table);
+
+// read_file.c
+int	read_file(t_table *table);
+
+// free.c
+void	free_map(char **map, size_t i);
+void	free_table(char ***table);
 
 #endif

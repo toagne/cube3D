@@ -27,9 +27,10 @@ int	main (int argc, char **argv)
 	//parse_input();
 	init_data(&table);
 	table.filename = argv[1];
-	read_map(&table);
-	if (!validate_map(&table))
+	if (read_file(&table))
+	{
 		return (1);
+	}
 	get_monitor_size(&table.width, &table.height);
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)

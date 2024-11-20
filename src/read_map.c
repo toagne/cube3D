@@ -12,27 +12,81 @@
 
 #include "cub3d.h"
 
-void	free_map(char **map, size_t i)
-{
-	while (i > 0)
-	{
-		i--;
-		free(map[i]);
-	}
-	free(map);
-}
-
 static int	check_empty_file(int fd, char **line, char **map)
 {
 	*line = get_next_line(fd);
 	if (!(*line))
 	{
 		free(map);
-		ft_error("Read failed or empty file");
 		return (0);
 	}
 	return (1);
 }
+
+/* static	int count_chars(char *line, int c)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	if (!line)
+		return (0);
+	while (line[i] != '\0')
+	{
+		if (line[i] != c)
+			count++;
+		i++;
+	}
+	return (count);
+} */
+
+/* static char	*remove_spaces(char *line)
+{
+	char	*newstr;
+	int		j;
+	int		i;
+	int		nspaces;
+
+	i = 0;
+	j = 0;
+	nspaces = count_chars(line, ' ');
+	if (!line)
+		return (NULL);
+	if (nspaces != 0)
+	{
+		newstr = ft_calloc((ft_strlen(line) - nspaces) + 1, sizeof(char));
+		if (!newstr)
+			return (NULL);
+		while (line[j])
+		{
+			if (line[j] != ' ')
+			{
+				newstr[i] = line[j];
+				++i;
+			}
+			++j;
+		}
+		newstr[i] = '\0';
+		return (newstr);
+	}
+	return (line);
+} */
+
+/* static char *remove_spaces_and_nl(char *line)
+{
+	char	*trimmed;
+	char	*newstr;
+
+	trimmed = ft_strtrim(line, " \n");
+	if (!trimmed)
+		return (NULL);
+	newstr = remove_spaces(trimmed);
+	free(trimmed);
+	if (!newstr)
+		return (NULL);
+	return (newstr);
+} */
 
 static int	read_lines(int fd, char ***map, t_table *table)
 {
@@ -43,7 +97,7 @@ static int	read_lines(int fd, char ***map, t_table *table)
 	line = NULL;
 	if (!check_empty_file(fd, &line, *map))
 		return (0);
-	trimmed = ft_strtrim(line, "\n");
+	trimmed = ft_strtrim(line, " \n");
 	if (!trimmed)
 	{
 		free(map);
@@ -56,7 +110,7 @@ static int	read_lines(int fd, char ***map, t_table *table)
 		line = get_next_line(fd);
 		*map = ft_realloc(*map, ln * sizeof(char *), (ln + 1) * sizeof(char *));
 		if (line)
-			trimmed = ft_strtrim(line, "\n");
+			trimmed = ft_strtrim(line, " \n");
 		if (!*map || !trimmed)
 		{
 			free_map(*map, ln);
@@ -71,7 +125,6 @@ static int	read_lines(int fd, char ***map, t_table *table)
 	}
 	table->rows = ln;
 	(*map)[ln] = NULL;
-	//printf("table->rows = %zu\n", table->rows);
 	return (1);
 }
 
@@ -114,35 +167,92 @@ void set_player_position(t_table *table)
 	//printf("%f x %f\n", table->player_x, table->player_y);
 }
 
-int	read_map(t_table *table)
+int	find_length_of_longest_line(char **map)
 {
-	int		fd;
+	int	i;
+	int	len;
+	int	current_len;
+
+	i = 0;
+	current_len = 0;
+	len = 0;
+	if (!map || !*map)
+		return (-1);
+	while (map[i])
+	{
+		current_len = ft_strlen(map[i]);
+		if (current_len > len)
+			len = current_len;
+		++i;
+	}
+	return (len);
+}
+
+char	*fill_spaces(int len, char *line)
+{
+	char	*newline;
+	int		src_len;
+
+	newline = malloc((len + 1) * sizeof(char));
+	if (!newline)
+		return (NULL);
+	ft_strlcpy(newline, line, len + 1);
+	src_len = ft_strlen(line);
+	while (src_len < len)
+	{
+		newline[src_len] = ' ';
+		src_len++;
+	}
+	newline[len] = '\0';
+	return (newline);
+}
+
+int fill_spaces_to_map(char ***map)
+{
+	size_t	i;
+	size_t	len;
+	char *temp;
+
+	i = 0;
+	len = find_length_of_longest_line(*map);
+	while ((*map)[i])
+	{
+		if (ft_strlen((*map)[i]) != len)
+		{
+			temp = fill_spaces(len, (*map)[i]);
+			if (!temp)
+				return (1);
+			free((*map)[i]);
+			(*map)[i] = temp;
+		}
+		++i;
+	}
+	return (0);
+}
+
+int	read_map(t_table *table, int fd)
+{
 	char	**map;
 
-	fd = open(table->filename, O_RDONLY);
-	if (fd == -1)
-	{
-		ft_error("File could not be opened");
-		return (0);
-	}
 	map = malloc(1 * sizeof(char *));
 	if (!map)
 	{
 		close(fd);
-		return (0);
+		return (1);
 	}
 	if (!read_lines(fd, &map, table))
 	{
 		close(fd);
+		return (1);
+	}
+	if (fill_spaces_to_map(&map))
+	{
+		free_table(&map);
 		return (0);
 	}
 	table->columns = ft_strlen(map[0]);
 	//printf("table->columns = %zu\n", table->columns);
 	table->map = map;
-	close(fd);
 	set_player_position(table);
-	//int a = -1;
-	//while (table->map[++a] != NULL)
-	//	printf("%s\n", table->map[a]);
-	return (1);
+	return (0);
 }
