@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 10:25:44 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/19 17:09:32 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,6 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
 	}
-	draw_map(table);
-	draw_player(table);
+	draw_minimap(table);
+	draw_raycasting(table);
 }
