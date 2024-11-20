@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:30 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/20 16:14:22 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/20 21:47:57 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,46 @@ void	draw_real_minimap(t_table *table)
 		y0 = 0;
 	printf("x0 = %d	y0 = %d\n", x0, y0);
 	printf("x1 = %d	y1 = %d\n", x1, y1);
+	
+	size_t y, x;
+	y = -1;
+	while (++y < T_SIZE * table->rows)
+	{
+		x = -1 + 1000;
+		while (++x < T_SIZE * table->columns + 1000)
+		{
+			if ((int)x == x0 + 1000 || (int)x == x1 + 1000 || (int)y == y0 || (int)y == y1)
+				mlx_put_pixel(table->mlx_2D, x, y, 0x00FF00FF);
+		}
+	}
+	
+	uint32_t	minimap[minimap_size][minimap_size];
+	int i, j;
+	i = -1;
+	while (++i < minimap_size)
+	{
+		j = -1;
+		int tile_y = y0 / T_SIZE;
+		while (++j < minimap_size)
+		{
+			int tile_x = x0 / T_SIZE;
+			if (table->map[tile_y][tile_x] == '1')
+				minimap[i][j] = 0xFFFFFFFF;
+			else
+				minimap[i][j] = 0x000000FF;
+			//printf("%08X,", minimap[i][j]);
+			x0++;
+		}
+		y0++;
+		printf("\n");
+	}
+	i = -1;
+	while (++i < minimap_size)
+	{
+		j = -1;
+		while (++j < minimap_size)
+			mlx_put_pixel(table->mlx_2D, j, i, minimap[i][j]);
+	}
 }
 
 void	draw_background_not_needed(t_table *table)
