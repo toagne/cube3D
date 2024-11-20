@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 20:17:40 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/20 16:15:00 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main (int argc, char **argv)
 	convert_texture(&table.so_texture, &table.so_texture_colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture_colors, "pngs/texture_es.png");
 	convert_texture(&table.ws_texture, &table.ws_texture_colors, "pngs/texture_ws.png");
-	table.mlx_2D = mlx_new_image(table.mlx_start, table.width / 5, table.height / 5);
+	table.mlx_2D = mlx_new_image(table.mlx_start, table.width, table.height); //to change
 	if (!table.mlx_2D)
 	{
 		;//error

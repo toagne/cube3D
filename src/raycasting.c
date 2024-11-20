@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 20:21:10 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/20 10:47:25 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,8 @@ void	draw_raycasting(t_table *table)
 		
 		//printf("ray %d, final vector = %f\n", r, fv);
 
-		draw_line(table->mlx_2D, table->player_x / 4, table->player_y / 4, fx / 4, fy / 4, 0xFFFF00FF);
+		// comment this out
+		//draw_line(table->mlx_2D, table->player_x, table->player_y, fx, fy, 0xFFFF00FF);
 
 		uint32_t	**tx_color;
 
