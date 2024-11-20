@@ -41,6 +41,11 @@ int	main (int argc, char **argv)
 	convert_texture(&table.so_texture, &table.so_texture_colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture_colors, "pngs/texture_es.png");
 	convert_texture(&table.ws_texture, &table.ws_texture_colors, "pngs/texture_ws.png");
+	table.p_img[0] = load_image(table.mlx_start, "weapon_pack/knife/weapon1_1.png");
+	table.p_img[1] = load_image(table.mlx_start, "weapon_pack/knife/weapon1_2.png");
+	table.p_img[2] = load_image(table.mlx_start, "weapon_pack/knife/weapon1_3.png");
+	table.p_img[3] = load_image(table.mlx_start, "weapon_pack/knife/weapon1_4.png");
+	table.p_img[4] = load_image(table.mlx_start, "weapon_pack/knife/weapon1_5.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.width / 5, table.height / 5);
 	if (!table.mlx_2D)
 	{
@@ -51,7 +56,6 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
-
 	// ---how to scale a texture---
 	/*int h = 300;
 	int w = 300;
@@ -88,5 +92,6 @@ int	main (int argc, char **argv)
 	draw_minimap(&table);
 	draw_raycasting(&table);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
+	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
 	mlx_loop(table.mlx_start);
 }

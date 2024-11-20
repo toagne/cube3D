@@ -128,32 +128,36 @@ static int	read_lines(int fd, char ***map, t_table *table)
 	return (1);
 }
 
-int	check_player_dir(char dir)
+char	check_player_dir(char dir)
 {
 	if (dir == 'N')
-		return (1);
+		return ('N');
 	else if (dir == 'W')
-		return (1);
+		return ('W');
 	else if (dir == 'S')
-		return (1);
+		return ('S');
 	else if (dir == 'E')
-		return (1);
-	return (0);
+		return ('E');
+	return ('\0');
 }
 
 void set_player_position(t_table *table)
 {
 	size_t	player_pos_x;
 	size_t	player_pos_y;
+	char	dir;
 
 	player_pos_y = 0;
+	dir = 0;
 	while (player_pos_y < table->rows)
 	{
 		player_pos_x = 0;
 		while (player_pos_x < table->columns)
 		{
-			if (check_player_dir(table->map[player_pos_y][player_pos_x]))
+			dir = check_player_dir(table->map[player_pos_y][player_pos_x]);
+			if (dir)
 			{
+				table->player_dir = dir;
 				table->player_row = player_pos_y;
 				table->player_col = player_pos_x;
 			}

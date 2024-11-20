@@ -235,7 +235,7 @@ void	draw_raycasting(t_table *table)
 			tx_v_offset = (wall_h - table->height) / 2;
 			wall_h = table->height;
 		}
-		int drawStart = -wall_h / 2 + table->height / 2;
+		int drawStart = table->height / 2 - wall_h / 2;
 		if(drawStart < 0)
 			drawStart = 0;
 		int drawEnd = wall_h / 2 + table->height / 2;
