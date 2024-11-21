@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/21 14:26:19 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:40:34 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,6 +369,6 @@ void	draw_raycasting(t_table *table)
 		}
 		pa = pa + ((float)60 / n_of_rays);
 	}
-	mlx_image_to_window(table->mlx_start, table->mlx_3D, 0, 0);
-	mlx_image_to_window(table->mlx_start, table->mlx_2D, 0, 0);
+	//mlx_image_to_window(table->mlx_start, table->mlx_3D, 0, 0);
+	//mlx_image_to_window(table->mlx_start, table->mlx_2D, 0, 0);
 }
