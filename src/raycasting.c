@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/20 10:47:25 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:26:19 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,8 +185,57 @@ void	draw_raycasting(t_table *table)
 		
 		//printf("ray %d, final vector = %f\n", r, fv);
 
+		//printf("fx = %f	fy = %f\n", fx, fy);
+		//draw_line(table->mlx_2D, table->player_x + 1000, table->player_y, fx + 1000, fy, 0xFFFF00FF);
+
 		// comment this out
-		//draw_line(table->mlx_2D, table->player_x, table->player_y, fx, fy, 0xFFFF00FF);
+		int minimap_size = fmin(table->width / 4, table->height / 4);
+		// printf("minimap size = %d\n", minimap_size);
+		int vpx0 = (table->player_x - (minimap_size / 2));
+		int vpy0 = (table->player_y - (minimap_size / 2));
+		int vpx1 = vpx0 + minimap_size;
+		int vpy1 = vpy0 + minimap_size;
+		// printf("fx = %f	fy = %f\n", fx, fy);
+		// printf("vpx0 = %d	vpx1 = %d\n", vpx0, vpx1);
+		// printf("vpy0 = %d	vpy1 = %d\n", vpy0, vpy1);
+		int rx1 = fx;
+		int ry1 = fy;
+		if (vpx0 > fx && (vpx0 - fx) > (vpy0 - fy) && (vpx0 - fx) > (fy - vpy1))
+		{
+			rx1 = vpx0;
+			ry1 = -(table->player_x - rx1) * tan(angle) + table->player_y;
+		}
+		if (vpx1 < fx && (fx - vpx1) > (fy - vpy1) && (fx - vpx1) > (vpy0 - fy))
+		{
+			rx1 = vpx1;
+			if (pa == 0 || pa == 360)
+				ry1 = table->player_y;
+			else
+				ry1 = -(table->player_x - rx1) * tan(angle) + table->player_y;
+		}
+		if (vpy0 > fy && (vpy0 - fy) > (vpx0 - fx) && (vpy0 - fy) > (fx - vpx1))
+		{
+			ry1 = vpy0;
+			if (pa == 270)
+				rx1 = table->player_x;
+			else
+				rx1 = -(table->player_y - ry1) / tan(angle) + table->player_x;
+		}
+		if (vpy1 < fy && (fy - vpy1) > (fx - vpx1) && (fy - vpy1) > (vpx0 - fx))
+		{
+			ry1 = vpy1;
+			rx1 = -(table->player_y - ry1) / tan(angle) + table->player_x;
+		}
+		rx1 -= vpx0;
+		ry1 -= vpy0;
+		if (rx1 == minimap_size)
+			rx1 -= 1;
+		if (ry1 == minimap_size)
+			ry1 -= 1;	
+		// printf("player x%f	player y%f\n", table->player_x, table->player_y);
+		// printf("rx1 = %d	ry1 = %d\n", rx1, ry1);
+		// printf("angle = %f\n", pa);
+		draw_line(table->mlx_2D, table->player_x - vpx0, table->player_y - vpy0, rx1, ry1, 0xFFFF00FF);
 
 		uint32_t	**tx_color;
 
