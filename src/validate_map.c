@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:44:07 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/15 11:55:13 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:26:18 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ static int	print_map(t_table *table)
 	row = 0;
 	while (row < table->rows)
 	{
-		printf("%s\n", table->map[row]);
-		printf("%zu\n", ft_strlen(table->map[row]));
+		//printf("%s\n", table->map[row]);
+		//printf("%zu\n", ft_strlen(table->map[row]));
 		++row;
 	}
 	return (0);

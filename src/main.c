@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/11/20 18:12:50 by omartela         ###   ########.fr       */
+=======
+/*   Updated: 2024/11/21 14:40:05 by mpellegr         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +78,7 @@ int	main (int argc, char **argv)
 	table.p_img[29] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_29.png");
 	table.right_hand = load_image(table.mlx_start, "pngs/rigth_hand.png");
 	table.left_hand = load_image(table.mlx_start, "pngs/left_hand.png");
-	table.mlx_2D = mlx_new_image(table.mlx_start, table.width / 5, table.height / 5);
+	table.mlx_2D = mlx_new_image(table.mlx_start, table.width, table.height); //to change
 	if (!table.mlx_2D)
 	{
 		;//error
