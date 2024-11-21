@@ -155,7 +155,6 @@ void ft_hook(void* param)
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
 	}
 	draw_minimap(table);
-	insert_player_texture(table);
 	draw_raycasting(table);
 }
 

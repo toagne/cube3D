@@ -319,6 +319,4 @@ void	draw_raycasting(t_table *table)
 		}
 		pa = pa + ((float)60 / n_of_rays);
 	}
-	mlx_image_to_window(table->mlx_start, table->mlx_3D, 0, 0);
-	mlx_image_to_window(table->mlx_start, table->mlx_2D, 0, 0);
 }

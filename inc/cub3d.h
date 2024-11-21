@@ -56,8 +56,9 @@ typedef struct s_table
 	char			*ea_path_texture;
 	char			*we_path_texture;
 	char			*p_path_texture;
-	mlx_texture_t	*p_texture;
 	mlx_image_t		*p_img[30];
+	mlx_image_t		*left_hand;
+	mlx_image_t		*right_hand;
 	mlx_texture_t	*no_texture;
 	mlx_texture_t	*so_texture;
 	mlx_texture_t	*es_texture;
