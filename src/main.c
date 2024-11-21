@@ -19,6 +19,7 @@ int	main (int argc, char **argv)
 	(void) argc;
 	(void) argv;
 	ft_memset(&table, 0, sizeof(table));
+	table.enemy_attack = 0;
 	if (argc != 2)
 	{
 		//write (2, "wrong input\n", 12);
@@ -74,6 +75,11 @@ int	main (int argc, char **argv)
 	table.p_img[29] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_29.png");
 	table.right_hand = load_image(table.mlx_start, "pngs/rigth_hand.png");
 	table.left_hand = load_image(table.mlx_start, "pngs/left_hand.png");
+	table.e_img[0] = load_image(table.mlx_start, "pngs/enemy-run-5.png");
+	table.e_img[1] = load_image(table.mlx_start, "pngs/enemy-run-1.png");
+	table.e_img[2] = load_image(table.mlx_start, "pngs/enemy-run-2.png");
+	table.e_img[3] = load_image(table.mlx_start, "pngs/enemy-run-3.png");
+	table.e_img[4] = load_image(table.mlx_start, "pngs/enemy-run-4.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.width, table.height); //to change
 	if (!table.mlx_2D)
 	{
@@ -124,5 +130,6 @@ int	main (int argc, char **argv)
 	insert_player_texture(&table);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
 	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
+	mlx_loop_hook(table.mlx_start, &ft_enemy, &table);
 	mlx_loop(table.mlx_start);
 }

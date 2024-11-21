@@ -78,6 +78,14 @@ int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y)
 	return (0);
 }
 
+void	ft_enemy(void *param)
+{
+	t_table	*table;
+
+	table = (t_table *)param;
+	animate_enemy(table);
+}
+
 void ft_hook(void* param)
 {
 	t_table	*table;
@@ -87,9 +95,9 @@ void ft_hook(void* param)
 
 	table = (t_table *)param;
 
+	table->frame_counter += 1;
 	if (table->is_attacking)
 		animate_attack(table);
-
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_W))
 	{
 		new_x = table->player_x + table->player_delta_x * 5;
