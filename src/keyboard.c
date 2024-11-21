@@ -87,6 +87,9 @@ void ft_hook(void* param)
 
 	table = (t_table *)param;
 
+	if (table->is_attacking)
+		animate_attack(table);
+
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_W))
 	{
 		new_x = table->player_x + table->player_delta_x * 5;
@@ -232,5 +235,9 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 	{
 		mlx_terminate(table->mlx_start);
 		exit (EXIT_SUCCESS);
+	}
+	else if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+	{
+		table->is_attacking = 1;
 	}
 }

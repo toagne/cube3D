@@ -29,6 +29,8 @@ typedef struct s_table
 	mlx_t			*mlx_start;
 	mlx_image_t		*mlx_2D;
 	mlx_image_t		*mlx_3D;
+	int				frame_counter;
+	int				is_attacking;
 	int				width;
 	int				height;
 	char			*filename;
@@ -55,7 +57,7 @@ typedef struct s_table
 	char			*we_path_texture;
 	char			*p_path_texture;
 	mlx_texture_t	*p_texture;
-	mlx_image_t		*p_img[5];
+	mlx_image_t		*p_img[30];
 	mlx_texture_t	*no_texture;
 	mlx_texture_t	*so_texture;
 	mlx_texture_t	*es_texture;
@@ -69,7 +71,10 @@ typedef struct s_table
 void			init_data(t_table *table);
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			ft_hook(void* param);
+
+// player_texture.
 int				insert_player_texture(t_table *table);
+int 			animate_attack(t_table *table);
 
 void			draw_raycasting(t_table *table);
 

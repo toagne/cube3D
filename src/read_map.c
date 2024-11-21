@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:37:42 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/15 11:54:52 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/20 18:17:58 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static int	read_lines(int fd, char ***map, t_table *table)
 	trimmed = ft_strtrim(line, " \n");
 	if (!trimmed)
 	{
-		free(map);
+		free(*map);
 		return (0);
 	}
 	(*map)[0] = trimmed;

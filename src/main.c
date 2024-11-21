@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 20:17:40 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/20 18:12:50 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ int	main (int argc, char **argv)
 
 	(void) argc;
 	(void) argv;
+	ft_memset(&table, 0, sizeof(table));
 	if (argc != 2)
 	{
-		write (2, "wrong input\n", 12);
+		//write (2, "wrong input\n", 12);
 		exit(EXIT_FAILURE);
 	}
 	// check that argc 1 is a file that can be opened and read and ends with .cub
