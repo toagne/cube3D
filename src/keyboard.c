@@ -83,8 +83,58 @@ void	ft_enemy(void *param)
 	t_table	*table;
 
 	table = (t_table *)param;
-	animate_enemy(table);
+	//animate_enemy(table);
 }
+
+void update_enemy_pos(t_table *table)
+{
+    // Enemy's map position
+    float enemy_x = 3.0; // Example map coordinate (tile position)
+    float enemy_y = 1.0; // Example map coordinate (tile position)
+
+    // Convert player's position from pixel space to map space
+    float player_map_x = table->player_x / T_SIZE;
+    float player_map_y = table->player_y / T_SIZE;
+
+    // Calculate the enemy's position relative to the player
+    float relative_x = enemy_x - player_map_x;
+    float relative_y = enemy_y - player_map_y;
+
+    printf("Relative Position: relative_x = %f, relative_y = %f\n", relative_x, relative_y);
+
+	float angle = deg_to_rad(table->player_angle);
+    // Rotate relative position by the player's view angle
+    float rotated_x = relative_x * cos(-angle) - relative_y * sin(-angle);
+    float rotated_y = relative_x * sin(-angle) + relative_y * cos(-angle);
+
+    printf("Rotated Position: rotated_x = %f, rotated_y = %f\n", rotated_x, rotated_y);
+
+    // Avoid division by zero
+    if (rotated_y <= 0.1f) {
+        printf("Enemy behind player or too close to avoid projection issues.\n");
+        return;
+    }
+
+    // Perspective projection to screen coordinates
+    int screen_x = (table->width / 2) + (int)((rotated_x / rotated_y) * 2);
+    int screen_y = (table->height / 2) - (int)(2 / rotated_y);
+
+    printf("Screen Position: screen_x = %d, screen_y = %d\n", screen_x, screen_y);
+
+    // Check if the enemy is out of bounds (not visible on screen)
+    if (screen_x < 0 || screen_x >= table->width || screen_y < 0 || screen_y >= table->height) {
+        printf("Enemy out of bounds, disabling rendering.\n");
+        return;
+    }
+
+    // Update enemy sprite's position for all animation frames
+    int i = 4;
+    while (i >= 0) {
+        set_image_instance_pos(&table->e_img[i]->instances[0], screen_x, screen_y);
+        --i;
+    }
+}
+
 
 void ft_hook(void* param)
 {
@@ -124,6 +174,12 @@ void ft_hook(void* param)
 	{
 		new_x = table->player_x + table->player_delta_x_ad * 5;
 		new_y = table->player_y + table->player_delta_y_ad * 5;
+		int i = 4;
+		while (i >= 0)
+		{
+			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x -= 55, table->e_img[i]->instances[0].y);
+			--i;
+		}	
 		//if (table->map[mpy][mpxcd] != '1')
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
 			table->player_x = new_x;
@@ -136,6 +192,12 @@ void ft_hook(void* param)
 		new_x = table->player_x - table->player_delta_x_ad * 5;
 		new_y = table->player_y - table->player_delta_y_ad * 5;
 		//if (table->map[mpy][mpxca] != '1')
+		int i = 4;
+		while (i >= 0)
+		{
+			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x += 55, table->e_img[i]->instances[0].y);
+			--i;
+		}	
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
 			table->player_x = new_x;
 		//if (table->map[mpyca][mpx] != '1')
@@ -151,6 +213,13 @@ void ft_hook(void* param)
 		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
 		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
+		int	i;
+		i = 4;
+		while (i >= 0)
+		{
+			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x += 55, table->e_img[i]->instances[0].y);
+			--i;
+		}
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_RIGHT))
 	{
@@ -161,7 +230,15 @@ void ft_hook(void* param)
 		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
 		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
+		int	i;
+		i = 4;
+		while (i >= 0)
+		{
+			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x -= 55, table->e_img[i]->instances[0].y);
+			--i;
+		}
 	}
+	animate_enemy(table);
 	draw_minimap(table);
 	draw_raycasting(table);
 }

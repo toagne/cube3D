@@ -76,6 +76,8 @@ void			init_data(t_table *table);
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			ft_hook(void* param);
 void			ft_enemy(void *param);
+void			update_enemy_positions(t_table *table);
+void			set_image_instance_pos(mlx_instance_t *instance, int x, int y);
 
 // player_texture.
 int				insert_player_texture(t_table *table);

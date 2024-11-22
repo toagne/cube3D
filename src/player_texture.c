@@ -18,7 +18,7 @@ int animate_attack(t_table *table)
 
 	i = 0;
 	
-	if (table->frame_counter % 2 == 0)
+	if (table->frame_counter)
 	{
 		while (i < 30)
 		{
@@ -41,12 +41,18 @@ int animate_attack(t_table *table)
 	return (0);
 }
 
+void	set_image_instance_pos(mlx_instance_t *instance, int x, int y)
+{
+	instance->x = x;
+	instance->y = y;
+}
+
 int	animate_enemy(t_table *table)
 {
 	int	i;
 
 	i = 0;
-	if (table->frame_counter % 15 == 0)
+	if (table->frame_counter % 3 == 0)
 	{
 		while (i < 5)
 		{
@@ -67,12 +73,6 @@ int	animate_enemy(t_table *table)
 	}
 	return (0);
 	
-}
-
-void	set_image_instance_pos(mlx_instance_t *instance, int x, int y)
-{
-	instance->x = x;
-	instance->y = y;
 }
 
 int	insert_enemy_images(t_table *table)
