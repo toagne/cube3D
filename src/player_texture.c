@@ -82,18 +82,15 @@ int	insert_enemy_images(t_table *table)
 	int	base_y;
 	/// set position towards to player from the enemy position
 	i = 4;
-	base_x = table->width / 2 - 130;
-	base_y = table->height / 2 - 130;
+	base_x = table->width / 2;// - 130;
+	base_y = table->height / 2;// - 130;
 	while (i >= 0)
 	{
-		mlx_resize_image(table->e_img[i], 200 + (i * 10), 200 + (i * 10));
+		mlx_resize_image(table->e_img[i], 200 + (i * 20), 200 + (i * 20));
 		mlx_image_to_window(table->mlx_start, table->e_img[i], 0, 0);
-		printf("enemy depth = %d\n", table->e_img[i]->instances[0].z);
 		if (i != 0)
 			table->e_img[i]->instances[0].enabled = false;
 		set_image_instance_pos(&table->e_img[i]->instances[0], base_x, base_y - (i * 2));
-		printf("enemy x = %d\n", table->e_img[i]->instances[0].x);
-		printf("enemy y = %d\n", table->e_img[i]->instances[0].y);
 		--i;
 	}
 	return (0);
