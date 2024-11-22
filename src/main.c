@@ -18,9 +18,11 @@ int	main (int argc, char **argv)
 
 	(void) argc;
 	(void) argv;
+	ft_memset(&table, 0, sizeof(table));
+	table.enemy_attack = 0;
 	if (argc != 2)
 	{
-		write (2, "wrong input\n", 12);
+		//write (2, "wrong input\n", 12);
 		exit(EXIT_FAILURE);
 	}
 	// check that argc 1 is a file that can be opened and read and ends with .cub
@@ -41,6 +43,43 @@ int	main (int argc, char **argv)
 	convert_texture(&table.so_texture, &table.so_texture_colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture_colors, "pngs/texture_es.png");
 	convert_texture(&table.ws_texture, &table.ws_texture_colors, "pngs/texture_ws.png");
+	table.p_img[0] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_0.png");
+	table.p_img[1] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_1.png");
+	table.p_img[2] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_2.png");
+	table.p_img[3] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_3.png");
+	table.p_img[4] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_4.png");
+	table.p_img[5] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_5.png");
+	table.p_img[6] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_6.png");
+	table.p_img[7] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_7.png");
+	table.p_img[8] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_8.png");
+	table.p_img[9] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_9.png");
+	table.p_img[10] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_10.png");
+	table.p_img[11] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_11.png");
+	table.p_img[12] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_12.png");
+	table.p_img[13] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_13.png");
+	table.p_img[14] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_14.png");
+	table.p_img[15] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_15.png");
+	table.p_img[16] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_16.png");
+	table.p_img[17] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_17.png");
+	table.p_img[18] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_18.png");
+	table.p_img[19] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_19.png");
+	table.p_img[20] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_20.png");
+	table.p_img[21] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_21.png");
+	table.p_img[22] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_22.png");
+	table.p_img[23] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_23.png");
+	table.p_img[24] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_24.png");
+	table.p_img[25] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_25.png");
+	table.p_img[26] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_26.png");
+	table.p_img[27] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_27.png");
+	table.p_img[28] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_28.png");
+	table.p_img[29] = load_image(table.mlx_start, "/home/omartela/hive-projects/cube3D/fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_29.png");
+	table.right_hand = load_image(table.mlx_start, "pngs/rigth_hand.png");
+	table.left_hand = load_image(table.mlx_start, "pngs/left_hand.png");
+	table.e_img[0] = load_image(table.mlx_start, "pngs/enemy-run-5.png");
+	table.e_img[1] = load_image(table.mlx_start, "pngs/enemy-run-1.png");
+	table.e_img[2] = load_image(table.mlx_start, "pngs/enemy-run-2.png");
+	table.e_img[3] = load_image(table.mlx_start, "pngs/enemy-run-3.png");
+	table.e_img[4] = load_image(table.mlx_start, "pngs/enemy-run-4.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.width, table.height); //to change
 	if (!table.mlx_2D)
 	{
@@ -51,7 +90,6 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
-
 	// ---how to scale a texture---
 	/*int h = 300;
 	int w = 300;
@@ -89,6 +127,9 @@ int	main (int argc, char **argv)
 	draw_raycasting(&table);
 	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);
+	insert_player_texture(&table);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
+	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
+	mlx_loop_hook(table.mlx_start, &ft_enemy, &table);
 	mlx_loop(table.mlx_start);
 }

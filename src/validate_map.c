@@ -57,6 +57,7 @@ static int	validate_map_chars(t_table *table)
 		{
 			if (!validate_map_char(table->map[row][col]))
 			{
+				//printf("%c \n", table->map[row][col]);
 				ft_error("Map has invalid characters");
 				return (0);
 			}

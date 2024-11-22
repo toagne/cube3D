@@ -78,12 +78,98 @@ int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y)
 	return (0);
 }
 
-void	ft_keyboard(mlx_key_data_t keydata, void *param)
+void	ft_enemy(void *param)
+{
+	t_table	*table;
+
+	table = (t_table *)param;
+	animate_enemy(table);
+}
+
+void ft_hook(void* param)
 {
 	t_table	*table;
 	//int	avoid_wall_collision;
 	int		new_x;
 	int		new_y;
+
+	table = (t_table *)param;
+
+	table->frame_counter += 1;
+	if (table->is_attacking)
+		animate_attack(table);
+	if (mlx_is_key_down(table->mlx_start, MLX_KEY_W))
+	{
+		new_x = table->player_x + table->player_delta_x * 5;
+		new_y = table->player_y + table->player_delta_y * 5;
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+		//if (table->map[mpy][mpxcw] != '1')
+			table->player_x = new_x;
+		//if (table->map[mpycw][mpx] != '1')
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+			table->player_y = new_y;
+	}
+	if (mlx_is_key_down(table->mlx_start, MLX_KEY_S))
+	{
+		new_x = table->player_x - table->player_delta_x * 5;
+		new_y = table->player_y - table->player_delta_y * 5;
+		//if (table->map[mpy][mpxcs] != '1')
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+			table->player_x = new_x;
+		//if (table->map[mpycs][mpx] != '1')
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+			table->player_y = new_y;
+	}
+	if (mlx_is_key_down(table->mlx_start, MLX_KEY_D))
+	{
+		new_x = table->player_x + table->player_delta_x_ad * 5;
+		new_y = table->player_y + table->player_delta_y_ad * 5;
+		//if (table->map[mpy][mpxcd] != '1')
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+			table->player_x = new_x;
+		//if (table->map[mpycd][mpx] != '1')
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+			table->player_y  = new_y;
+	}
+	if (mlx_is_key_down(table->mlx_start, MLX_KEY_A))
+	{
+		new_x = table->player_x - table->player_delta_x_ad * 5;
+		new_y = table->player_y - table->player_delta_y_ad * 5;
+		//if (table->map[mpy][mpxca] != '1')
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+			table->player_x = new_x;
+		//if (table->map[mpyca][mpx] != '1')
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+			table->player_y = new_y;
+	}
+	if (mlx_is_key_down(table->mlx_start, MLX_KEY_LEFT))
+	{
+		table->player_angle -= 10;
+		if (table->player_angle < 0)
+			table->player_angle += 360;
+		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
+		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
+		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
+		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
+	}
+	if (mlx_is_key_down(table->mlx_start, MLX_KEY_RIGHT))
+	{
+		table->player_angle += 10;
+		if (table->player_angle > 359)
+			table->player_angle -= 360;
+		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
+		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
+		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
+		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
+	}
+	draw_minimap(table);
+	draw_raycasting(table);
+}
+
+void	ft_keyboard(mlx_key_data_t keydata, void *param)
+{
+	t_table	*table;
+	//int	avoid_wall_collision;
 
 	table = (t_table *)param;
 	
@@ -157,70 +243,8 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 		mlx_terminate(table->mlx_start);
 		exit (EXIT_SUCCESS);
 	}
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
+	else if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
 	{
-		new_x = table->player_x + table->player_delta_x * 5;
-		new_y = table->player_y + table->player_delta_y * 5;
-		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
-		//if (table->map[mpy][mpxcw] != '1')
-			table->player_x = new_x;
-		//if (table->map[mpycw][mpx] != '1')
-		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
-			table->player_y = new_y;
+		table->is_attacking = 1;
 	}
-	if (keydata.key == MLX_KEY_S && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		new_x = table->player_x - table->player_delta_x * 5;
-		new_y = table->player_y - table->player_delta_y * 5;
-		//if (table->map[mpy][mpxcs] != '1')
-		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
-			table->player_x = new_x;
-		//if (table->map[mpycs][mpx] != '1')
-		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
-			table->player_y = new_y;
-	}
-	if (keydata.key == MLX_KEY_D && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		new_x = table->player_x + table->player_delta_x_ad * 5;
-		new_y = table->player_y + table->player_delta_y_ad * 5;
-		//if (table->map[mpy][mpxcd] != '1')
-		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
-			table->player_x = new_x;
-		//if (table->map[mpycd][mpx] != '1')
-		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
-			table->player_y  = new_y;
-	}
-	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		new_x = table->player_x - table->player_delta_x_ad * 5;
-		new_y = table->player_y - table->player_delta_y_ad * 5;
-		//if (table->map[mpy][mpxca] != '1')
-		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
-			table->player_x = new_x;
-		//if (table->map[mpyca][mpx] != '1')
-		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
-			table->player_y = new_y;
-	}
-	if (keydata.key == MLX_KEY_LEFT && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		table->player_angle -= 10;
-		if (table->player_angle < 0)
-			table->player_angle += 360;
-		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
-		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
-		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
-		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
-	}
-	if (keydata.key == MLX_KEY_RIGHT && (keydata.action == MLX_REPEAT || keydata.action == MLX_PRESS))
-	{
-		table->player_angle += 10;
-		if (table->player_angle > 359)
-			table->player_angle -= 360;
-		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
-		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
-		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
-		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
-	}
-	draw_minimap(table);
-	draw_raycasting(table);
 }
