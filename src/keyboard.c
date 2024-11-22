@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 17:09:32 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:35:28 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_enemy(void *param)
 	t_table	*table;
 
 	table = (t_table *)param;
-	animate_enemy(table);
+	//animate_enemy(table);
 }
 
 void ft_hook(void* param)
@@ -92,9 +92,10 @@ void ft_hook(void* param)
 	//int	avoid_wall_collision;
 	int		new_x;
 	int		new_y;
+	int		flag;
 
 	table = (t_table *)param;
-
+	flag = 0;
 	table->frame_counter += 1;
 	if (table->is_attacking)
 		animate_attack(table);
@@ -108,6 +109,7 @@ void ft_hook(void* param)
 		//if (table->map[mpycw][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
 			table->player_y = new_y;
+		flag = 1;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_S))
 	{
@@ -119,6 +121,7 @@ void ft_hook(void* param)
 		//if (table->map[mpycs][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
 			table->player_y = new_y;
+		flag = 1;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_D))
 	{
@@ -130,6 +133,7 @@ void ft_hook(void* param)
 		//if (table->map[mpycd][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
 			table->player_y  = new_y;
+		flag = 1;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_A))
 	{
@@ -141,6 +145,7 @@ void ft_hook(void* param)
 		//if (table->map[mpyca][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
 			table->player_y = new_y;
+		flag = 1;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_LEFT))
 	{
@@ -151,6 +156,7 @@ void ft_hook(void* param)
 		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
 		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
+		flag = 1;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_RIGHT))
 	{
@@ -161,9 +167,13 @@ void ft_hook(void* param)
 		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
 		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
+		flag = 1;
 	}
-	draw_minimap(table);
-	draw_raycasting(table);
+	if (flag == 1)
+	{
+		draw_minimap(table);
+		draw_raycasting(table);
+	}
 }
 
 void	ft_keyboard(mlx_key_data_t keydata, void *param)

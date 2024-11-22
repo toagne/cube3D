@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/21 14:40:34 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:37:37 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,4 +371,32 @@ void	draw_raycasting(t_table *table)
 	}
 	//mlx_image_to_window(table->mlx_start, table->mlx_3D, 0, 0);
 	//mlx_image_to_window(table->mlx_start, table->mlx_2D, 0, 0);
+
+// -----------------------------------------------------------------------------
+	mlx_texture_t	*enemy;
+	uint32_t		**enemy_colors;
+	convert_texture(&enemy, &enemy_colors, "pngs/enemy-run-1.png");
+	
+	int tex_x0_2d = 100;
+	int tex_dx = table->player_x - tex_x0_2d;
+	int	tex_dx_3d = table->width * tex_dx / (T_SIZE * table->columns);
+	int tex_x0_3d = (table->width / 2) - tex_dx_3d;
+	size_t a, b, a1, b1;
+	
+	printf("window width = %d\n", table->width);
+	printf("x = %f	delta_x = %f\n", table->player_x, table->player_delta_x_ad * 5);
+	printf("tx pos = %d	tx delta x = %d	tx delta x in 3d = %d	new_x_in_3d = %d\n", tex_x0_2d, tex_dx, tex_dx_3d, tex_x0_3d);
+
+	a1 = 1000;
+	a = -1;
+	while (++a < enemy->height)
+	{
+		b = -1;
+		b1 = tex_x0_3d;
+		while (++b < enemy->width)
+		{
+			if (enemy_colors[a][b] != 0x0008FFFF) // not working
+				mlx_put_pixel(table->mlx_3D, b + b1, a + a1, enemy_colors[a][b]);
+		}
+	}
 }
