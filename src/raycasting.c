@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/21 14:40:34 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/24 11:45:47 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,92 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color)
 		}
 	}
 }
+void render_sprite(t_table *table, float *depth_buffer)
+{
+	mlx_texture_t	*enemy_texture;
+	uint32_t		**enemy_texture_colors;
+	convert_texture(&enemy_texture, &enemy_texture_colors, "pngs/enemy.png");
+    // Sprite position
+    float sprite_x = 100; // Example sprite position
+    float sprite_y = 100;
+	
+	int y1 = 100 / 4 - 1;
+	while (y1++ < 100 / 4 + 1)
+	{
+		int x1 = 100 / 4 - 1;
+		while (x1++ < 100 / 4 + 1)
+			mlx_put_pixel(table->mlx_2D, x1, y1, 0xFF0000FF);
+	}
+
+    // Compute sprite's position relative to the player
+    float sprite_dx = sprite_x - table->player_x;
+    float sprite_dy = sprite_y - table->player_y;
+    float sprite_dist = sqrt(sprite_dx * sprite_dx + sprite_dy * sprite_dy);
+
+	printf("%f	%f\n", sprite_dx, sprite_dy);
+    // Compute angle to the sprite
+    float sprite_angle = atan2(sprite_dy, sprite_dx) * 180 / PI;
+	printf("%f	%f\n", table->player_x, table->player_y);
+	printf("%f\n", sprite_angle);
+    if (sprite_angle < 0)
+        sprite_angle += 360;
+
+	printf("%f\n", sprite_angle);
+
+    // Calculate angle difference between sprite and player direction
+    float angle_diff = sprite_angle - table->player_angle;
+	printf("%f\n", angle_diff);
+    if (angle_diff > 180)
+        angle_diff -= 360;
+    if (angle_diff < -180)
+        angle_diff += 360;
+	printf("%f\n", angle_diff);
+
+    // Check if sprite is within the FOV
+    if (fabs(angle_diff) < 30)
+    {
+        // Calculate sprite screen position and size
+        float sprite_screen_x = (angle_diff + 30) * table->width / 60;
+        float sprite_screen_size = T_SIZE * table->height / sprite_dist;
+
+        int sprite_draw_start_x = sprite_screen_x - sprite_screen_size / 2;
+        int sprite_draw_end_x = sprite_screen_x + sprite_screen_size / 2;
+        int sprite_draw_start_y = table->height / 2 - sprite_screen_size / 2;
+        int sprite_draw_end_y = table->height / 2 + sprite_screen_size / 2;
+
+        // Clipping
+        if (sprite_draw_start_x < 0) sprite_draw_start_x = 0;
+        if (sprite_draw_end_x >= table->width) sprite_draw_end_x = table->width - 1;
+        if (sprite_draw_start_y < 0) sprite_draw_start_y = 0;
+        if (sprite_draw_end_y >= table->height) sprite_draw_end_y = table->height - 1;
+
+		//printf("%d	%d\n", sprite_draw_start_x, sprite_draw_end_x);
+		//printf("%d	%d\n", sprite_draw_start_y, sprite_draw_end_y);
+		
+        // Render the sprite column by column
+        for (int x = sprite_draw_start_x; x <= sprite_draw_end_x; x++)
+        {
+            // Depth check to ensure the sprite is in front of walls
+            depth_buffer[x] = 0;
+			//if (sprite_dist < depth_buffer[x]) // find a way to check if enemy is behid walls
+            //{
+                for (int y = sprite_draw_start_y; y <= sprite_draw_end_y; y++)
+                {
+                    int tex_x = (x - sprite_draw_start_x) * (enemy_texture->width - 1) / sprite_screen_size;
+                    int tex_y = (y - sprite_draw_start_y) * (enemy_texture->height - 1) / sprite_screen_size;
+
+					//printf("%d	%d\n", tex_x, tex_y);
+
+                    uint32_t color = enemy_texture_colors[tex_y][tex_x];
+                    if ((color & 0xFF000000) != 0) // Skip transparent pixels
+                    {
+                        mlx_put_pixel(table->mlx_3D, x, y, color);
+                    }
+                }
+            //}
+        }
+    }
+}
 
 void	draw_raycasting(t_table *table)
 {
@@ -61,6 +147,7 @@ void	draw_raycasting(t_table *table)
 	//printf("\nplayer angle = %f\n", table->player_angle);
 	//printf("player angle - 30 = %f\n", pa);
 	int r = -1;
+	float depth_buffer[table->width];
 	while (++r < n_of_rays)
 	{
 		if (pa > 359)
@@ -186,7 +273,7 @@ void	draw_raycasting(t_table *table)
 		//printf("ray %d, final vector = %f\n", r, fv);
 
 		//printf("fx = %f	fy = %f\n", fx, fy);
-		//draw_line(table->mlx_2D, table->player_x + 1000, table->player_y, fx + 1000, fy, 0xFFFF00FF);
+		draw_line(table->mlx_2D, table->player_x / 4, table->player_y / 4, fx / 4, fy / 4, 0xFFFF00FF);
 
 		// comment this out
 		int minimap_size = fmin(table->width / 4, table->height / 4);
@@ -235,7 +322,8 @@ void	draw_raycasting(t_table *table)
 		// printf("player x%f	player y%f\n", table->player_x, table->player_y);
 		// printf("rx1 = %d	ry1 = %d\n", rx1, ry1);
 		// printf("angle = %f\n", pa);
-		draw_line(table->mlx_2D, table->player_x - vpx0, table->player_y - vpy0, rx1, ry1, 0xFFFF00FF);
+		
+		//draw_line(table->mlx_2D, table->player_x - vpx0, table->player_y - vpy0, rx1, ry1, 0xFFFF00FF);
 
 		uint32_t	**tx_color;
 
@@ -367,8 +455,10 @@ void	draw_raycasting(t_table *table)
 			//tx += tx_horizntal_step;
 			i++;
 		}
+		depth_buffer[r] = fv;
 		pa = pa + ((float)60 / n_of_rays);
 	}
+	render_sprite(table, depth_buffer);
 	//mlx_image_to_window(table->mlx_start, table->mlx_3D, 0, 0);
 	//mlx_image_to_window(table->mlx_start, table->mlx_2D, 0, 0);
 }
