@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/24 11:45:47 by giuls            ###   ########.fr       */
+/*   Updated: 2024/11/24 12:53:01 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ void render_sprite(t_table *table, float *depth_buffer)
     float sprite_x = 100; // Example sprite position
     float sprite_y = 100;
 	
-	int y1 = 100 / 4 - 1;
-	while (y1++ < 100 / 4 + 1)
+	int y1 = 100 / 4 - 2;
+	while (y1++ < 100 / 4 + 2)
 	{
-		int x1 = 100 / 4 - 1;
-		while (x1++ < 100 / 4 + 1)
+		int x1 = 100 / 4 - 2;
+		while (x1++ < 100 / 4 + 2)
 			mlx_put_pixel(table->mlx_2D, x1, y1, 0xFF0000FF);
 	}
 
@@ -75,19 +75,19 @@ void render_sprite(t_table *table, float *depth_buffer)
     float sprite_dy = sprite_y - table->player_y;
     float sprite_dist = sqrt(sprite_dx * sprite_dx + sprite_dy * sprite_dy);
 
-	printf("%f	%f\n", sprite_dx, sprite_dy);
+	//printf("%f	%f\n", sprite_dx, sprite_dy);
     // Compute angle to the sprite
     float sprite_angle = atan2(sprite_dy, sprite_dx) * 180 / PI;
-	printf("%f	%f\n", table->player_x, table->player_y);
-	printf("%f\n", sprite_angle);
+	//printf("%f	%f\n", table->player_x, table->player_y);
+	//printf("%f\n", sprite_angle);
     if (sprite_angle < 0)
         sprite_angle += 360;
 
-	printf("%f\n", sprite_angle);
+	//printf("%f\n", sprite_angle);
 
     // Calculate angle difference between sprite and player direction
     float angle_diff = sprite_angle - table->player_angle;
-	printf("%f\n", angle_diff);
+	//printf("%f\n", angle_diff);
     if (angle_diff > 180)
         angle_diff -= 360;
     if (angle_diff < -180)
@@ -99,15 +99,23 @@ void render_sprite(t_table *table, float *depth_buffer)
     {
         // Calculate sprite screen position and size
         float sprite_screen_x = (angle_diff + 30) * table->width / 60;
+		//printf("screen x = %f\n", sprite_screen_x);
         float sprite_screen_size = T_SIZE * table->height / sprite_dist;
 
         int sprite_draw_start_x = sprite_screen_x - sprite_screen_size / 2;
         int sprite_draw_end_x = sprite_screen_x + sprite_screen_size / 2;
+		//printf("start x = %d	end x = %d\n", sprite_draw_start_x, sprite_draw_end_x);
         int sprite_draw_start_y = table->height / 2 - sprite_screen_size / 2;
         int sprite_draw_end_y = table->height / 2 + sprite_screen_size / 2;
 
         // Clipping
-        if (sprite_draw_start_x < 0) sprite_draw_start_x = 0;
+        int tex_start_x = 0;
+
+		if (sprite_draw_start_x < 0)
+		{
+			tex_start_x = -sprite_draw_start_x * enemy_texture->width / sprite_screen_size;
+			sprite_draw_start_x = 0;
+		}
         if (sprite_draw_end_x >= table->width) sprite_draw_end_x = table->width - 1;
         if (sprite_draw_start_y < 0) sprite_draw_start_y = 0;
         if (sprite_draw_end_y >= table->height) sprite_draw_end_y = table->height - 1;
@@ -122,9 +130,10 @@ void render_sprite(t_table *table, float *depth_buffer)
             depth_buffer[x] = 0;
 			//if (sprite_dist < depth_buffer[x]) // find a way to check if enemy is behid walls
             //{
+			int tex_x = ((x - sprite_draw_start_x) * enemy_texture->width) / sprite_screen_size + tex_start_x;
                 for (int y = sprite_draw_start_y; y <= sprite_draw_end_y; y++)
                 {
-                    int tex_x = (x - sprite_draw_start_x) * (enemy_texture->width - 1) / sprite_screen_size;
+                    //int tex_x = (x - sprite_draw_start_x) * (enemy_texture->width - 1) / sprite_screen_size;
                     int tex_y = (y - sprite_draw_start_y) * (enemy_texture->height - 1) / sprite_screen_size;
 
 					//printf("%d	%d\n", tex_x, tex_y);
