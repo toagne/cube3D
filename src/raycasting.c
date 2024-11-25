@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/25 16:46:11 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/25 20:28:27 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,38 @@ void render_sprite(t_table *table, float *depth_buffer)
 		sprite_angle += 360;
 
 	printf("sprite angle = %f\n", sprite_angle);
+	
+	float half_width_angle = atan2(enemy_texture->width / 2, sprite_dist) * 180 / PI;
+
+    float sprite_left_angle = sprite_angle - half_width_angle;
+    float sprite_right_angle = sprite_angle + half_width_angle;
+
+    // Normalize angles to [0, 360)
+    if (sprite_left_angle < 0) sprite_left_angle += 360;
+    if (sprite_right_angle >= 360) sprite_right_angle -= 360;
+
+    // Calculate angle range within FOV
+    float player_fov_left = table->player_angle - 30;
+    float player_fov_right = table->player_angle + 30;
+
+    if (player_fov_left < 0) player_fov_left += 360;
+    if (player_fov_right >= 360) player_fov_right -= 360;
+
+    bool visible = false;
+    if (player_fov_left < player_fov_right)
+    {
+        // FOV does not wrap around 0 degrees
+        visible = (sprite_left_angle >= player_fov_left && sprite_left_angle <= player_fov_right) ||
+                  (sprite_right_angle >= player_fov_left && sprite_right_angle <= player_fov_right) ||
+                  (sprite_left_angle <= player_fov_left && sprite_right_angle >= player_fov_right);
+    }
+    else
+    {
+        // FOV wraps around 0 degrees
+        visible = (sprite_left_angle >= player_fov_left || sprite_left_angle <= player_fov_right) ||
+                  (sprite_right_angle >= player_fov_left || sprite_right_angle <= player_fov_right) ||
+                  (sprite_left_angle <= player_fov_left && sprite_right_angle >= player_fov_right);
+    }
 /*
 	// ********************************************************
 	float angle = deg_to_rad(sprite_angle);
@@ -215,6 +247,8 @@ void render_sprite(t_table *table, float *depth_buffer)
 	draw_line(table->mlx_2D, table->player_x / 2, table->player_y / 2, nesx / 2, nesy / 2, 0x00FF00FF);
 */
 
+	
+	/*
 	// Calculate angle difference between sprite and player direction
 	float angle_diff = sprite_angle - table->player_angle;
 	//printf("%f\n", angle_diff);
@@ -223,6 +257,7 @@ void render_sprite(t_table *table, float *depth_buffer)
 	if (angle_diff < -180)
 		angle_diff += 360;
 	printf("original angle diff = %f\n", angle_diff);
+	*/
 	/*
 	if (angle_diff < 0)
 	{
@@ -293,8 +328,9 @@ void render_sprite(t_table *table, float *depth_buffer)
 	
 
 	// Check if sprite is within the FOV
-	if (fabs(angle_diff) < 30)// && fv > sprite_dist)
+	if (visible)//fabs(angle_diff) < 30)// && fv > sprite_dist)
 	{
+		/*
 		// Calculate sprite screen position and size
 		float sprite_screen_x = (angle_diff + 30) * table->width / 60;
 		//printf("screen x = %f\n", sprite_screen_x);
@@ -302,6 +338,14 @@ void render_sprite(t_table *table, float *depth_buffer)
 
 		int sprite_draw_start_x = sprite_screen_x - sprite_screen_size / 2;
 		int sprite_draw_end_x = sprite_screen_x + sprite_screen_size / 2;
+		*/
+		float sprite_screen_size = T_SIZE * table->height / sprite_dist;
+
+        float sprite_screen_start_x = (sprite_left_angle - table->player_angle + 30) * table->width / 60;
+        float sprite_screen_end_x = (sprite_right_angle - table->player_angle + 30) * table->width / 60;
+
+        int sprite_draw_start_x = sprite_screen_start_x;
+        int sprite_draw_end_x = sprite_screen_end_x;
 		//printf("start x = %d	end x = %d\n", sprite_draw_start_x, sprite_draw_end_x);
 		int sprite_draw_start_y = table->height / 2 - sprite_screen_size / 2;
 		int sprite_draw_end_y = table->height / 2 + sprite_screen_size / 2;
