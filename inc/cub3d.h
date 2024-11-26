@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 17:13:07 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/26 17:30:03 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ typedef struct s_table
 	uint32_t		**so_texture_colors;
 	uint32_t		**es_texture_colors;
 	uint32_t		**ws_texture_colors;
+	int				sprite_x;
+	int				sprite_y;
+	int				x_aligned_flag;
+	int				y_stuck;
+	int				y_aligned_flag;
 }	t_table;
 
 void			init_data(t_table *table);
@@ -92,5 +97,7 @@ int	read_file(t_table *table);
 // free.c
 void	free_map(char **map, size_t i);
 void	free_table(char ***table);
+
+void ft_hook(void* param);
 
 #endif

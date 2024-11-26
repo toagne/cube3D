@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/21 14:40:05 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/26 17:25:16 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ int	main (int argc, char **argv)
 	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
+	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
 	mlx_loop(table.mlx_start);
 }
