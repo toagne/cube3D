@@ -14,18 +14,17 @@
 
 void animate_button(t_button *button)
 {
-	int	depth;
 	if (button->status == 1)
 	{
 		button->white->instances[0].enabled = true;
-		button->white->instances[0].enabled = false;
-		button->status = 0;
+		button->colored->instances[0].enabled = false;
+		//button->status = 0;
 	}
 	else if (button->status == 0)
 	{
 		button->colored->instances[0].enabled = true;
 		button->white->instances[0].enabled = false;
-		button->status = 1;
+		//button->status = 1;
 	}
 }
 

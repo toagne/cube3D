@@ -78,13 +78,13 @@ int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y)
 	return (0);
 }
 
-void	ft_enemy(void *param)
+/* void	ft_enemy(void *param)
 {
 	t_table	*table;
 
 	table = (t_table *)param;
 	//animate_enemy(table);
-}
+} */
 
 void update_enemy_pos(t_table *table)
 {
@@ -149,11 +149,13 @@ void ft_cursor(double xpos, double ypos, void *param)
 	&& ypos > table->play_button.white->instances[0].y && ypos < table->play_button.white->instances[0].y + 300)
 	{
 		animate_button(&table->play_button);
+		table->play_button.status = 0;
 	}
 	else if (table->play_button.status == 0)
 	{
 		printf("vaihda variii \n");
 		animate_button(&table->play_button);
+		table->play_button.status = 1;
 	}
 
 }
