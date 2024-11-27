@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/26 17:30:35 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:19:48 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int circle_rectangle_collision(int circle_x, int circle_y, int radius, int rect_
 }
 
 
-int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y)
+int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y, int boh_x, int boh_y, int radius)
 {
-	int	radius;
+	// int	radius;
 	//int new_x;
 	//int	new_y;
 	int	mpx;
@@ -42,11 +42,11 @@ int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y)
 	int	wall_y;
 	//int	offset;
 
-	radius = 20;// + T_SIZE / 2;
+	//radius = 20;// + T_SIZE / 2;
 	//new_x = table->player_x + table->player_delta_x * 5;
 	//new_y = table->player_y + table->player_delta_y * 5;
-	mpx = table->player_x / T_SIZE;
-	mpy = table->player_y / T_SIZE;
+	mpx = boh_x / T_SIZE;
+	mpy = boh_y / T_SIZE;
 	y = -1;
 	while (y <= 1)
 	{
@@ -118,11 +118,11 @@ void ft_hook(void* param)
 		render_flag = 1;
 		new_x = table->player_x + table->player_delta_x * 5;
 		new_y = table->player_y + table->player_delta_y * 5;
-		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 		//if (table->map[mpy][mpxcw] != '1')
 			table->player_x = new_x;
 		//if (table->map[mpycw][mpx] != '1')
-		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y = new_y;
 		table->x_aligned_flag = 0;
 	}
@@ -132,10 +132,10 @@ void ft_hook(void* param)
 		new_x = table->player_x - table->player_delta_x * 5;
 		new_y = table->player_y - table->player_delta_y * 5;
 		//if (table->map[mpy][mpxcs] != '1')
-		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
 		//if (table->map[mpycs][mpx] != '1')
-		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y = new_y;
 		table->x_aligned_flag = 0;
 	}
@@ -145,10 +145,10 @@ void ft_hook(void* param)
 		new_x = table->player_x + table->player_delta_x_ad * 5;
 		new_y = table->player_y + table->player_delta_y_ad * 5;
 		//if (table->map[mpy][mpxcd] != '1')
-		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
 		//if (table->map[mpycd][mpx] != '1')
-		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y  = new_y;
 		table->x_aligned_flag = 0;
 	}
@@ -158,10 +158,10 @@ void ft_hook(void* param)
 		new_x = table->player_x - table->player_delta_x_ad * 5;
 		new_y = table->player_y - table->player_delta_y_ad * 5;
 		//if (table->map[mpy][mpxca] != '1')
-		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
+		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
 		//if (table->map[mpyca][mpx] != '1')
-		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y))
+		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y = new_y;
 		table->x_aligned_flag = 0;
 	}
@@ -188,43 +188,69 @@ void ft_hook(void* param)
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
 	}
 	
-	int offset = 32;
-	int sprite_x_map = table->sprite_x / T_SIZE;
-	int sprite_y_map = table->sprite_y / T_SIZE;
-	int sprite_x_map_add = (table->sprite_x + offset) / T_SIZE;
-	int sprite_y_map_add = (table->sprite_y + offset) / T_SIZE;
-	int sprite_x_map_sub = (table->sprite_x - offset) / T_SIZE;
-	int sprite_y_map_sub = (table->sprite_y - offset) / T_SIZE;
-	//printf("%d	%d\n", sprite_x_map, sprite_y_map);
-	if (!table->x_aligned_flag && table->sprite_x < table->player_x && table->map[sprite_y_map][sprite_x_map_add] != '1')
-	{
-		table->sprite_x += 1;
-		render_flag = 1;
-	}
-	else if (!table->x_aligned_flag && table->sprite_x > table->player_x && table->map[sprite_y_map][sprite_x_map_sub] != '1')
-	{
-		table->sprite_x -= 1;
-		render_flag = 1;
-	}
-	if (table->sprite_y < table->player_y && table->map[sprite_y_map_add][sprite_x_map] != '1')
-	{
-		table->sprite_y += 1;
-		render_flag = 1;
-	}
-	if (table->sprite_y > table->player_y && table->map[sprite_y_map_sub][sprite_x_map] != '1')
-	{
-		table->sprite_y -= 1;
-		render_flag = 1;
-	}
+	// int offset = 32;
+	// int sprite_x_map = table->enemies[i].x / T_SIZE;
+	// int e_spawn_pos_y_map = table->enemies[i].y / T_SIZE;
+	// int sprite_x_map_add = (table->enemies[i].x + offset) / T_SIZE;
+	// int e_spawn_pos_y_map_add = (table->enemies[i].y + offset) / T_SIZE;
+	// int sprite_x_map_sub = (table->enemies[i].x - offset) / T_SIZE;
+	// int e_spawn_pos_y_map_sub = (table->enemies[i].y - offset) / T_SIZE;
+	//printf("%d	%d\n", sprite_x_map, e_spawn_pos_y_map);
 
-	if (table->sprite_x == table->player_x)
+	// if (table->enemies[i].x < table->player_x && table->enemies[i].y < table->player_y && table->map[e_spawn_pos_y_map_add][sprite_x_map_add] != '1' && table->map[e_spawn_pos_y_map_sub][sprite_x_map_add] != '1' && table->map[e_spawn_pos_y_map][sprite_x_map_add] != '1') // down - right
+	// {
+	// 	table->enemies[i].x += 1;
+	// 	table->enemies[i].y += 1;
+	// 	render_flag = 1;
+	// }
+	// else if (table->enemies[i].x < table->player_x && table->enemies[i].y > table->player_y && table->map[e_spawn_pos_y_map_sub][sprite_x_map_add] != '1' && table->map[e_spawn_pos_y_map_add][sprite_x_map_add] != '1') // up - right
+	// {
+	// 	table->enemies[i].x += 1;
+	// 	table->enemies[i].y -= 1;
+	// 	render_flag = 1;
+	// }
+	// else if (table->enemies[i].x > table->player_x && table->enemies[i].y < table->player_y && table->map[e_spawn_pos_y_map_add][sprite_x_map_sub] != '1') // down - left
+	// {
+	// 	table->enemies[i].x -= 1;
+	// 	table->enemies[i].y += 1;
+	// 	render_flag = 1;
+	// }
+	// else if (table->enemies[i].x > table->player_x && table->enemies[i].y > table->player_y && table->map[e_spawn_pos_y_map_sub][sprite_x_map_sub] != '1') // up - left
+	// {
+	// 	table->enemies[i].x -= 1;
+	// 	table->enemies[i].y -= 1;
+	// 	render_flag = 1;
+	// }
+	// else if (table->enemies[i].x < table->player_x && table->map[e_spawn_pos_y_map][sprite_x_map_add] != '1') // right
+	// {
+	// 	table->enemies[i].x += 1;
+	// 	render_flag = 1;
+	// }
+	// else if (table->enemies[i].x > table->player_x && table->map[e_spawn_pos_y_map][sprite_x_map_sub] != '1') // left
+	// {
+	// 	table->enemies[i].x -= 1;
+	// 	render_flag = 1;
+	// }
+	// else if (table->enemies[i].y < table->player_y && table->map[e_spawn_pos_y_map_add][sprite_x_map] != '1') // down
+	// {
+	// 	table->enemies[i].y += 1;
+	// 	render_flag = 1;
+	// }
+	// else if (table->enemies[i].y > table->player_y && table->map[e_spawn_pos_y_map_sub][sprite_x_map] != '1') // up
+	// {
+	// 	table->enemies[i].y -= 1;
+	// 	render_flag = 1;
+	// }
+
+/*
+	if (table->enemies[i].x == table->player_x)
 		table->x_aligned_flag = 1;
 	// printf("%d \n", table->x_aligned_flag);
-	// printf("2d map down = %c\n", table->map[sprite_y_map_add][sprite_x_map]);
-	// printf("2d map up = %c\n", table->map[sprite_y_map_sub][sprite_x_map]);
+	// printf("2d map down = %c\n", table->map[e_spawn_pos_y_map_add][sprite_x_map]);
+	// printf("2d map up = %c\n", table->map[e_spawn_pos_y_map_sub][sprite_x_map]);
 	if (table->x_aligned_flag == 1 && table->y_stuck)
 	{
-		if (table->map[sprite_y_map][sprite_x_map_add] == '1')
+		if (table->map[e_spawn_pos_y_map][sprite_x_map_add] == '1')
 		{
 			table->x_aligned_flag = 0;
 			table->y_stuck = 0;
@@ -232,17 +258,76 @@ void ft_hook(void* param)
 	}
 	if (table->x_aligned_flag == 1)
 	{
-		if (table->map[sprite_y_map_add][sprite_x_map] == '1' || table->map[sprite_y_map_sub][sprite_x_map] == '1')
+		if (table->map[e_spawn_pos_y_map_add][sprite_x_map] == '1' || table->map[e_spawn_pos_y_map_sub][sprite_x_map] == '1')
 		{
 			table->y_stuck = 1;
-			table->sprite_x -= 1;
+			table->enemies[i].x -= 1;
 			render_flag = 1;
 		}
-		/* if (table->map[sprite_y_map][sprite_x_map_add] == '1')
+		// if (table->map[e_spawn_pos_y_map][sprite_x_map_add] == '1')
+		// {
+		// 	table->x_aligned_flag = 0;
+		// 	table->y_stuck = 0;
+		// } 
+	}
+	*/
+	int i = -1;
+	while (i < N_ENEMIES)
+	{
+		int move_x = 0;
+		int move_y = 0;
+
+		render_flag = 1;
+		if (table->enemies[i].x < table->player_x)
+			move_x = 1;
+		else if (table->enemies[i].x > table->player_x)
+			move_x = -1;
+		// else
+			// new_x = table->enemies[i].x;
+		if (table->enemies[i].y < table->player_y)
+			move_y = 1;
+		else if (table->enemies[i].y> table->player_y)
+			move_y = -1;
+		// else
+			// new_y = table->enemies[i].y;
+		
+		new_x = table->enemies[i].x + move_x;
+		new_y = table->enemies[i].y + move_y;
+
+		int r;
+
+		if (new_x != table->enemies[i].x && new_y != table->enemies[i].y)
+			r = 25 * sqrt(2);
+		else
+			r = 25;
+
+		if (!wall_collision_w_circular_bumper(table, new_x, new_y, table->enemies[i].x, table->enemies[i].y, r))
 		{
-			table->x_aligned_flag = 0;
-			table->y_stuck = 0;
-		} */
+			// printf("normal\n");
+			table->enemies[i].x = new_x;
+			table->enemies[i].y = new_y;
+			render_flag = 1;
+		}
+		else
+		{
+				if (!wall_collision_w_circular_bumper(table, table->enemies[i].x, new_y, table->enemies[i].x, table->enemies[i].y, 25))
+				{
+					// printf("vertical\n");
+					table->enemies[i].y = new_y;
+					render_flag = 1;
+				}
+				else if (!wall_collision_w_circular_bumper(table, new_x, table->enemies[i].y, table->enemies[i].x, table->enemies[i].y, 25))
+				{
+					// printf("horizontal\n");
+					table->enemies[i].x = new_x;
+					render_flag = 1;
+				}
+				// else
+					// printf("blocked");
+		}
+		// printf("player x = %f	player y = %f\n", table->player_x, table->player_y);
+		// printf("sprite x = %d	sprite y = %d\n\n", table->enemies[i].x, table->enemies[i].y);
+		++i;
 	}
 	if (render_flag == 1)
 	{

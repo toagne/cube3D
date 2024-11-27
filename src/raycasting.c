@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/26 17:27:32 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:04:00 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,24 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color)
 		}
 	}
 }
-void render_sprite(t_table *table)
+
+void render_sprite(t_table *table, int i)
 {
 	mlx_texture_t	*enemy_texture;
 	uint32_t		**enemy_texture_colors;
 	convert_texture(&enemy_texture, &enemy_texture_colors, "pngs/enemy.png");
 	// Sprite position
-	float sprite_x = table->sprite_x; // Example sprite position
-	float sprite_y = table->sprite_y;
 
-	int y1 = sprite_y / 4 - 2;
-	while (y1++ < sprite_y / 4 + 2)
+	float sprite_x = table->enemies[i].x; // Example sprite position
+	float sprite_y = table->enemies[i].y;
+
+	//draw_circle(table->mlx_2D, sprite_x / 2, sprite_y / 2, 25 / 2, 0x00FF00FF);
+
+	int y1 = sprite_y / 2 - 2;
+	while (y1++ < sprite_y / 2 + 2)
 	{
-		int x1 = sprite_x / 4 - 2;
-		while (x1++ < sprite_x / 4 + 2)
+		int x1 = sprite_x / 2 - 2;
+		while (x1++ < sprite_x / 2 + 2)
 			mlx_put_pixel(table->mlx_2D, x1, y1, 0xFF0000FF);
 	}
 
@@ -532,7 +536,7 @@ void	draw_raycasting(t_table *table)
 		//printf("ray %d, final vector = %f\n", r, fv);
 
 		//printf("fx = %f	fy = %f\n", fx, fy);
-		draw_line(table->mlx_2D, table->player_x / 4, table->player_y / 4, fx / 4, fy / 4, 0xFFFF00FF);
+		draw_line(table->mlx_2D, table->player_x / 2, table->player_y / 2, fx / 2, fy / 2, 0xFFFF00FF);
 
 		// comment this out
 		int minimap_size = fmin(table->width / 4, table->height / 4);
@@ -716,7 +720,10 @@ void	draw_raycasting(t_table *table)
 		}
 		pa = pa + ((float)60 / n_of_rays);
 	}
-	render_sprite(table);
+	int i = -1;
+	while (++i < N_ENEMIES)
+		if (table->enemies[i].x != 0 && table->enemies[i].y != 0)
+			render_sprite(table, i);
 	//mlx_image_to_window(table->mlx_start, table->mlx_3D, 0, 0);
 	//mlx_image_to_window(table->mlx_start, table->mlx_2D, 0, 0);
 }
