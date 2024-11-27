@@ -147,6 +147,8 @@ void ft_cursor(double xpos, double ypos, void *param)
 	{
 		table->play_button.status = 0;
 		animate_button(&table->play_button);
+		if (mlx_is_mouse_down(table->mlx_start, MLX_MOUSE_BUTTON_LEFT))
+			table->main_menu_on = 0;
 	}
 	else
 	{
