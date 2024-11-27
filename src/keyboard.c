@@ -142,20 +142,27 @@ void ft_cursor(double xpos, double ypos, void *param)
 	(void)xpos;
 	(void)ypos;
 	table = (t_table *)param;
-	printf("mousex %f  mousey %f \n", xpos,ypos);
-	printf("play x %d play y %d \n", table->play_button.white->instances[0].x, table->play_button.white->instances[0].y);
-	printf("play button status %d \n", table->play_button.status);
-	if (xpos > table->play_button.white->instances[0].x && xpos < table->play_button.white->instances[0].x + 300 \
-	&& ypos > table->play_button.white->instances[0].y && ypos < table->play_button.white->instances[0].y + 300)
+	if (xpos > table->play_button.white->instances[0].x && xpos < table->play_button.white->instances[0].x + table->width / 6 \
+	&& ypos > table->play_button.white->instances[0].y && ypos < table->play_button.white->instances[0].y + table->height / 6)
 	{
-		animate_button(&table->play_button);
 		table->play_button.status = 0;
-	}
-	else if (table->play_button.status == 0)
-	{
-		printf("vaihda variii \n");
 		animate_button(&table->play_button);
+	}
+	else
+	{
 		table->play_button.status = 1;
+		animate_button(&table->play_button);
+	}
+	if (xpos > table->exit_button.white->instances[0].x && xpos < table->exit_button.white->instances[0].x + table->width / 6 \
+	&& ypos > table->exit_button.white->instances[0].y && ypos < table->exit_button.white->instances[0].y + table->height / 6)
+	{
+		table->exit_button.status = 0;
+		animate_button(&table->exit_button);
+	}
+	else
+	{
+		table->exit_button.status = 1;
+		animate_button(&table->exit_button);
 	}
 
 }
