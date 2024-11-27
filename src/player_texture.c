@@ -102,19 +102,19 @@ int	insert_fireball(t_table *table)
 	int base_x;
 	int base_y;
 
-	base_x = table->width / 2 - 150;
-	base_y = table->height - 250;
+	base_x = table->width / 2 - 893 / 2;
+	base_y = table->height - 893 / 2 - 150;
 
 	i = 0;
 	while (i < 30)
 	{
-		mlx_resize_image(table->p_img[i], 300 - (7 * table->p_anim_index), 300 - (7 * table->p_anim_index));
+		mlx_resize_image(table->p_img[i], 900 - (7 * table->p_anim_index), 900 - (7 * table->p_anim_index));
 		mlx_image_to_window(table->mlx_start, table->p_img[i], base_x, base_y);
 		printf("firebal depth %d \n", table->p_img[i]->instances[0].z);
 		//mlx_set_instance_depth(&table->p_img[i]->instances[0], 1);
 		if (i > 0)
 		{
-			set_image_instance_pos(&table->p_img[i]->instances[0], base_x, base_y - (i * 4));
+			set_image_instance_pos(&table->p_img[i]->instances[0], base_x, base_y - (i * 17));
 			table->p_img[i]->instances[0].enabled = false;
 		}
 		++i;

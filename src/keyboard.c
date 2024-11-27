@@ -238,7 +238,7 @@ void ft_hook(void* param)
 			--i;
 		}
 	}
-	animate_enemy(table);
+	//animate_enemy(table);
 	draw_minimap(table);
 	draw_raycasting(table);
 }
