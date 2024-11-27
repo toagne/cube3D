@@ -39,6 +39,7 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
+	main_menu(&table);
 	convert_texture(&table.no_texture, &table.no_texture_colors, "pngs/texture_no.png");
 	convert_texture(&table.so_texture, &table.so_texture_colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture_colors, "pngs/texture_es.png");
@@ -123,13 +124,17 @@ int	main (int argc, char **argv)
 			mlx_put_pixel(table.mlx_3D, x, y, table.es_texture_colors[y][x]);
 	}
 	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);*/
-	draw_minimap(&table);
-	draw_raycasting(&table);
-	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);
-	mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);
-	insert_player_texture(&table);
-	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
-	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
-	mlx_loop_hook(table.mlx_start, &ft_enemy, &table);
+	if (!table.main_menu_on)
+	{
+		draw_minimap(&table);
+		draw_raycasting(&table);
+		mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);
+		mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);
+		insert_player_texture(&table);
+		mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
+		mlx_loop_hook(table.mlx_start, &ft_hook, &table);
+		mlx_loop_hook(table.mlx_start, &ft_enemy, &table);
+	}
+	mlx_cursor_hook(table.mlx_start, &ft_cursor, &table);
 	mlx_loop(table.mlx_start);
 }

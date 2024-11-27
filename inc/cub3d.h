@@ -24,6 +24,13 @@
 # define PI 3.14159265358979323846
 # define T_SIZE 64
 
+typedef struct s_button
+{
+	mlx_image_t *colored;
+	mlx_image_t *white;
+	int			status;
+} t_button;
+
 typedef struct s_table
 {
 	mlx_t			*mlx_start;
@@ -70,6 +77,11 @@ typedef struct s_table
 	uint32_t		**so_texture_colors;
 	uint32_t		**es_texture_colors;
 	uint32_t		**ws_texture_colors;
+	int				main_menu_on;
+	int32_t			x_mouse;
+	int32_t			y_mouse;
+	t_button		play_button;
+	t_button		exit_button;
 }	t_table;
 
 void			init_data(t_table *table);
@@ -112,5 +124,10 @@ int	read_file(t_table *table);
 // free.c
 void	free_map(char **map, size_t i);
 void	free_table(char ***table);
+ 
+// main_menu
+void main_menu(t_table *table);
+void animate_button(t_button *button);
+void ft_cursor(double xpos, double ypos, void *param);
 
 #endif
