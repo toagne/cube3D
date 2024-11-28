@@ -128,6 +128,6 @@ void	free_table(char ***table);
 // main_menu
 void main_menu(t_table *table);
 void animate_button(t_button *button);
-void ft_cursor(double xpos, double ypos, void *param);
+void ft_mouse(void *param);
 
 #endif

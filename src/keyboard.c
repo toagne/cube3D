@@ -136,30 +136,38 @@ void update_enemy_pos(t_table *table)
 }
 
 
-void ft_cursor(double xpos, double ypos, void *param)
+void ft_mouse(void *param)
 {
 	t_table		*table;
-	(void)xpos;
-	(void)ypos;
 	table = (t_table *)param;
-	if (xpos > table->play_button.white->instances[0].x && xpos < table->play_button.white->instances[0].x + table->width / 6 \
-	&& ypos > table->play_button.white->instances[0].y && ypos < table->play_button.white->instances[0].y + table->height / 6)
+	mlx_get_mouse_pos(table->mlx_start, &table->x_mouse, &table->y_mouse);
+	if (table->main_menu_on == 0)
+		return ;
+	if (table->x_mouse > table->play_button.white->instances[0].x && table->x_mouse < table->play_button.white->instances[0].x + table->width / 6 \
+	&& table->y_mouse > table->play_button.white->instances[0].y && table->y_mouse < table->play_button.white->instances[0].y + table->height / 6)
 	{
 		table->play_button.status = 0;
 		animate_button(&table->play_button);
 		if (mlx_is_mouse_down(table->mlx_start, MLX_MOUSE_BUTTON_LEFT))
+		{	
 			table->main_menu_on = 0;
+		}
 	}
 	else
 	{
 		table->play_button.status = 1;
 		animate_button(&table->play_button);
 	}
-	if (xpos > table->exit_button.white->instances[0].x && xpos < table->exit_button.white->instances[0].x + table->width / 6 \
-	&& ypos > table->exit_button.white->instances[0].y && ypos < table->exit_button.white->instances[0].y + table->height / 6)
+	if (table->x_mouse > table->exit_button.white->instances[0].x && table->x_mouse < table->exit_button.white->instances[0].x + table->width / 6 \
+	&& table->y_mouse > table->exit_button.white->instances[0].y && table->y_mouse < table->exit_button.white->instances[0].y + table->height / 6)
 	{
 		table->exit_button.status = 0;
 		animate_button(&table->exit_button);
+		if (mlx_is_mouse_down(table->mlx_start, MLX_MOUSE_BUTTON_LEFT))
+		{
+			mlx_terminate(table->mlx_start);
+			exit (EXIT_SUCCESS);
+		}
 	}
 	else
 	{
@@ -177,7 +185,8 @@ void ft_hook(void* param)
 	int		new_y;
 
 	table = (t_table *)param;
-
+	if (table->main_menu_on)
+		return ;
 	table->frame_counter += 1;
 	if (table->is_attacking)
 		animate_attack(table);
@@ -207,12 +216,6 @@ void ft_hook(void* param)
 	{
 		new_x = table->player_x + table->player_delta_x_ad * 5;
 		new_y = table->player_y + table->player_delta_y_ad * 5;
-		int i = 4;
-		while (i >= 0)
-		{
-			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x -= 55, table->e_img[i]->instances[0].y);
-			--i;
-		}	
 		//if (table->map[mpy][mpxcd] != '1')
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
 			table->player_x = new_x;
@@ -225,12 +228,6 @@ void ft_hook(void* param)
 		new_x = table->player_x - table->player_delta_x_ad * 5;
 		new_y = table->player_y - table->player_delta_y_ad * 5;
 		//if (table->map[mpy][mpxca] != '1')
-		int i = 4;
-		while (i >= 0)
-		{
-			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x += 55, table->e_img[i]->instances[0].y);
-			--i;
-		}	
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y))
 			table->player_x = new_x;
 		//if (table->map[mpyca][mpx] != '1')
@@ -246,13 +243,6 @@ void ft_hook(void* param)
 		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
 		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
-		int	i;
-		i = 4;
-		while (i >= 0)
-		{
-			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x += 55, table->e_img[i]->instances[0].y);
-			--i;
-		}
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_RIGHT))
 	{
@@ -263,13 +253,6 @@ void ft_hook(void* param)
 		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
 		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
-		int	i;
-		i = 4;
-		while (i >= 0)
-		{
-			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x -= 55, table->e_img[i]->instances[0].y);
-			--i;
-		}
 	}
 	//animate_enemy(table);
 	draw_minimap(table);
@@ -353,7 +336,9 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 		mlx_terminate(table->mlx_start);
 		exit (EXIT_SUCCESS);
 	}
-	else if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+	if (table->main_menu_on)
+		return ;
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
 	{
 		table->is_attacking = 1;
 	}
