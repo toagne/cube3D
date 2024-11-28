@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 16:19:43 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:56:30 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -536,72 +536,81 @@ void	chose_shortest_ray(t_table *table)
 	else
 	{
 		table->ray.f_v = table->ray.v_v;
-		table->ray.f_x = table->ray.v_v;
-		table->ray.f_y = table->ray.v_v;
+		table->ray.f_x = table->ray.v_x;
+		table->ray.f_y = table->ray.v_y;
 	}
 }
 
+uint32_t	**select_texture(t_table *table)
+{
+	int			tile_x;
+	int			tile_y;
+	float 		dx;
+	float 		dy;
+	uint32_t	**tx_color;
+
+	tile_x = (int)(table->ray.f_x / T_SIZE) * T_SIZE;
+	tile_y = (int)(table->ray.f_y / T_SIZE) * T_SIZE;
+	dx = table->ray.f_x - tile_x;
+	dy = table->ray.f_y - tile_y;
+	if (dy > dx && dy > (T_SIZE - dx))
+		tx_color = table->no_texture.colors; // N
+	else if (dy < dx && dy < (T_SIZE - dx))
+		tx_color = table->so_texture.colors; // S
+	else if (dx <= dy && dx <= (T_SIZE - dy))
+		tx_color = table->ws_texture.colors; // W
+	else
+		tx_color = table->es_texture.colors; // E
+	return (tx_color);
+}
+
+// void	fix_fisheye(t_table *table, float ray_angle)
+// {
+// 	int	camera_angle;
+
+// 	camera_angle=(table->player_angle - ray_angle);
+// 	if (camera_angle > 359)
+// 		camera_angle -= 360;
+// 	if (camera_angle < 0)
+// 		camera_angle += 360;
+// 	table->ray.f_v = table->ray.f_v * cos(deg_to_rad(camera_angle));
+// }
+
+// void	get_wall_dimensions(t_table *table, float ray_angle)
+// {
+// 	int 	wall_h;
+// 	float	tx_vertical_step;
+// 	float	tx_v_offset;
+
+// 	fix_fisheye(table, ray_angle);
+// 	wall_h = T_SIZE * table->height / table->ray.f_v;
+// }
+
 void	draw_raycasting(t_table *table)
 {
-	float pa = table->player_angle - 30;
+	float ray_angle = table->player_angle - 30;
 	int n_of_rays = table->width / 2;
 	float angle;
 	//printf("\nplayer angle = %f\n", table->player_angle);
-	//printf("player angle - 30 = %f\n", pa);
+	//printf("player angle - 30 = %f\n", ray_angle);
 	int r = -1;
 	while (++r < n_of_rays)
 	{
-		if (pa > 359)
-			pa -= 360;
-		if (pa < 0)
-			pa += 360;
-		angle = deg_to_rad(pa);
-		// float sx, sy, dx, dy, vv, vh, hx, hy, vx, vy, fx, fy, fv;
-		// int mx, my;
-		float vv, vh, hx, hy, vx, vy, fx, fy, fv;
-		// ----vertical lines----
+		if (ray_angle > 359)
+			ray_angle -= 360;
+		if (ray_angle < 0)
+			ray_angle += 360;
+		angle = deg_to_rad(ray_angle);
+		float fx, fy, fv;
 		check_vertical_lines(table, angle);
-		vv = table->ray.v_v;
-		vx = table->ray.v_x;
-		vy = table->ray.v_y;
-		// ----horizontals lines----
 		check_horizontal_lines(table, angle);
-		vh = table->ray.h_v;
-		hx = table->ray.h_x;
-		hy = table->ray.h_y;
-		//printf("horizontal vector = %f\n", vh);
-		//uint32_t color;
-		if (vv > vh)
-		{
-			//printf("vh = %f\n", vh);
-			//printf("hx = %f; hy = %f\n", hx, hy);
-			fx  = hx;
-			fy = hy;
-			fv = vh;
-			//color = 0xFFFF00FF;
-			//draw_line(table->mlx_2D, table->player_x, table->player_y, hx, hy, 0xFFFF00FF);
-		}
-		else
-		{
-			//printf("vv = %f\n", vv);
-			//printf("vx = %f; vy = %f\n\n", vx, vy);
-			fx  = vx;
-			fy = vy;
-			fv = vv;
-			//color = 0xCCCC00FF;
-			//draw_line(table->mlx_2D, table->player_x, table->player_y, vx, vy, 0xFFFF00FF);
-		}
-		//printf("mx = %d\n", mx);
-		//printf("my = %d\n", my);
-		//printf("mp = %d\n", mp);
-		//printf("%c\n", table->map[mp]);
-		
-		//printf("ray %d, final vector = %f\n", r, fv);
-
-		//printf("fx = %f	fy = %f\n", fx, fy);
+		chose_shortest_ray(table);
+		fv = table->ray.f_v;
+		fx = table->ray.f_x;
+		fy = table->ray.f_y;
 		draw_line(table->mlx_2D, table->player_x / 2, table->player_y / 2, fx / 2, fy / 2, 0xFFFF00FF);
 
-		// comment this out
+		// for the minimap ---------------------------------------------------
 		int minimap_size = fmin(table->width / 4, table->height / 4);
 		// printf("minimap size = %d\n", minimap_size);
 		int vpx0 = (table->player_x - (minimap_size / 2));
@@ -621,7 +630,7 @@ void	draw_raycasting(t_table *table)
 		if (vpx1 < fx && (fx - vpx1) > (fy - vpy1) && (fx - vpx1) > (vpy0 - fy))
 		{
 			rx1 = vpx1;
-			if (pa == 0 || pa == 360)
+			if (ray_angle == 0 || ray_angle == 360)
 				ry1 = table->player_y;
 			else
 				ry1 = -(table->player_x - rx1) * tan(angle) + table->player_y;
@@ -629,7 +638,7 @@ void	draw_raycasting(t_table *table)
 		if (vpy0 > fy && (vpy0 - fy) > (vpx0 - fx) && (vpy0 - fy) > (fx - vpx1))
 		{
 			ry1 = vpy0;
-			if (pa == 270)
+			if (ray_angle == 270)
 				rx1 = table->player_x;
 			else
 				rx1 = -(table->player_y - ry1) / tan(angle) + table->player_x;
@@ -647,48 +656,23 @@ void	draw_raycasting(t_table *table)
 			ry1 -= 1;	
 		// printf("player x%f	player y%f\n", table->player_x, table->player_y);
 		// printf("rx1 = %d	ry1 = %d\n", rx1, ry1);
-		// printf("angle = %f\n", pa);
+		// printf("angle = %f\n", ray_angle);
 		
 		//draw_line(table->mlx_2D, table->player_x - vpx0, table->player_y - vpy0, rx1, ry1, 0xFFFF00FF);
 
+		// for the minimap ---------------------------------------------------
+
 		uint32_t	**tx_color;
+		tx_color = select_texture(table);
 
-		tx_color = NULL;
-
-		int tile_x, tile_y;
-		tile_x = (int)(fx / T_SIZE) * T_SIZE;
-		tile_y = (int)(fy / T_SIZE) * T_SIZE;
-		//printf("tile_x = %d	tile_y = %d\n", tile_x, tile_y);
-		//printf("fx = %f	fy = %f\n", fx, fy);
-
-		//printf("int fy = %d\n", (int)fy);
-		//printf("%d\n", tile_y + T_SIZE - 1);
-
-		//printf("int fx = %d\n", (int)fx);
-		//printf("%d\n", tile_x + T_SIZE);
-
-		float ndx = fx - tile_x;
-		float ndy = fy - tile_y;
-
-		//printf("ndx = %f	ndy = %f\n", ndx, ndy);
-
-		if (ndy > ndx && ndy > (T_SIZE - ndx))
-			tx_color = table->no_texture.colors; // N
-		else if (ndy < ndx && ndy < (T_SIZE - ndx))
-			tx_color = table->so_texture.colors; // S
-		else if (ndx <= ndy && ndx <= (T_SIZE - ndy))
-			tx_color = table->ws_texture.colors; // W
-		else
-			tx_color = table->es_texture.colors; // E
-
-		int ca=(table->player_angle - pa);
+		int ca=(table->player_angle - ray_angle);
 		if (ca > 359)
 			ca -= 360;
 		if (ca < 0)
 			ca += 360;
 		fv=fv*cos(deg_to_rad(ca));
 
-		//printf("\nvector %d angle = %f\n", r, pa);
+		//printf("\nvector %d angle = %f\n", r, ray_angle);
 		//printf("vextor %d = %f\n", r, fv);
 		int wall_h = T_SIZE * table->height / fv;
 		float tx_vertical_step = (float)table->es_texture.height / wall_h;
@@ -726,7 +710,7 @@ void	draw_raycasting(t_table *table)
 		//	printf("ray n = %d	wall h = %d	offset = %f	vertical step = %f	ty = %f\n", r, (int)(T_SIZE * 800 / fv), tx_v_offset, tx_vertical_step, ty);
 
 		float tx;
-		if (vv > vh)
+		if (table->ray.v_v > table->ray.h_v)
 		{
 			tx = ((int)fx % T_SIZE) * table->es_texture.width / T_SIZE;
 			if (table->player_angle < 180)
@@ -781,7 +765,7 @@ void	draw_raycasting(t_table *table)
 			//tx += tx_horizntal_step;
 			i++;
 		}
-		pa = pa + ((float)60 / n_of_rays);
+		ray_angle = ray_angle + ((float)60 / n_of_rays);
 	}
 	order_sprites(table);
 	int i = -1;
