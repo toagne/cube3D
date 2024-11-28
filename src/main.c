@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/22 16:36:18 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:21:40 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
+	init_enemies(&table);
 	convert_texture(&table.no_texture, &table.no_texture_colors, "pngs/texture_no.png");
 	convert_texture(&table.so_texture, &table.so_texture_colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture_colors, "pngs/texture_es.png");
@@ -129,6 +130,7 @@ int	main (int argc, char **argv)
 	mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);
 	insert_player_texture(&table);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
+	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
 	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
 	//mlx_loop_hook(table.mlx_start, &ft_enemy, &table);
 	mlx_loop(table.mlx_start);
