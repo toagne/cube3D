@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/19 17:13:07 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:58:09 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@
 
 # define PI 3.14159265358979323846
 # define T_SIZE 64
+# define N_ENEMIES 10
+
+typedef	struct	s_enemy
+{
+	int		x;
+	int		y;
+	float	dist;
+} t_enemy;
 
 typedef struct s_table
 {
@@ -70,6 +78,15 @@ typedef struct s_table
 	uint32_t		**so_texture_colors;
 	uint32_t		**es_texture_colors;
 	uint32_t		**ws_texture_colors;
+	int				sprite_x;
+	int				sprite_y;
+	int				x_aligned_flag;
+	int				y_stuck;
+	int				y_aligned_flag;
+	int				e_spawn_pos_x;
+	int				e_spawn_pos_y;
+	t_enemy			enemies[N_ENEMIES];
+	long			lcg_seed;
 }	t_table;
 
 void			init_data(t_table *table);
@@ -110,5 +127,11 @@ int	read_file(t_table *table);
 // free.c
 void	free_map(char **map, size_t i);
 void	free_table(char ***table);
+
+void ft_hook(void* param);
+
+void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color);
+
+void init_enemies(t_table *table);
 
 #endif
