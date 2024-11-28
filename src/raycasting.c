@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/27 17:04:00 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:56:24 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,9 +383,7 @@ void render_sprite(t_table *table, int i)
 
 					uint32_t color = enemy_texture_colors[tex_y][tex_x];
 					if ((color & 0xFF000000) != 0) // Skip transparent pixels
-					{
 						mlx_put_pixel(table->mlx_3D, x, y, color);
-					}
 				}
 			//}
 		}
@@ -403,6 +401,37 @@ void render_sprite(t_table *table, int i)
 // 		table->sprite_x += 5;
 // 	render_sprite(table);
 // }
+
+void	order_sprites(t_table *table)
+{
+	int	dx;
+	int dy;
+	int	i;
+	int j;
+	t_enemy temp;
+
+	i = -1;
+	while (++i < N_ENEMIES)
+	{
+		dx = table->enemies[i].x - table->player_x;
+		dy = table->enemies[i].x - table->player_x;
+		table->enemies[i].dist = sqrt((dx * dx) + (dy * dy));
+	}
+	i = -1;
+	while (++i < N_ENEMIES - 1)
+	{
+		j = -1;
+		while (++j < N_ENEMIES - i - 1)
+		{
+			if (table->enemies[j].dist < table->enemies[j + 1].dist)
+			{
+				temp = table->enemies[j];
+				table->enemies[j] = table->enemies[j + 1];
+				table->enemies[j + 1] = temp;
+			}
+		}
+	}
+}
 
 void	draw_raycasting(t_table *table)
 {
@@ -720,6 +749,7 @@ void	draw_raycasting(t_table *table)
 		}
 		pa = pa + ((float)60 / n_of_rays);
 	}
+	order_sprites(table);
 	int i = -1;
 	while (++i < N_ENEMIES)
 		if (table->enemies[i].x != 0 && table->enemies[i].y != 0)

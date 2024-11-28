@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:41:29 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/27 17:21:53 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:56:02 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,55 +84,59 @@ void init_enemies(t_table *table)
 	size_t	y;
 	int		limit;
 	int		i;
-	// int		flag;
+	int		flag;
 
 	x = 0;
 	y = 0;
 	limit = 0;
 	i = 0;
-	// flag = 0;
+	flag = 0;
 	// srand(time(NULL));
 	while (i < N_ENEMIES)
 	{
-		while (1)
+		limit = -1;
+		while (++limit < 20)
 		{
+			flag = 0;
 			// y = rand() % table->rows;
 			// x = rand() % table->columns;
 			y = my_rand(table) % table->columns;
 			x = my_rand(table) % table->rows;
 			// printf("y = %zu, x = %zu\n", y, x);
-			// int e_y = table->player_row - 2;
-			// // printf("e_y = %d\n", e_y);
-			// // printf("player row = %d\n", table->player_row);
-			// while (e_y < table->player_row + 2)
-			// {
-			// 	int e_x = table->player_col - 2;
-			// 	while (e_x < table->player_col + 2)
-			// 	{
-			// 		if (e_x == (int)x && e_y == (int)y)
-			// 			flag = 1;
-			// 		e_x++;
-			// 	}
-			// 	e_y++;
-			// }
-			if (table->map[y][x] == '0')// && !flag)
+			int e_y = table->player_row - 1;
+			int e_x = table->player_col - 1;
+			// printf("e_y = %d\n", e_y);
+			// printf("player row = %d\n", table->player_row);
+			while (e_y <= table->player_row + 1)
+			{
+				e_x = table->player_col - 1;
+				while (e_x <= table->player_col + 1)
+				{
+					// printf("y = %zu, x = %zu\n", y, x);
+					// printf("e_y = %d, e_x = %d\n\n", e_y, e_x);
+					if (e_x == (int)x && e_y == (int)y)
+					{
+						flag = 1;
+						break ;
+					}
+					e_x++;
+				}
+				e_y++;
+			}
+			if (table->map[y][x] == '0' && !flag)
 			{
 				// printf("spawn position found \n");
-				
-				table->e_spawn_pos_x = x * T_SIZE + T_SIZE/2;
-				table->e_spawn_pos_y = y * T_SIZE + T_SIZE/2;
-				table->enemies[i].x = x * T_SIZE + T_SIZE/2;
-				table->enemies[i].y = y * T_SIZE + T_SIZE/2;
+				table->e_spawn_pos_x = x * T_SIZE + T_SIZE / 2;
+				table->e_spawn_pos_y = y * T_SIZE + T_SIZE / 2;
+				table->enemies[i].x = x * T_SIZE + T_SIZE / 2;
+				table->enemies[i].y = y * T_SIZE + T_SIZE / 2;
+				// i++;
 				// printf("spawn y = %d, spawn x = %d\n", table->e_spawn_pos_y, table->e_spawn_pos_x);
 				break ;
 			}
-			if (limit == 20)
-			{
-				printf("No valid enemy spawn position found \n");
-				break ;
-			}
-			limit++;
 		}
+		if (limit == 20)
+			printf("No valid enemy spawn position found \n");
 		i++;
 	}
 }

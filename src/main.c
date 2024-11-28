@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/26 17:25:16 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 09:40:51 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
+	init_enemies(&table);
 	convert_texture(&table.no_texture, &table.no_texture_colors, "pngs/texture_no.png");
 	convert_texture(&table.so_texture, &table.so_texture_colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture_colors, "pngs/texture_es.png");

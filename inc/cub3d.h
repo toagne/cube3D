@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/27 17:24:02 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:58:09 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@
 
 typedef	struct	s_enemy
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	float	dist;
 } t_enemy;
 
 typedef struct s_table
