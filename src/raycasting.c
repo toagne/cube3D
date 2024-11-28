@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 11:19:43 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:19:43 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,9 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color)
 
 void render_sprite(t_table *table, int i)
 {
-	mlx_texture_t	*enemy_texture;
-	uint32_t		**enemy_texture_colors;
-	convert_texture(&enemy_texture, &enemy_texture_colors, "pngs/enemy.png");
+	t_texture	enemy_texture;
+	convert_texture(&enemy_texture, &enemy_texture.colors, "pngs/enemy.png");
 	// Sprite position
-
 	float sprite_x = table->enemies[i].x; // Example sprite position
 	float sprite_y = table->enemies[i].y;
 
@@ -89,7 +87,7 @@ void render_sprite(t_table *table, int i)
 
 	//printf("sprite angle = %f\n", sprite_angle);
 	
-	float half_width_angle = atan2(enemy_texture->width / 2, sprite_dist) * 180 / PI;
+	float half_width_angle = atan2(enemy_texture.width / 2, sprite_dist) * 180 / PI;
 
 	float sprite_left_angle = sprite_angle - half_width_angle;
 	float sprite_right_angle = sprite_angle + half_width_angle;
@@ -236,7 +234,7 @@ void render_sprite(t_table *table, int i)
 
 		if (sprite_draw_start_x < 0)
 		{
-			tex_start_x = -sprite_draw_start_x * enemy_texture->width / sprite_screen_size;
+			tex_start_x = -sprite_draw_start_x * enemy_texture.width / sprite_screen_size;
 			sprite_draw_start_x = 0;
 		}
 		// add condition if sprite in right side of screen
@@ -372,16 +370,16 @@ void render_sprite(t_table *table, int i)
 				continue;
 
 // -----------------------------------------------------------------------------------------
-			int tex_x = ((x - sprite_draw_start_x) * enemy_texture->width) / sprite_screen_size + tex_start_x;
+			int tex_x = ((x - sprite_draw_start_x) * enemy_texture.width) / sprite_screen_size + tex_start_x;
 			int y = sprite_draw_start_y - 1;
 				while (++y < sprite_draw_end_y)
 				{
 					//int tex_x = (x - sprite_draw_start_x) * (enemy_texture->width - 1) / sprite_screen_size;
-					int tex_y = (y - sprite_draw_start_y) * (enemy_texture->height - 1) / sprite_screen_size;
+					int tex_y = (y - sprite_draw_start_y) * (enemy_texture.height - 1) / sprite_screen_size;
 
 					//printf("%d	%d\n", tex_x, tex_y);
 
-					uint32_t color = enemy_texture_colors[tex_y][tex_x];
+					uint32_t color = enemy_texture.colors[tex_y][tex_x];
 					if ((color & 0xFF000000) != 0) // Skip transparent pixels
 						mlx_put_pixel(table->mlx_3D, x, y, color);
 				}
@@ -433,10 +431,121 @@ void	order_sprites(t_table *table)
 	}
 }
 
+void	get_final_values(t_table *table, char side, float side_tile_x, float side_tile_y)
+{
+	int		p_x;
+	int		p_y;
+
+	p_x = table->player_x;
+	p_y = table->player_y;
+	if (side == 'v')
+	{
+		table->ray.v_v = sqrt((p_x - side_tile_x) * (p_x - side_tile_x) + (p_y - side_tile_y) * (p_y - side_tile_y));
+		table->ray.v_x = side_tile_x;
+		table->ray.v_y = side_tile_y;
+	}
+	else if (side == 'h')
+	{
+		table->ray.h_v = sqrt((p_x - side_tile_x) * (p_x - side_tile_x) + (p_y - side_tile_y) * (p_y - side_tile_y));
+		table->ray.h_x = side_tile_x;
+		table->ray.h_y = side_tile_y;
+	}
+}
+
+void	check_if_wall(t_table *table, float step_x, float step_y, float side_tile_x, float side_tile_y, char side)
+{
+	int	map_x;
+	int map_y;
+
+	while (side_tile_x > 0 && side_tile_y > 0 && side_tile_x < T_SIZE * table->columns && side_tile_y < T_SIZE * table->rows)
+	{
+		map_x = side_tile_x / T_SIZE;
+		map_y = side_tile_y / T_SIZE;
+
+		if (table->map[map_y][map_x] == '1')
+			break;
+		else
+		{
+			side_tile_x+=step_x;
+			side_tile_y+=step_y;
+		}
+	}
+	get_final_values(table, side, side_tile_x, side_tile_y);
+}
+
+void	check_horizontal_lines(t_table *table, float angle)
+{
+	float	step_x;
+	float	step_y;
+	float	h_vector;
+	float	h_side_tile_x;
+	float	h_side_tile_y;
+
+	h_vector = 10000;
+	if (angle > 0 && angle < PI)
+	{
+		h_side_tile_y = (int)(table->player_y / T_SIZE) * T_SIZE + T_SIZE;
+		h_side_tile_x = -(table->player_y - h_side_tile_y) / tan(angle) + table->player_x;
+		step_y = T_SIZE;
+		step_x = T_SIZE / tan(angle);
+	}
+	else
+	{
+		h_side_tile_y = (int)(table->player_y / T_SIZE) * T_SIZE - 0.0001;
+		h_side_tile_x = -(table->player_y - h_side_tile_y) / tan(angle) + table->player_x;
+		step_y = -T_SIZE;
+		step_x = -(T_SIZE / tan(angle));
+	}
+	check_if_wall(table, step_x, step_y, h_side_tile_x, h_side_tile_y, 'h');
+}
+
+void	check_vertical_lines(t_table *table, float angle)
+{
+	float	step_x;
+	float	step_y;
+	float	v_vector;
+	float	v_side_tile_x;
+	float	v_side_tile_y;
+
+	v_vector = 10000;
+	if (angle > 3 *PI / 2 || angle < PI / 2)
+	{
+		v_side_tile_x = (int)(table->player_x / T_SIZE) * T_SIZE + T_SIZE;
+		v_side_tile_y = -(table->player_x - v_side_tile_x) * tan(angle) + table->player_y;
+		step_x = T_SIZE;
+		step_y = T_SIZE * tan(angle);
+	}
+	else
+	{
+		v_side_tile_x = (int)(table->player_x / T_SIZE) * T_SIZE - 0.0001;
+		v_side_tile_y = -(table->player_x - v_side_tile_x) * tan(angle) + table->player_y;
+		step_x = -T_SIZE;
+		step_y = -T_SIZE * tan(angle);
+	}
+	check_if_wall(table, step_x, step_y, v_side_tile_x, v_side_tile_y, 'v');
+}
+
+void	chose_shortest_ray(t_table *table)
+{
+	if (table->ray.v_v > table->ray.h_v)
+	{
+		table->ray.f_v = table->ray.h_v;
+		table->ray.f_x = table->ray.h_x;
+		table->ray.f_y = table->ray.h_y;
+	}
+	else
+	{
+		table->ray.f_v = table->ray.v_v;
+		table->ray.f_x = table->ray.v_v;
+		table->ray.f_y = table->ray.v_v;
+	}
+}
+
 void	draw_raycasting(t_table *table)
 {
 	float pa = table->player_angle - 30;
 	int n_of_rays = table->width / 2;
+	float angle;
 	//printf("\nplayer angle = %f\n", table->player_angle);
 	//printf("player angle - 30 = %f\n", pa);
 	int r = -1;
@@ -446,95 +555,20 @@ void	draw_raycasting(t_table *table)
 			pa -= 360;
 		if (pa < 0)
 			pa += 360;
-		float angle = deg_to_rad(pa);
-		float sx, sy, dx, dy, vv, vh, hx, hy, vx, vy, fx, fy, fv;
+		angle = deg_to_rad(pa);
+		// float sx, sy, dx, dy, vv, vh, hx, hy, vx, vy, fx, fy, fv;
+		// int mx, my;
+		float vv, vh, hx, hy, vx, vy, fx, fy, fv;
 		// ----vertical lines----
-		vv = 10000;
-		if (angle > 3 *PI / 2 || angle < PI / 2)
-		{
-			sx = (int)(table->player_x / T_SIZE) * T_SIZE + T_SIZE;
-			sy = -(table->player_x - sx) * tan(angle) + table->player_y;
-			dx = T_SIZE;
-			dy = T_SIZE * tan(angle);
-		}
-		else
-		{
-			sx = (int)(table->player_x / T_SIZE) * T_SIZE - 0.0001;
-			sy = -(table->player_x - sx) * tan(angle) + table->player_y;
-			dx = -T_SIZE;
-			dy = -T_SIZE * tan(angle);
-		}
-		//printf("----vertical lines----\nsx = %f\n", sx);
-		//printf("sy = %f\n", sy);
-		//printf("dx = %f\n", dx);
-		//printf("dy = %f\n", dy);
-		//printf("angle = %.0f\n", table->player_angle*180/PI);
-		int mx, my;
-		while (sx > 0 && sy > 0 && sx < T_SIZE * table->columns && sy < T_SIZE * table->rows) //check if need to add more conditins
-		{
-			mx = sx / T_SIZE;
-			my = sy / T_SIZE;
-			//printf("mx = %d\n", mx);
-			//printf("my = %d\n", my);
-			//printf("table->map[%d][%d] = %c\n", mx, my, table->map[mx][my]);
-			//printf("%c\n----vertical lines----\n\n", table->map[mp]);
-			if (table->map[my][mx] == '1')
-				break;
-			else
-			{
-				sx+=dx;
-				sy+=dy;
-			}
-		}
-		//printf("sx = %f\n", sx);
-		//printf("sy = %f\n", sy);
-		vv = sqrt((table->player_x - sx) * (table->player_x -  sx) + (table->player_y - sy) * (table->player_y - sy));
-		vx = sx;
-		vy = sy;
-		//printf("\nvertical vector = %f\n", vv);
+		check_vertical_lines(table, angle);
+		vv = table->ray.v_v;
+		vx = table->ray.v_x;
+		vy = table->ray.v_y;
 		// ----horizontals lines----
-		vh = 10000;
-		if (angle > 0 && angle < PI)
-		{
-			sy = (int)(table->player_y / T_SIZE) * T_SIZE + T_SIZE;
-			sx = -(table->player_y - sy) / tan(angle) + table->player_x;
-			dy = T_SIZE;
-			dx = T_SIZE / tan(angle);
-		}
-		else
-		{
-			sy = (int)(table->player_y / T_SIZE) * T_SIZE - 0.0001;
-			sx = -(table->player_y - sy) / tan(angle) + table->player_x;
-			dy = -T_SIZE;
-			dx = -(T_SIZE / tan(angle));
-		}
-		//printf("----horizontals lines----\nsx = %f\n", sx);
-		//printf("sy = %f\n", sy);
-		//printf("dx = %f\n", dx);
-		//printf("dy = %f\n", dy);
-		//printf("angle = %f\n", table->player_angle);
-		//int mx, my, mp;
-		while (sx > 0 && sy > 0 && sx < T_SIZE * table->columns && sy < T_SIZE * table->rows) //check if need to add more conditins
-		{
-			mx = sx / T_SIZE;
-			my = sy / T_SIZE;
-			//printf("mx = %d\n", mx);
-			//printf("my = %d\n", my);
-			//printf("table->map[%d][%d] = %c\n", mx, my, table->map[mx][my]);
-			//printf("----horizontals lines----\n\n");
-			if (table->map[my][mx] == '1')
-				break;
-			else
-			{
-				sx+=dx;
-				sy+=dy;
-			}
-		}
-		//printf("sy = %f\n", sy);
-		//printf("sx = %f\n", sx);
-		vh = sqrt((table->player_x - sx) * (table->player_x -  sx) + (table->player_y - sy) * (table->player_y - sy));
-		hx = sx;
-		hy = sy;
+		check_horizontal_lines(table, angle);
+		vh = table->ray.h_v;
+		hx = table->ray.h_x;
+		hy = table->ray.h_y;
 		//printf("horizontal vector = %f\n", vh);
 		//uint32_t color;
 		if (vv > vh)
@@ -639,13 +673,13 @@ void	draw_raycasting(t_table *table)
 		//printf("ndx = %f	ndy = %f\n", ndx, ndy);
 
 		if (ndy > ndx && ndy > (T_SIZE - ndx))
-			tx_color = table->no_texture_colors; // N
+			tx_color = table->no_texture.colors; // N
 		else if (ndy < ndx && ndy < (T_SIZE - ndx))
-			tx_color = table->so_texture_colors; // S
+			tx_color = table->so_texture.colors; // S
 		else if (ndx <= ndy && ndx <= (T_SIZE - ndy))
-			tx_color = table->ws_texture_colors; // W
+			tx_color = table->ws_texture.colors; // W
 		else
-			tx_color = table->es_texture_colors; // E
+			tx_color = table->es_texture.colors; // E
 
 		int ca=(table->player_angle - pa);
 		if (ca > 359)
@@ -657,7 +691,7 @@ void	draw_raycasting(t_table *table)
 		//printf("\nvector %d angle = %f\n", r, pa);
 		//printf("vextor %d = %f\n", r, fv);
 		int wall_h = T_SIZE * table->height / fv;
-		float tx_vertical_step = (float)table->es_texture->height / wall_h;
+		float tx_vertical_step = (float)table->es_texture.height / wall_h;
 		float tx_v_offset = 0;
 		//printf("wall h %d = %d\n", r, wall_h);
 		if (wall_h > table->height)
@@ -694,22 +728,22 @@ void	draw_raycasting(t_table *table)
 		float tx;
 		if (vv > vh)
 		{
-			tx = ((int)fx % T_SIZE) * table->es_texture->width / T_SIZE;
+			tx = ((int)fx % T_SIZE) * table->es_texture.width / T_SIZE;
 			if (table->player_angle < 180)
 			{
 				if (tx == 0)
-					tx = table->es_texture->width;
-				tx = table->es_texture->width - tx;
+					tx = table->es_texture.width;
+				tx = table->es_texture.width - tx;
 			}
 		}
 		else
 		{
-			tx = ((int)fy % T_SIZE) * table->es_texture->width / T_SIZE;
+			tx = ((int)fy % T_SIZE) * table->es_texture.width / T_SIZE;
 			if (table->player_angle > 90 && table->player_angle < 270)
 			{
 				if (tx == 0)
-					tx = table->es_texture->width;
-				tx = table->es_texture->width - tx;
+					tx = table->es_texture.width;
+				tx = table->es_texture.width - tx;
 			}
 		}
 			
@@ -731,8 +765,8 @@ void	draw_raycasting(t_table *table)
 			{
 				int tex_x = (int)tx;
 				int tex_y = (int)ty;
-				if (tex_y >= (int)table->es_texture->height)
-					tex_y = table->es_texture->height - 1;
+				if (tex_y >= (int)table->es_texture.height)
+					tex_y = table->es_texture.height - 1;
 				//printf("%08X\n", table->no_texture_colors[tex_y][tex_x]);
 				//printf("ty_int = %d\n", tex_y);
 				//printf("%d x %d\n", i, a);

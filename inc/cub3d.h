@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 10:58:09 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 14:28:47 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,27 @@ typedef	struct	s_enemy
 	int		y;
 	float	dist;
 } t_enemy;
+
+typedef	struct	s_ray
+{
+	float		v_x;
+	float		v_y;
+	float		v_v;
+	float		h_x;
+	float		h_y;
+	float		h_v;
+	float		f_x;
+	float		f_y;
+	float		f_v;
+} t_ray;
+
+typedef	struct	s_texture
+{
+	uint32_t	width;
+	uint32_t	height;
+	uint32_t	**colors;
+	
+} t_texture;
 
 typedef struct s_table
 {
@@ -70,14 +91,10 @@ typedef struct s_table
 	mlx_image_t		*e_img[5];
 	mlx_image_t		*left_hand;
 	mlx_image_t		*right_hand;
-	mlx_texture_t	*no_texture;
-	mlx_texture_t	*so_texture;
-	mlx_texture_t	*es_texture;
-	mlx_texture_t	*ws_texture;
-	uint32_t		**no_texture_colors;
-	uint32_t		**so_texture_colors;
-	uint32_t		**es_texture_colors;
-	uint32_t		**ws_texture_colors;
+	t_texture		no_texture;
+	t_texture		so_texture;
+	t_texture		es_texture;
+	t_texture		ws_texture;
 	int				sprite_x;
 	int				sprite_y;
 	int				x_aligned_flag;
@@ -87,6 +104,7 @@ typedef struct s_table
 	int				e_spawn_pos_y;
 	t_enemy			enemies[N_ENEMIES];
 	long			lcg_seed;
+	t_ray			ray;
 }	t_table;
 
 void			init_data(t_table *table);
@@ -113,7 +131,7 @@ int				validate_map(t_table *table);
 // load_images.c
 mlx_image_t 	*load_image(mlx_t *mlx, char *str);
 mlx_texture_t 	*load_texture(char *str);
-void			convert_texture(mlx_texture_t **tx, uint32_t ***tx_colors, char *str);
+void			convert_texture(t_texture *tx, uint32_t ***tx_colors, char *str);
 
 unsigned int	get_rgba(int r, int g, int b, int a);
 void			get_monitor_size(int *width, int *height);

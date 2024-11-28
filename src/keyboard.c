@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 11:23:49 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:41:29 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void ft_hook(void* param)
 
 	table = (t_table *)param;
 
-	// table->frame_counter += 1;
-	// if (table->is_attacking)
-	// 	animate_attack(table);
+	table->frame_counter += 1;
+	if (table->is_attacking)
+		animate_attack(table);
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_W))
 	{
 		render_flag = 1;
