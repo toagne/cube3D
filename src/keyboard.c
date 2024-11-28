@@ -78,63 +78,6 @@ int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y, int b
 	return (0);
 }
 
-/* void	ft_enemy(void *param)
-{
-	t_table	*table;
-
-	table = (t_table *)param;
-	//animate_enemy(table);
-} */
-
-void update_enemy_pos(t_table *table)
-{
-    // Enemy's map position
-    float enemy_x = 3.0; // Example map coordinate (tile position)
-    float enemy_y = 1.0; // Example map coordinate (tile position)
-
-    // Convert player's position from pixel space to map space
-    float player_map_x = table->player_x / T_SIZE;
-    float player_map_y = table->player_y / T_SIZE;
-
-    // Calculate the enemy's position relative to the player
-    float relative_x = enemy_x - player_map_x;
-    float relative_y = enemy_y - player_map_y;
-
-    printf("Relative Position: relative_x = %f, relative_y = %f\n", relative_x, relative_y);
-
-	float angle = deg_to_rad(table->player_angle);
-    // Rotate relative position by the player's view angle
-    float rotated_x = relative_x * cos(-angle) - relative_y * sin(-angle);
-    float rotated_y = relative_x * sin(-angle) + relative_y * cos(-angle);
-
-    printf("Rotated Position: rotated_x = %f, rotated_y = %f\n", rotated_x, rotated_y);
-
-    // Avoid division by zero
-    if (rotated_y <= 0.1f) {
-        printf("Enemy behind player or too close to avoid projection issues.\n");
-        return;
-    }
-
-    // Perspective projection to screen coordinates
-    int screen_x = (table->width / 2) + (int)((rotated_x / rotated_y) * 2);
-    int screen_y = (table->height / 2) - (int)(2 / rotated_y);
-
-    printf("Screen Position: screen_x = %d, screen_y = %d\n", screen_x, screen_y);
-
-    // Check if the enemy is out of bounds (not visible on screen)
-    if (screen_x < 0 || screen_x >= table->width || screen_y < 0 || screen_y >= table->height) {
-        printf("Enemy out of bounds, disabling rendering.\n");
-        return;
-    }
-
-    // Update enemy sprite's position for all animation frames
-    int i = 4;
-    while (i >= 0) {
-        set_image_instance_pos(&table->e_img[i]->instances[0], screen_x, screen_y);
-        --i;
-    }
-}
-
 
 void ft_mouse(void *param)
 {
@@ -177,6 +120,16 @@ void ft_mouse(void *param)
 
 }
 
+void ft_attack(void* param)
+{
+	t_table *table;
+
+	table = (t_table *)param;
+	insert_fireball(table);
+	if (table->is_attacking)
+		animate_attack(table);
+}
+
 void ft_hook(void* param)
 {
 	t_table	*table;
@@ -189,8 +142,6 @@ void ft_hook(void* param)
 	if (table->main_menu_on)
 		return ;
 	table->frame_counter += 1;
-	if (table->is_attacking)
-		animate_attack(table);
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_W))
 	{
 		render_flag = 1;

@@ -85,6 +85,9 @@ typedef struct s_table
 	uint32_t		**so_texture_colors;
 	uint32_t		**es_texture_colors;
 	uint32_t		**ws_texture_colors;
+	mlx_texture_t	*ball_texture;
+	uint32_t		**ball_texture_colors;
+	mlx_image_t		*ball_image;
 	int				sprite_x;
 	int				sprite_y;
 	int				x_aligned_flag;
@@ -148,9 +151,11 @@ void animate_button(t_button *button);
 void ft_mouse(void *param);
 
 void ft_hook(void* param);
+void ft_attack(void* param);
 
 void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color);
 
 void init_enemies(t_table *table);
+int	insert_fireball(t_table *table);
 
 #endif

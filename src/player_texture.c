@@ -12,19 +12,14 @@
 
 #include "../inc/cub3d.h"
 
-int animate_attack(t_table *table)
+/* int animate_attack(t_table *table)
 {
-	int	i;
-
-	i = 0;
-	
 	if (table->frame_counter)
 	{
-		while (i < 30)
-		{
-            table->p_img[i]->instances[0].enabled = false; //Disable all animation frames first
-			++i;
-		}
+        if (table->p_anim_index > 0)
+            table->p_img[table->p_anim_index - 1]->instances[0].enabled = false;
+        else if (table->p_anim_index == 0 && table->is_attacking)
+            table->p_img[29]->instances[0].enabled = false;
 
 		if (table->p_anim_index == 29)
 		{
@@ -39,6 +34,47 @@ int animate_attack(t_table *table)
 		}
 	}
 	return (0);
+} */
+
+int animate_attack(t_table *table)
+{
+    int frame_width = 400;   // Width of each frame (400px)
+    int frame_height = 400;  // Height of each frame (400px)
+	int	y_offset;
+    int base_x = table->width / 2 - 400 / 2;
+	int base_y = table->height / 2 - 400 / 2;      // The y-coordinate where the animation will be drawn on the screen
+
+    if (table->frame_counter)
+    {
+        // Draw the new frame using put_pixel (get the current frame from the sprite sheet)
+        int frame_x_offset = table->p_anim_index * frame_width;  // Each frame is 400px wide
+
+		y_offset = table->height / 2 - frame_height / 2 - (table->p_anim_index * 3);
+        for (int y = 0; y < frame_height - 1; y++)
+        {
+            for (int x = 0; x < frame_width - 1; x++)
+            {
+                // Access the color from the sprite sheet (2D array with sprite data)
+                uint32_t color = table->ball_texture_colors[y][frame_x_offset + x];
+                
+                // Draw the current frame pixel to the screen at the right position
+                mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, color);
+            }
+        }
+
+        // Update the animation index
+        if (table->p_anim_index == 29)  // If the last frame (frame 29), reset animation
+        {
+            table->is_attacking = 0;
+            table->p_anim_index = 0;
+			//set_image_instance_pos(&table->ball_image->instances[0], base_x, base_y);
+        }
+        else
+        {
+            table->p_anim_index += 1;
+        }
+    }
+	return (0);
 }
 
 void	set_image_instance_pos(mlx_instance_t *instance, int x, int y)
@@ -47,77 +83,47 @@ void	set_image_instance_pos(mlx_instance_t *instance, int x, int y)
 	instance->y = y;
 }
 
-int	animate_enemy(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	if (table->frame_counter % 3 == 0)
-	{
-		while (i < 5)
-		{
-            table->e_img[i]->instances[0].enabled = false; //Disable all animation frames first
-			++i;
-		}
-		if (table->e_anim_index == 4)
-		{
-			table->p_img[0]->instances[0].enabled = true;
-			table->is_attacking = 0;
-			table->e_anim_index = 0;
-		}
-		else
-		{
-			table->e_img[table->e_anim_index]->instances[0].enabled = true;
-			table->e_anim_index += 1;
-		}
-	}
-	return (0);
-	
-}
-
-int	insert_enemy_images(t_table *table)
-{
-	int	i;
-	int base_x;
-	int	base_y;
-	/// set position towards to player from the enemy position
-	i = 4;
-	base_x = table->width / 2;// - 130;
-	base_y = table->height / 2;// - 130;
-	while (i >= 0)
-	{
-		mlx_resize_image(table->e_img[i], 200 + (i * 20), 200 + (i * 20));
-		mlx_image_to_window(table->mlx_start, table->e_img[i], 0, 0);
-		if (i != 0)
-			table->e_img[i]->instances[0].enabled = false;
-		set_image_instance_pos(&table->e_img[i]->instances[0], base_x, base_y - (i * 2));
-		--i;
-	}
-	return (0);
-}
-
 int	insert_fireball(t_table *table)
 {
-	int	i;
+	//int	i;
 	int base_x;
 	int base_y;
 
-	base_x = table->width / 2 - 893 / 2;
-	base_y = table->height - 893 / 2 - 150;
+	base_x = table->width / 2 - 400 / 2;
+	base_y = table->height / 2 - table->height / 30;
 
-	i = 0;
+	int frame_width = 400;   // Width of each frame
+    int frame_height = 400;  // Height of each frame
+
+    // Loop through each pixel in the 400x400 frame
+    for (int y = 0; y < frame_height; y++)
+    {
+        for (int x = 0; x < frame_width; x++)
+        {
+            // Calculate the index of the color in the table.ball_texture_colors array
+            // Since the sprite sheet frames are laid out horizontally:
+            // - The first frame starts at index 0, the second at index 1, etc.
+
+            // Fetch the color from the sprite sheet array
+            uint32_t color = table->ball_texture_colors[y][x];
+
+            // Draw the color to the ball_image buffer at the correct position
+            mlx_put_pixel(table->ball_image, base_x + x, base_y + y, color);
+        }
+    }
+
+	/* i = 0;
 	while (i < 30)
 	{
-		mlx_resize_image(table->p_img[i], 900 - (7 * table->p_anim_index), 900 - (7 * table->p_anim_index));
+		mlx_resize_image(table->p_img[i], table->width / 2, table->height / 2);
 		mlx_image_to_window(table->mlx_start, table->p_img[i], base_x, base_y);
-		//mlx_set_instance_depth(&table->p_img[i]->instances[0], 1);
 		if (i > 0)
 		{
-			set_image_instance_pos(&table->p_img[i]->instances[0], base_x, base_y - (i * 17));
+			set_image_instance_pos(&table->p_img[i]->instances[0], base_x, base_y - (i * table->height / 100));
 			table->p_img[i]->instances[0].enabled = false;
 		}
 		++i;
-	}
+	} */
 	return (0);
 }
 
