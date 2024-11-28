@@ -131,7 +131,6 @@ int	main (int argc, char **argv)
 	insert_player_texture(&table);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
 	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
-	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
 	//mlx_loop_hook(table.mlx_start, &ft_enemy, &table);
 	mlx_loop(table.mlx_start);
 }

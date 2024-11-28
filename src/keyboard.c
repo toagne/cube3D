@@ -180,12 +180,6 @@ void ft_hook(void* param)
 		render_flag = 1;
 		new_x = table->player_x + table->player_delta_x_ad * 5;
 		new_y = table->player_y + table->player_delta_y_ad * 5;
-		int i = 4;
-		while (i >= 0)
-		{
-			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x -= 55, table->e_img[i]->instances[0].y);
-			--i;
-		}	
 		//if (table->map[mpy][mpxcd] != '1')
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
