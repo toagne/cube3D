@@ -217,13 +217,6 @@ void ft_hook(void* param)
 		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
 		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
-		int	i;
-		i = 4;
-		while (i >= 0)
-		{
-			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x += 55, table->e_img[i]->instances[0].y);
-			--i;
-		}
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_RIGHT))
 	{
@@ -235,13 +228,6 @@ void ft_hook(void* param)
 		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
 		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
 		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
-		int	i;
-		i = 4;
-		while (i >= 0)
-		{
-			set_image_instance_pos(&table->e_img[i]->instances[0], table->e_img[i]->instances[0].x -= 55, table->e_img[i]->instances[0].y);
-			--i;
-		}
 	}
 	
 	// int offset = 32;
