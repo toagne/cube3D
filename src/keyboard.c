@@ -78,13 +78,13 @@ int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y, int b
 	return (0);
 }
 
-void	ft_enemy(void *param)
+/* void	ft_enemy(void *param)
 {
 	t_table	*table;
 
 	table = (t_table *)param;
 	//animate_enemy(table);
-}
+} */
 
 void update_enemy_pos(t_table *table)
 {
@@ -136,6 +136,47 @@ void update_enemy_pos(t_table *table)
 }
 
 
+void ft_mouse(void *param)
+{
+	t_table		*table;
+	table = (t_table *)param;
+	mlx_get_mouse_pos(table->mlx_start, &table->x_mouse, &table->y_mouse);
+	if (table->main_menu_on == 0)
+		return ;
+	if (table->x_mouse > table->play_button.white->instances[0].x && table->x_mouse < table->play_button.white->instances[0].x + table->width / 6 \
+	&& table->y_mouse > table->play_button.white->instances[0].y && table->y_mouse < table->play_button.white->instances[0].y + table->height / 6)
+	{
+		table->play_button.status = 0;
+		animate_button(&table->play_button);
+		if (mlx_is_mouse_down(table->mlx_start, MLX_MOUSE_BUTTON_LEFT))
+		{	
+			table->main_menu_on = 0;
+		}
+	}
+	else
+	{
+		table->play_button.status = 1;
+		animate_button(&table->play_button);
+	}
+	if (table->x_mouse > table->exit_button.white->instances[0].x && table->x_mouse < table->exit_button.white->instances[0].x + table->width / 6 \
+	&& table->y_mouse > table->exit_button.white->instances[0].y && table->y_mouse < table->exit_button.white->instances[0].y + table->height / 6)
+	{
+		table->exit_button.status = 0;
+		animate_button(&table->exit_button);
+		if (mlx_is_mouse_down(table->mlx_start, MLX_MOUSE_BUTTON_LEFT))
+		{
+			mlx_terminate(table->mlx_start);
+			exit (EXIT_SUCCESS);
+		}
+	}
+	else
+	{
+		table->exit_button.status = 1;
+		animate_button(&table->exit_button);
+	}
+
+}
+
 void ft_hook(void* param)
 {
 	t_table	*table;
@@ -145,10 +186,11 @@ void ft_hook(void* param)
 	int		render_flag = 0;
 
 	table = (t_table *)param;
-
-	// table->frame_counter += 1;
-	// if (table->is_attacking)
-	// 	animate_attack(table);
+	if (table->main_menu_on)
+		return ;
+	table->frame_counter += 1;
+	if (table->is_attacking)
+		animate_attack(table);
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_W))
 	{
 		render_flag = 1;
@@ -449,7 +491,9 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 		mlx_terminate(table->mlx_start);
 		exit (EXIT_SUCCESS);
 	}
-	else if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+	if (table->main_menu_on)
+		return ;
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
 	{
 		table->is_attacking = 1;
 	}
