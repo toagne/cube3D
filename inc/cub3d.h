@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 14:28:47 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:13:45 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,18 @@ typedef	struct	s_enemy
 	int		x;
 	int		y;
 	float	dist;
+	float	dx;
+	float	dy;
+	float	angle;
 } t_enemy;
+
+typedef	struct	s_texture
+{
+	uint32_t	width;
+	uint32_t	height;
+	uint32_t	**colors;
+	
+} t_texture;
 
 typedef	struct	s_ray
 {
@@ -43,15 +54,17 @@ typedef	struct	s_ray
 	float		f_x;
 	float		f_y;
 	float		f_v;
+	t_texture	texture;
+	int 		wall_h;
+	float		tx_v_step;
+	float		tx_v_offset;
+	int			start_wall;
+	int			end_wall;
+	int			x_start;
+	int			x_end;
+	float		tx;
+	float		ty;
 } t_ray;
-
-typedef	struct	s_texture
-{
-	uint32_t	width;
-	uint32_t	height;
-	uint32_t	**colors;
-	
-} t_texture;
 
 typedef struct s_table
 {
@@ -105,6 +118,8 @@ typedef struct s_table
 	t_enemy			enemies[N_ENEMIES];
 	long			lcg_seed;
 	t_ray			ray;
+	int				n_of_rays;
+	t_texture		sprite_tx;
 }	t_table;
 
 void			init_data(t_table *table);
@@ -151,5 +166,9 @@ void ft_hook(void* param);
 void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color);
 
 void init_enemies(t_table *table);
+
+void	draw_sprites(t_table *table);
+
+void	draw_dot(t_table *table, int value_x, int value_y, int range);
 
 #endif

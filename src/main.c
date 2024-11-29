@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 14:16:00 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:11:49 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	main (int argc, char **argv)
 	{
 		return (1);
 	}
-	get_monitor_size(&table.width, &table.height);
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
 	{
@@ -44,6 +43,7 @@ int	main (int argc, char **argv)
 	convert_texture(&table.so_texture, &table.so_texture.colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture.colors, "pngs/texture_es.png");
 	convert_texture(&table.ws_texture, &table.ws_texture.colors, "pngs/texture_ws.png");
+	convert_texture(&table.sprite_tx, &table.sprite_tx.colors, "pngs/enemy.png");
 	table.p_img[0] = load_image(table.mlx_start, "fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_0.png");
 	table.p_img[1] = load_image(table.mlx_start, "fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_1.png");
 	table.p_img[2] = load_image(table.mlx_start, "fireballs_explosion/fire_ball_blue_side_small/imgs_explode/img_2.png");
