@@ -120,16 +120,6 @@ void ft_mouse(void *param)
 
 }
 
-void ft_attack(void* param)
-{
-	t_table *table;
-
-	table = (t_table *)param;
-	insert_fireball(table);
-	if (table->is_attacking)
-		animate_attack(table);
-}
-
 void ft_hook(void* param)
 {
 	t_table	*table;
@@ -142,6 +132,9 @@ void ft_hook(void* param)
 	if (table->main_menu_on)
 		return ;
 	table->frame_counter += 1;
+	table->left_hand->instances[0].enabled = true;
+	table->right_hand->instances[0].enabled = true;
+	table->ball_image->instances[0].enabled = true;
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_W))
 	{
 		render_flag = 1;
@@ -363,6 +356,9 @@ void ft_hook(void* param)
 		draw_minimap(table);
 		draw_raycasting(table);
 	}
+	insert_fireball(table);
+	if (table->is_attacking)
+		animate_attack(table);
 }
 
 void	ft_keyboard(mlx_key_data_t keydata, void *param)

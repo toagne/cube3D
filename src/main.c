@@ -45,14 +45,10 @@ int	main (int argc, char **argv)
 	convert_texture(&table.so_texture, &table.so_texture_colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture_colors, "pngs/texture_es.png");
 	convert_texture(&table.ws_texture, &table.ws_texture_colors, "pngs/texture_ws.png");
+	convert_texture(&table.enemy_texture, &table.enemy_texture_colors, "pngs/enemy.png");
 	convert_texture(&table.ball_texture, &table.ball_texture_colors, "pngs/ballsheet.png");
 	table.right_hand = load_image(table.mlx_start, "pngs/rigth_hand.png");
 	table.left_hand = load_image(table.mlx_start, "pngs/left_hand.png");
-	table.e_img[0] = load_image(table.mlx_start, "pngs/enemy-run-5.png");
-	table.e_img[1] = load_image(table.mlx_start, "pngs/enemy-run-1.png");
-	table.e_img[2] = load_image(table.mlx_start, "pngs/enemy-run-2.png");
-	table.e_img[3] = load_image(table.mlx_start, "pngs/enemy-run-3.png");
-	table.e_img[4] = load_image(table.mlx_start, "pngs/enemy-run-4.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.width, table.height); //to change
 	if (!table.mlx_2D)
 	{
@@ -106,7 +102,6 @@ int	main (int argc, char **argv)
 	insert_player_texture(&table);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
 	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
-	mlx_loop_hook(table.mlx_start, &ft_attack, &table);
 	mlx_loop_hook(table.mlx_start, &ft_mouse, &table);
 	mlx_loop(table.mlx_start);
 }

@@ -53,7 +53,6 @@ typedef struct s_table
 	char			**map;
 	char			player_dir;
 	int				p_anim_index;
-	int				e_anim_index;
 	size_t			columns;
 	size_t			rows;
 	float			player_x;
@@ -74,7 +73,6 @@ typedef struct s_table
 	char			*we_path_texture;
 	char			*p_path_texture;
 	mlx_image_t		*p_img[30];
-	mlx_image_t		*e_img[5];
 	mlx_image_t		*left_hand;
 	mlx_image_t		*right_hand;
 	mlx_texture_t	*no_texture;
@@ -96,6 +94,8 @@ typedef struct s_table
 	int				e_spawn_pos_x;
 	int				e_spawn_pos_y;
 	t_enemy			enemies[N_ENEMIES];
+	mlx_texture_t	*enemy_texture;
+	uint32_t		**enemy_texture_colors;
 	long			lcg_seed;
 	int				main_menu_on;
 	int32_t			x_mouse;
@@ -151,7 +151,6 @@ void animate_button(t_button *button);
 void ft_mouse(void *param);
 
 void ft_hook(void* param);
-void ft_attack(void* param);
 
 void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color);
 

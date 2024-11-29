@@ -129,13 +129,16 @@ int	insert_fireball(t_table *table)
 
 int	insert_player_texture(t_table *table)
 {
-	mlx_resize_image(table->left_hand, 150, 150);
-	mlx_resize_image(table->right_hand, 150, 150);
+	insert_fireball(table);
+	mlx_resize_image(table->left_hand, table->width / 10, table->height / 6);
+	mlx_resize_image(table->right_hand, table->width / 10, table->height / 6);
 	mlx_image_to_window(table->mlx_start, table->left_hand, table->width / 2 - 200, table->height - 150);
 	mlx_image_to_window(table->mlx_start , table->right_hand, table->width / 2 + 50, table->height - 150);
+	table->left_hand->instances[0].enabled = false;
+	table->right_hand->instances[0].enabled = false;
+	table->ball_image->instances[0].enabled = false;
 	/* mlx_resize_image(table->p_img[table->p_anim_index], 300, 300);
 	index = mlx_image_to_window(table->mlx_start, table->p_img[0], table->width / 2 - 150, table->height - 300);
 	mlx_set_instance_depth(&table->p_img[table->p_anim_index]->instances[index], 4); */
-	insert_fireball(table);
 	return (0);
 }
