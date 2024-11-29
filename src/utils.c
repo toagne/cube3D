@@ -100,8 +100,8 @@ void init_enemies(t_table *table)
 			flag = 0;
 			// y = rand() % table->rows;
 			// x = rand() % table->columns;
-			y = my_rand(table) % table->columns;
-			x = my_rand(table) % table->rows;
+			y = my_rand(table) % table->rows;
+			x = my_rand(table) % table->columns;
 			// printf("y = %zu, x = %zu\n", y, x);
 			int e_y = table->player_row - 1;
 			int e_x = table->player_col - 1;

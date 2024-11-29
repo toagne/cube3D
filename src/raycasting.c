@@ -56,9 +56,6 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color)
 
 void render_sprite(t_table *table, int i)
 {
-	mlx_texture_t	*enemy_texture;
-	uint32_t		**enemy_texture_colors;
-	convert_texture(&enemy_texture, &enemy_texture_colors, "pngs/enemy.png");
 	// Sprite position
 
 	float sprite_x = table->enemies[i].x; // Example sprite position
@@ -89,7 +86,7 @@ void render_sprite(t_table *table, int i)
 
 	//printf("sprite angle = %f\n", sprite_angle);
 	
-	float half_width_angle = atan2(enemy_texture->width / 2, sprite_dist) * 180 / PI;
+	float half_width_angle = atan2(table->enemy_texture->width / 2, sprite_dist) * 180 / PI;
 
 	float sprite_left_angle = sprite_angle - half_width_angle;
 	float sprite_right_angle = sprite_angle + half_width_angle;
@@ -236,7 +233,7 @@ void render_sprite(t_table *table, int i)
 
 		if (sprite_draw_start_x < 0)
 		{
-			tex_start_x = -sprite_draw_start_x * enemy_texture->width / sprite_screen_size;
+			tex_start_x = -sprite_draw_start_x * table->enemy_texture->width / sprite_screen_size;
 			sprite_draw_start_x = 0;
 		}
 		// add condition if sprite in right side of screen
@@ -372,16 +369,16 @@ void render_sprite(t_table *table, int i)
 				continue;
 
 // -----------------------------------------------------------------------------------------
-			int tex_x = ((x - sprite_draw_start_x) * enemy_texture->width) / sprite_screen_size + tex_start_x;
+			int tex_x = ((x - sprite_draw_start_x) * table->enemy_texture->width) / sprite_screen_size + tex_start_x;
 			int y = sprite_draw_start_y - 1;
 				while (++y < sprite_draw_end_y)
 				{
 					//int tex_x = (x - sprite_draw_start_x) * (enemy_texture->width - 1) / sprite_screen_size;
-					int tex_y = (y - sprite_draw_start_y) * (enemy_texture->height - 1) / sprite_screen_size;
+					int tex_y = (y - sprite_draw_start_y) * (table->enemy_texture->height - 1) / sprite_screen_size;
 
 					//printf("%d	%d\n", tex_x, tex_y);
 
-					uint32_t color = enemy_texture_colors[tex_y][tex_x];
+					uint32_t color = table->enemy_texture_colors[tex_y][tex_x];
 					if ((color & 0xFF000000) != 0) // Skip transparent pixels
 						mlx_put_pixel(table->mlx_3D, x, y, color);
 				}

@@ -32,6 +32,13 @@ typedef	struct	s_enemy
 	float	dist;
 } t_enemy;
 
+typedef struct s_button
+{
+	mlx_image_t *colored;
+	mlx_image_t *white;
+	int			status;
+} t_button;
+
 typedef struct s_table
 {
 	mlx_t			*mlx_start;
@@ -46,7 +53,6 @@ typedef struct s_table
 	char			**map;
 	char			player_dir;
 	int				p_anim_index;
-	int				e_anim_index;
 	size_t			columns;
 	size_t			rows;
 	float			player_x;
@@ -67,7 +73,6 @@ typedef struct s_table
 	char			*we_path_texture;
 	char			*p_path_texture;
 	mlx_image_t		*p_img[30];
-	mlx_image_t		*e_img[5];
 	mlx_image_t		*left_hand;
 	mlx_image_t		*right_hand;
 	mlx_texture_t	*no_texture;
@@ -78,6 +83,9 @@ typedef struct s_table
 	uint32_t		**so_texture_colors;
 	uint32_t		**es_texture_colors;
 	uint32_t		**ws_texture_colors;
+	mlx_texture_t	*ball_texture;
+	uint32_t		**ball_texture_colors;
+	mlx_image_t		*ball_image;
 	int				sprite_x;
 	int				sprite_y;
 	int				x_aligned_flag;
@@ -86,13 +94,22 @@ typedef struct s_table
 	int				e_spawn_pos_x;
 	int				e_spawn_pos_y;
 	t_enemy			enemies[N_ENEMIES];
+	mlx_texture_t	*enemy_texture;
+	uint32_t		**enemy_texture_colors;
 	long			lcg_seed;
+	int				main_menu_on;
+	int32_t			x_mouse;
+	int32_t			y_mouse;
+	t_button		play_button;
+	t_button		exit_button;
 }	t_table;
 
 void			init_data(t_table *table);
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			ft_hook(void* param);
 void			ft_enemy(void *param);
+void			update_enemy_positions(t_table *table);
+void			set_image_instance_pos(mlx_instance_t *instance, int x, int y);
 
 // player_texture.
 int				insert_player_texture(t_table *table);
@@ -127,11 +144,17 @@ int	read_file(t_table *table);
 // free.c
 void	free_map(char **map, size_t i);
 void	free_table(char ***table);
+ 
+// main_menu
+void main_menu(t_table *table);
+void animate_button(t_button *button);
+void ft_mouse(void *param);
 
 void ft_hook(void* param);
 
 void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color);
 
 void init_enemies(t_table *table);
+int	insert_fireball(t_table *table);
 
 #endif

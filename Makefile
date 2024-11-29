@@ -18,7 +18,7 @@ LIBFT_DIR		= ./libft
 
 SRC             = $(SRC_DIR)/main.c $(SRC_DIR)/init.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/read_map.c $(SRC_DIR)/validate_map.c $(SRC_DIR)/error.c \
 					$(SRC_DIR)/load_images.c $(SRC_DIR)/utils.c $(SRC_DIR)/read_file.c $(SRC_DIR)/free.c \
-					$(SRC_DIR)/minimap.c $(SRC_DIR)/raycasting.c $(SRC_DIR)/player_texture.c
+					$(SRC_DIR)/minimap.c $(SRC_DIR)/raycasting.c $(SRC_DIR)/player_texture.c $(SRC_DIR)/mainmenu.c
 OBJ_DIR         = obj
 OBJ             = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 MLX42_LIB       = $(MLX42_DIR)/build/libmlx42.a
