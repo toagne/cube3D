@@ -50,9 +50,19 @@ int	parse_rgb(t_table *table, char *color, char c)
 		++i;
 	}
 	if (c == 'F')
-		table->f_color = array;
+	{
+		if (!table->f_color)
+			table->f_color = array;
+		else
+			table->duplicate_id = 1;
+	}
 	else if (c == 'C')
-		table->c_color = array;
+	{
+		if (!table->c_color)
+			table->c_color = array;
+		else
+			table->duplicate_id = 1;
+	}
 	free_table(&rgb_arr);
 	return (0);
 }
@@ -60,13 +70,33 @@ int	parse_rgb(t_table *table, char *color, char c)
 void	set_element_texture(t_table *table, char *str, char *texture)
 {
 	if (ft_strncmp(str, "NO ", 3) == 0)
-		table->no_path_texture = texture;
+	{
+		if (!table->no_path_texture)
+			table->no_path_texture = texture;
+		else
+			table->duplicate_id = 1;
+	}
 	else if (ft_strncmp(str, "SO ", 3) == 0)
-		table->so_path_texture = texture;
+	{
+		if (!table->so_path_texture)
+			table->so_path_texture = texture;
+		else
+			table->duplicate_id = 1;
+	}
 	else if (ft_strncmp(str, "WE ", 3) == 0)
-		table->ws_path_texture = texture;
+	{
+		if (!table->ws_path_texture)
+			table->ws_path_texture = texture;
+		else
+			table->duplicate_id = 1;
+	}
 	else if (ft_strncmp(str, "EA ", 3) == 0)
-		table->es_path_texture = texture;
+	{
+		if (!table->es_path_texture)
+			table->es_path_texture = texture;
+		else
+			table->duplicate_id = 1;
+	}
 }
 
 int	check_element_id(t_table *table, char *line, char *str)
@@ -150,7 +180,7 @@ int	read_file(t_table *table)
 		if (i == 6) // need to think about this when i us less than 6 it will be infinite loop
 			break;
 	}
-	if (i == 6)
+	if (i == 6 && !table->duplicate_id)
 	{
 		if (read_map(table, fd))
 		{
@@ -167,7 +197,12 @@ int	read_file(t_table *table)
 		return (0);
 	}
 	else
-		ft_error("invalid file");
+	{
+		if (table->duplicate_id)
+			ft_error("duplicate ids in the file");
+		else
+			ft_error("invalid file");
+	}
 	close(fd);
 	return (1);
 }
