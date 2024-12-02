@@ -26,7 +26,7 @@ LIBFT           = $(LIBFT_DIR)/libft.a
 
 RM              = rm -f
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -Ofast -g\
+CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -g\
 					-I$(INC_DIR) \
 					-I$(MLX42_DIR)/include
 LDFLAGS         = -ldl -lglfw -pthread -lm

@@ -145,6 +145,18 @@ int	check_element_ids(t_table *table, char *line)
 	return (1);
 }
 
+int	is_map_line(char *line)
+{
+	while (*line)
+	{
+		if (*line != 'N' && *line != 'S' && *line != 'E' && *line != 'W' &&
+		*line != '0' && *line != '1' && *line != ' ')
+			return (0);
+		++line;
+	}
+	return (1);
+}
+
 int	read_file(t_table *table)
 {
 	int		fd;
@@ -168,6 +180,12 @@ int	read_file(t_table *table)
 		{
 			free(line);
 			return (1);
+		}
+		if (is_map_line(temp))
+		{
+			free(line);
+			free(temp);
+			break;
 		}
 		temp1 = ft_skipwhitespace(temp);
 		if (!check_element_ids(table, temp1))

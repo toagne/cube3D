@@ -44,6 +44,7 @@ typedef struct s_table
 	mlx_t			*mlx_start;
 	mlx_image_t		*mlx_2D;
 	mlx_image_t		*mlx_3D;
+	int				duplicate_id;	/// checking for duplicate identifiers in the .cub file
 	int				frame_counter;
 	int				is_attacking;
 	int				enemy_attack;
@@ -69,8 +70,8 @@ typedef struct s_table
 	int				*c_color;
 	char			*no_path_texture;
 	char			*so_path_texture;
-	char			*ea_path_texture;
-	char			*we_path_texture;
+	char			*es_path_texture;
+	char			*ws_path_texture;
 	char			*p_path_texture;
 	mlx_image_t		*p_img[30];
 	mlx_image_t		*left_hand;
@@ -119,7 +120,7 @@ int				animate_enemy(t_table *table);
 void			draw_raycasting(t_table *table);
 
 // read_map.c
-int		read_map(t_table *table, int fd);
+int				read_map(t_table *table, int fd);
 
 // error.c
 void    		ft_error(char *s1);
@@ -139,18 +140,18 @@ float			deg_to_rad(float deg);
 void			draw_minimap(t_table *table);
 
 // read_file.c
-int	read_file(t_table *table);
+int				read_file(t_table *table);
 
 // free.c
-void	free_map(char **map, size_t i);
-void	free_table(char ***table);
+void			free_map(char **map, size_t i);
+void			free_table(char ***table);
  
 // main_menu
-void main_menu(t_table *table);
-void animate_button(t_button *button);
-void ft_mouse(void *param);
+void			main_menu(t_table *table);
+void			animate_button(t_button *button);
+void			ft_mouse(void *param);
 
-void ft_hook(void* param);
+void			ft_hook(void* param);
 
 void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color);
 

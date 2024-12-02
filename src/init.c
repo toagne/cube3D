@@ -41,4 +41,5 @@ void	init_data(t_table *table)
 	table->e_spawn_pos_x = 0;
 	table->e_spawn_pos_y = 0;
 	table->lcg_seed = get_time();
+	table->duplicate_id = 0;
 }

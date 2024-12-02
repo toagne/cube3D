@@ -41,10 +41,10 @@ int	main (int argc, char **argv)
 	}
 	init_enemies(&table);
 	main_menu(&table);
-	convert_texture(&table.no_texture, &table.no_texture_colors, "pngs/texture_no.png");
-	convert_texture(&table.so_texture, &table.so_texture_colors, "pngs/texture_so.png");
-	convert_texture(&table.es_texture, &table.es_texture_colors, "pngs/texture_es.png");
-	convert_texture(&table.ws_texture, &table.ws_texture_colors, "pngs/texture_ws.png");
+	convert_texture(&table.no_texture, &table.no_texture_colors, table.no_path_texture);
+	convert_texture(&table.so_texture, &table.so_texture_colors, table.so_path_texture);
+	convert_texture(&table.es_texture, &table.es_texture_colors, table.es_path_texture);
+	convert_texture(&table.ws_texture, &table.ws_texture_colors, table.ws_path_texture);
 	convert_texture(&table.enemy_texture, &table.enemy_texture_colors, "pngs/enemy.png");
 	convert_texture(&table.ball_texture, &table.ball_texture_colors, "pngs/ballsheet.png");
 	table.right_hand = load_image(table.mlx_start, "pngs/rigth_hand.png");

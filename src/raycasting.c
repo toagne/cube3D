@@ -719,8 +719,8 @@ void	draw_raycasting(t_table *table)
 		// Draw the wider vertical slice across the scaled width range
 		while (i <= scaled_x_end)
 		{
-			draw_line(table->mlx_3D, i, 0, i, drawStart, 0xADD8E6FF);
-			draw_line(table->mlx_3D, i, drawEnd, i, table->height - 1, 0x8B4513FF);
+			draw_line(table->mlx_3D, i, 0, i, drawStart, get_rgba(table->c_color[0],table->c_color[1],table->c_color[2], 255));
+			draw_line(table->mlx_3D, i, drawEnd, i, table->height - 1, get_rgba(table->f_color[0],table->f_color[1],table->f_color[2], 255));
 			//draw_line(table->mlx_3D, i, drawStart, i, drawEnd, color);
 			int a = drawStart;
 			ty = tx_v_offset * tx_vertical_step;
