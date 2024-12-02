@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:30:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 15:46:07 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:18:11 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	select_texture(t_table *table, t_texture *tx)
 	tile_y = (int)(table->ray.f_y / T_SIZE) * T_SIZE;
 	dx = table->ray.f_x - tile_x;
 	dy = table->ray.f_y - tile_y;
-	check_side_of_wall(table, tx, dx, dy);
+	check_side_wall(table, tx, dx, dy);
 }
 
 void	get_coordinates_in_texture(t_table *table)

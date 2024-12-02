@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 15:34:03 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:17:05 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,13 @@ typedef	struct	s_ray
 	float		ty;
 } t_ray;
 
+typedef struct s_button
+{
+	mlx_image_t *colored;
+	mlx_image_t *white;
+	int			status;
+} t_button;
+
 typedef struct s_table
 {
 	mlx_t			*mlx_start;
@@ -86,7 +93,6 @@ typedef struct s_table
 	char			**map;
 	char			player_dir;
 	int				p_anim_index;
-	int				e_anim_index;
 	size_t			columns;
 	size_t			rows;
 	float			player_x;
@@ -107,13 +113,16 @@ typedef struct s_table
 	char			*we_path_texture;
 	char			*p_path_texture;
 	mlx_image_t		*p_img[30];
-	mlx_image_t		*e_img[5];
 	mlx_image_t		*left_hand;
 	mlx_image_t		*right_hand;
 	t_texture		no_texture;
 	t_texture		so_texture;
 	t_texture		es_texture;
 	t_texture		ws_texture;
+	t_texture		ball_texture;
+	// mlx_texture_t	*ball_texture;
+	// uint32_t		**ball_texture_colors;
+	mlx_image_t		*ball_image;
 	int				sprite_x;
 	int				sprite_y;
 	int				x_aligned_flag;
@@ -122,16 +131,25 @@ typedef struct s_table
 	int				e_spawn_pos_x;
 	int				e_spawn_pos_y;
 	t_enemy			enemies[N_ENEMIES];
+	mlx_texture_t	*enemy_texture;
+	uint32_t		**enemy_texture_colors;
 	long			lcg_seed;
 	t_ray			ray;
 	int				n_of_rays;
 	t_texture		sprite_tx;
+	int				main_menu_on;
+	int32_t			x_mouse;
+	int32_t			y_mouse;
+	t_button		play_button;
+	t_button		exit_button;
 }	t_table;
 
 void			init_data(t_table *table);
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			ft_hook(void* param);
 void			ft_enemy(void *param);
+void			update_enemy_positions(t_table *table);
+void			set_image_instance_pos(mlx_instance_t *instance, int x, int y);
 
 // player_texture.
 int				insert_player_texture(t_table *table);
@@ -167,12 +185,18 @@ int	read_file(t_table *table);
 // free.c
 void	free_map(char **map, size_t i);
 void	free_table(char ***table);
+ 
+// main_menu
+void main_menu(t_table *table);
+void animate_button(t_button *button);
+void ft_mouse(void *param);
 
 void ft_hook(void* param);
 
 void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color);
 
 void init_enemies(t_table *table);
+int	insert_fireball(t_table *table);
 
 void	draw_sprites(t_table *table);
 
@@ -185,5 +209,8 @@ void	chose_shortest_ray(t_table *table);
 
 void	select_texture(t_table *table, t_texture *tx);
 void	get_coordinates_in_texture(t_table *table);
+
+void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp);
+int		check_sprite_is_visible(t_table *table, t_enemy sp);
 
 #endif

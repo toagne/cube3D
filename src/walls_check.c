@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:24:40 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 15:43:18 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:17:39 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	check_if_wall(t_table *t, float step_x, float step_y, float side_t_x
 			side_t_y += step_y;
 		}
 	}
-	get_final_values(t, side, side_t_x, side_t_y);
+	get_final_val(t, side, side_t_x, side_t_y);
 }
 
 void	check_horizontal_lines(t_table *t, float angle)
