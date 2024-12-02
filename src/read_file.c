@@ -57,74 +57,61 @@ int	parse_rgb(t_table *table, char *color, char c)
 	return (0);
 }
 
-int	check_element_identifier(t_table *table, char *line)
+void	set_element_texture(t_table *table, char *str, char *texture)
+{
+	if (ft_strncmp(str, "NO ", 3) == 0)
+		table->no_path_texture = texture;
+	else if (ft_strncmp(str, "SO ", 3) == 0)
+		table->so_path_texture = texture;
+	else if (ft_strncmp(str, "WE ", 3) == 0)
+		table->ws_path_texture = texture;
+	else if (ft_strncmp(str, "EA ", 3) == 0)
+		table->es_path_texture = texture;
+}
+
+int	check_element_id(t_table *table, char *line, char *str)
 {
 	char	*temp;
 	char	*temp1;
-
 	temp = NULL;
-	if (ft_strncmp(line, "NO ", 3) == 0)
+	if (ft_strncmp(line, str, 3) == 0)
 	{
-		temp = ft_strtrim(line, "NO");
+		temp = ft_strtrim(line, str);
 		if (!temp)
 			return (1);
 		temp1 = ft_strtrim(temp, " ");
 		free(temp); 
-		table->no_path_texture = temp1;
+		set_element_texture(table, str, temp1);
 		return (0);
 	}
-	else if (ft_strncmp(line, "SO ", 3) == 0)
+	else if (ft_strncmp(line, str, 2) == 0)
 	{
-		temp = ft_strtrim(line, "SO ");
+		temp = ft_strtrim(line, str);
 		if (!temp)
 			return (1);
 		temp1 = ft_strtrim(temp, " ");
 		free(temp); 
-		table->so_path_texture = temp1;
-		return (0);
-	}
-	else if (ft_strncmp(line, "WE ", 3) == 0)
-	{
-		temp = ft_strtrim(line, "WE ");
-		if (!temp)
-			return (1);
-		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
-		table->we_path_texture = temp1;
-		return (0);
-	}
-	else if (ft_strncmp(line, "EA ", 3) == 0)
-	{
-		temp = ft_strtrim(line, "EA ");
-		if (!temp)
-			return (1);
-		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
-		table->ea_path_texture = temp1;
-		return (0);
-	}
-	else if (ft_strncmp(line, "F ", 2) == 0)
-	{
-		temp = ft_strtrim(line, "F");
-		if (!temp)
-			return (1);
-		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
-		if (parse_rgb(table, temp1, 'F'))
+		if (parse_rgb(table, temp1, str[0]))
 			return (1);
 		return (0);
 	}
-	else if (ft_strncmp(line, "C ", 2) == 0)
-	{
-		temp = ft_strtrim(line, "C");
-		if (!temp)
-			return (1);
-		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
-		if (parse_rgb(table, temp1, 'C'))
-			return (1);
+	return (1);
+}
+
+int	check_element_ids(t_table *table, char *line)
+{
+	if (!check_element_id(table, line, "NO "))
 		return (0);
-	}
+	else if (!check_element_id(table, line, "SO "))
+		return (0);
+	else if (!check_element_id(table, line, "WE "))
+		return (0);
+	else if (!check_element_id(table, line, "EA "))
+		return (0);
+	else if (!check_element_id(table, line, "F "))
+		return (0);
+	else if (!check_element_id(table, line, "C "))
+		return (0);
 	return (1);
 }
 
@@ -153,7 +140,7 @@ int	read_file(t_table *table)
 			return (1);
 		}
 		temp1 = ft_skipwhitespace(temp);
-		if (!check_element_identifier(table, temp1))
+		if (!check_element_ids(table, temp1))
 		{ 
 			i += 1;
 		}
