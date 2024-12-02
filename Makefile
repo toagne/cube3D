@@ -6,7 +6,7 @@
 #    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/11/29 13:14:53 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/12/02 15:52:53 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ LIBFT_DIR		= ./libft
 SRC             = $(SRC_DIR)/main.c $(SRC_DIR)/init.c $(SRC_DIR)/keyboard.c $(SRC_DIR)/read_map.c $(SRC_DIR)/validate_map.c $(SRC_DIR)/error.c \
 					$(SRC_DIR)/load_images.c $(SRC_DIR)/utils.c $(SRC_DIR)/read_file.c $(SRC_DIR)/free.c \
 					$(SRC_DIR)/minimap.c $(SRC_DIR)/raycasting.c $(SRC_DIR)/player_texture.c \
-					$(SRC_DIR)/sprites.c $(SRC_DIR)/drawing_utils.c
+					$(SRC_DIR)/sprites.c $(SRC_DIR)/drawing_utils.c $(SRC_DIR)/walls_check.c \
+					$(SRC_DIR)/walls_texture.c $(SRC_DIR)/sprites_utils.c
 OBJ_DIR         = obj
 OBJ             = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 MLX42_LIB       = $(MLX42_DIR)/build/libmlx42.a

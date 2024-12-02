@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/29 14:13:45 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:34:03 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ typedef	struct	s_enemy
 	float	dx;
 	float	dy;
 	float	angle;
+	float	screen_size;
+	int		x_start;
+	int		x_end;
+	int		y_start;
+	int		y_end;
+	int		tx_start_x;
 } t_enemy;
 
 typedef	struct	s_texture
@@ -153,6 +159,7 @@ void			get_monitor_size(int *width, int *height);
 float			deg_to_rad(float deg);
 
 void			draw_minimap(t_table *table);
+void	convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
 
 // read_file.c
 int	read_file(t_table *table);
@@ -170,5 +177,13 @@ void init_enemies(t_table *table);
 void	draw_sprites(t_table *table);
 
 void	draw_dot(t_table *table, int value_x, int value_y, int range);
+void	draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color);
+
+void	check_vertical_lines(t_table *table, float angle);
+void	check_horizontal_lines(t_table *table, float angle);
+void	chose_shortest_ray(t_table *table);
+
+void	select_texture(t_table *table, t_texture *tx);
+void	get_coordinates_in_texture(t_table *table);
 
 #endif
