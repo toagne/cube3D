@@ -166,7 +166,6 @@ int	read_map(t_table *table, int fd, char *line)
 		return (0);
 	}
 	table->columns = ft_strlen(map[0]);
-	//printf("table->columns = %zu\n", table->columns);
 	table->map = map;
 	set_player_position(table);
 	return (0);

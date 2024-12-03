@@ -57,7 +57,6 @@ static int	validate_map_chars(t_table *table)
 		{
 			if (!validate_map_char(table->map[row][col]))
 			{
-				//printf("%c \n", table->map[row][col]);
 				ft_error("Map has invalid characters");
 				return (0);
 			}
@@ -126,8 +125,8 @@ static int	print_map(t_table *table)
 	row = 0;
 	while (row < table->rows)
 	{
-		//printf("%s\n", table->map[row]);
-		//printf("%zu\n", ft_strlen(table->map[row]));
+		printf("%s\n", table->map[row]);
+		printf("number of elements in a row %zu\n", ft_strlen(table->map[row]));
 		++row;
 	}
 	return (0);
@@ -138,7 +137,6 @@ static int	validate_walls_top_bot(t_table *table)
 	size_t	col;
 
 	col = 0;
-	print_map(table);
 	while (col < table->columns)
 	{
 		if (table->map[0][col] != '1' && table->map[0][col] != ' ')
@@ -165,6 +163,7 @@ static int	validate_walls_top_bot(t_table *table)
 
 int	validate_map(t_table *table)
 {
+	//print_map(table);
 	if (!validate_map_chars_and_ext(table))
 		return (0);
 	if (!validate_walls_sides(table))
