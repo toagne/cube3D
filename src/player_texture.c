@@ -90,7 +90,7 @@ int	insert_fireball(t_table *table)
 	int base_y;
 
 	base_x = table->width / 2 - 400 / 2;
-	base_y = table->height / 2 - table->height / 30;
+	base_y = table->height / 2 + 300;
 
 	int frame_width = 400;   // Width of each frame
     int frame_height = 400;  // Height of each frame
