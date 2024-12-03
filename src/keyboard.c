@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 16:10:40 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/03 17:56:04 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,12 @@ void	kill_sprite(t_table *table)
 	int		dy;
 	float	angle_to_enemy;
 	float	angle_diff;
+	float	ray;
+	float	closest_ray;
+	int		closest_enemy_index;
 
+	closest_enemy_index = -1;
+	closest_ray = FLT_MAX;
 	i = -1;
 	while (++i < N_ENEMIES)
 	{
@@ -160,6 +165,7 @@ void	kill_sprite(t_table *table)
 			continue ;
 		dx = table->enemies[i].x - table->player_x;
 		dy = table->enemies[i].y - table->player_y;
+		ray = sqrt((dx * dx) + (dy * dy));
 		angle_to_enemy = atan2(dy, dx) * 180 / PI;
 		angle_diff = table->player_angle - angle_to_enemy;
 		if (angle_diff > 180)
@@ -167,8 +173,25 @@ void	kill_sprite(t_table *table)
         if (angle_diff < -180)
 			angle_diff += 360;
 		if (fabs(angle_diff) <= 10)
-			table->enemies[i].dead = 1;
+		{
+			check_vertical_lines(table, deg_to_rad(angle_to_enemy));
+			check_horizontal_lines(table, deg_to_rad(angle_to_enemy));
+			chose_shortest_ray(table);
+			if (ray <= table->ray.f_v && ray < closest_ray)
+			{
+                    closest_ray = ray;
+                    closest_enemy_index = i;
+			}
+		}
 	}
+	if (closest_enemy_index != -1)
+    {
+        int i = closest_enemy_index;
+        table->enemies[i].dead = 1;
+        table->enemies[i].x = 0;
+        table->enemies[i].y = 0;
+		table->kill = 0;
+    }
 }
 
 void ft_hook(void* param)
@@ -422,7 +445,8 @@ void ft_hook(void* param)
 	else
 	{
 		animate_attack(table);
-		kill_sprite(table);
+		if (table->kill)
+			kill_sprite(table);
 	}
 }
 
@@ -508,5 +532,6 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
 	{
 		table->is_attacking = 1;
+		table->kill = 1;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 15:18:20 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/03 16:24:26 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,11 @@ void	order_sprites(t_table *table, t_enemy *sp)
 		sp[i].dx = sp[i].x - table->player_x;
 		sp[i].dy = sp[i].y - table->player_y;
 		sp[i].dist = sqrt((sp[i].dx * sp[i].dx) + (sp[i].dy * sp[i].dy));
+		if (sp[i].dist < 30)
+		{
+			table->main_menu_on = 1;
+			main_menu(table);
+		}
 	}
 	i = -1;
 	while (++i < N_ENEMIES - 1)

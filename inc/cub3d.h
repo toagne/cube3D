@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 15:45:12 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/03 17:52:30 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <math.h> 
 # include <MLX42/MLX42.h>
 # include <sys/time.h>
+# include <float.h>
 # include "../libft/libft.h"
 
 # define PI 3.14159265358979323846
@@ -148,6 +149,7 @@ typedef struct s_table
 	uint32_t		**w_colors;
 	int				mouse_last_x;
 	int				mouse_last_y;
+	int				kill;
 }	t_table;
 
 void			init_data(t_table *table);
