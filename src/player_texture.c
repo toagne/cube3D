@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_texture.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:15:57 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/02 16:16:01 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:08:35 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,44 +38,66 @@
 
 int animate_attack(t_table *table)
 {
-    int frame_width = 400;   // Width of each frame (400px)
-    int frame_height = 400;  // Height of each frame (400px)
+    // Compute frame size based on window size
+    int frame_width = table->width * 0.3;
+    int frame_height = table->height * 0.3;
+    float ratio = (float)table->ball_texture.width / 30 / table->ball_texture.height;
 	int	y_offset;
-    int base_x = table->width / 2 - 400 / 2;
-	int base_y = table->height / 2 - 400 / 2;      // The y-coordinate where the animation will be drawn on the screen
+    if (frame_width / ratio > frame_height)
+        frame_width = (int)(frame_height * ratio);
+    else
+        frame_height = (int)(frame_width / ratio);
 
+    // Base coordinates for animation
+    int base_x = table->width / 2 - frame_width / 2;
+    int base_y = table->height - frame_height;
+
+    // Scaling factors
+    float sw = (float)400 / frame_width; // One frame is 400px wide
+    float sh = (float)table->ball_texture.height / frame_height;
+
+    // Draw current animation frame
+    float tx, ty = 0.0f;
     if (table->frame_counter)
     {
-        // Draw the new frame using put_pixel (get the current frame from the sprite sheet)
-        int frame_x_offset = table->p_anim_index * frame_width;  // Each frame is 400px wide
-
-		y_offset = table->height / 2 - frame_height / 2 - (table->p_anim_index * 3);
-        for (int y = 0; y < frame_height - 1; y++)
+        int frame_x_offset = table->p_anim_index * 400; // Offset for the current frame
+		y_offset = (table->height / 2 - base_y) / 30 * table->p_anim_index;
+        for (int y = 0; y < frame_height; y++)
         {
-            for (int x = 0; x < frame_width - 1; x++)
+            tx = 0.0f;
+            for (int x = 0; x < frame_width; x++)
             {
-                // Access the color from the sprite sheet (2D array with sprite data)
-                uint32_t color = table->ball_texture.colors[y][frame_x_offset + x];
-                
-                // Draw the current frame pixel to the screen at the right position
-                mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, color);
+                int tex_x = (int)(frame_x_offset + tx);
+                int tex_y = (int)ty;
+
+                uint32_t color = table->ball_texture.colors[tex_y][tex_x];
+
+                // Skip transparent pixels (assuming 0x00000000 is transparent)
+                if ((color & 0xFF000000) != 0)
+                {
+                    mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, color);
+                }
+
+                tx += sw;
             }
+            ty += sh;
         }
 
         // Update the animation index
-        if (table->p_anim_index == 29)  // If the last frame (frame 29), reset animation
+        if (table->p_anim_index == 29) // If the last frame
         {
             table->is_attacking = 0;
             table->p_anim_index = 0;
-			//set_image_instance_pos(&table->ball_image->instances[0], base_x, base_y);
         }
         else
         {
             table->p_anim_index += 1;
         }
     }
-	return (0);
+
+    return (0);
 }
+
 
 void	set_image_instance_pos(mlx_instance_t *instance, int x, int y)
 {
@@ -85,45 +107,37 @@ void	set_image_instance_pos(mlx_instance_t *instance, int x, int y)
 
 int	insert_fireball(t_table *table)
 {
-	//int	i;
 	int base_x;
 	int base_y;
 
-	base_x = table->width / 2 - 400 / 2;
-	base_y = table->height / 2 - table->height / 30;
-
-	int frame_width = 400;   // Width of each frame
-    int frame_height = 400;  // Height of each frame
-
-    // Loop through each pixel in the 400x400 frame
+	int frame_width = table->width * 0.3;
+    int frame_height = table->height * 0.3;
+	float ratio = (float)table->ball_texture.width / 30 / table->ball_texture.height;
+	if (frame_width / ratio > frame_height) {
+        frame_width = (int)(frame_height * ratio);
+    } else {
+        frame_height = (int)(frame_width / ratio);
+    }
+	base_x = table->width / 2 - frame_width / 2;
+	base_y = table->height - frame_height;
+	float sw = (float)400 / frame_width;
+	float sh = (float)table->ball_texture.height / frame_height;
+	float	tx;
+	float	ty;
+	ty = 0;
     for (int y = 0; y < frame_height; y++)
     {
+		tx = 0;
         for (int x = 0; x < frame_width; x++)
         {
-            // Calculate the index of the color in the table.ball_texture_colors array
-            // Since the sprite sheet frames are laid out horizontally:
-            // - The first frame starts at index 0, the second at index 1, etc.
-
-            // Fetch the color from the sprite sheet array
-            uint32_t color = table->ball_texture.colors[y][x];
-
-            // Draw the color to the ball_image buffer at the correct position
+			int tex_x = (int)tx;
+			int tex_y = (int)ty;
+            uint32_t color = table->ball_texture.colors[tex_y][tex_x];
             mlx_put_pixel(table->ball_image, base_x + x, base_y + y, color);
-        }
-    }
-
-	/* i = 0;
-	while (i < 30)
-	{
-		mlx_resize_image(table->p_img[i], table->width / 2, table->height / 2);
-		mlx_image_to_window(table->mlx_start, table->p_img[i], base_x, base_y);
-		if (i > 0)
-		{
-			set_image_instance_pos(&table->p_img[i]->instances[0], base_x, base_y - (i * table->height / 100));
-			table->p_img[i]->instances[0].enabled = false;
+			tx += sw;
 		}
-		++i;
-	} */
+		ty += sh;
+    }
 	return (0);
 }
 

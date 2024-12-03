@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 16:10:52 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:34:30 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,22 @@ void ft_hook(void* param)
 {
 	t_table	*table;
 	//int	avoid_wall_collision;
-	int		new_x;
-	int		new_y;
+	float		new_x;
+	float		new_y;
 	int		render_flag = 0;
 
 	table = (t_table *)param;
+
+	// --------------------- normalizing speed ------------------------
+	long	current_time = get_time('b');
+	//printf("ct = %ld\n", current_time);
+	//printf("lt = %ld\n", table->last_time);
+	long	delta_time = current_time - table->last_time;
+	table->last_time = current_time;
+	//printf("dt = %ld\n", delta_time);
+	float d_t_in_s = (float)delta_time / 1000000;
+	//printf("dt in s = %f\n", d_t_in_s);
+
 	if (table->main_menu_on)
 		return ;
 	table->frame_counter += 1;
@@ -138,8 +149,8 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_W))
 	{
 		render_flag = 1;
-		new_x = table->player_x + table->player_delta_x * 5;
-		new_y = table->player_y + table->player_delta_y * 5;
+		new_x = table->player_x + table->player_delta_x * d_t_in_s * 150;
+		new_y = table->player_y + table->player_delta_y * d_t_in_s * 150;
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 		//if (table->map[mpy][mpxcw] != '1')
 			table->player_x = new_x;
@@ -151,8 +162,8 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_S))
 	{
 		render_flag = 1;
-		new_x = table->player_x - table->player_delta_x * 5;
-		new_y = table->player_y - table->player_delta_y * 5;
+		new_x = table->player_x - table->player_delta_x * d_t_in_s * 150;
+		new_y = table->player_y - table->player_delta_y * d_t_in_s * 150;
 		//if (table->map[mpy][mpxcs] != '1')
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
@@ -164,8 +175,8 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_D))
 	{
 		render_flag = 1;
-		new_x = table->player_x + table->player_delta_x_ad * 5;
-		new_y = table->player_y + table->player_delta_y_ad * 5;
+		new_x = table->player_x + table->player_delta_x_ad * d_t_in_s * 150;
+		new_y = table->player_y + table->player_delta_y_ad * d_t_in_s * 150;
 		//if (table->map[mpy][mpxcd] != '1')
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
@@ -177,8 +188,8 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_A))
 	{
 		render_flag = 1;
-		new_x = table->player_x - table->player_delta_x_ad * 5;
-		new_y = table->player_y - table->player_delta_y_ad * 5;
+		new_x = table->player_x - table->player_delta_x_ad * d_t_in_s * 150;
+		new_y = table->player_y - table->player_delta_y_ad * d_t_in_s * 150;
 		//if (table->map[mpy][mpxca] != '1')
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
@@ -190,7 +201,7 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_LEFT))
 	{
 		render_flag = 1;
-		table->player_angle -= 10;
+		table->player_angle -= d_t_in_s * 150;
 		if (table->player_angle < 0)
 			table->player_angle += 360;
 		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
@@ -201,7 +212,7 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_RIGHT))
 	{
 		render_flag = 1;
-		table->player_angle += 10;
+		table->player_angle += d_t_in_s * 150;
 		if (table->player_angle > 359)
 			table->player_angle -= 360;
 		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
@@ -296,25 +307,25 @@ void ft_hook(void* param)
 	int i = -1;
 	while (++i < N_ENEMIES)
 	{
-		int move_x = 0;
-		int move_y = 0;
+		float move_x = 0;
+		float move_y = 0;
 
 		render_flag = 1;
 		if (table->enemies[i].x < table->player_x)
-			move_x = 1;
+			move_x = d_t_in_s * 30.0f;
 		else if (table->enemies[i].x > table->player_x)
-			move_x = -1;
+			move_x = -d_t_in_s * 30.0f;
 		// else
 			// new_x = table->enemies[i].x;
 		if (table->enemies[i].y < table->player_y)
-			move_y = 1;
+			move_y = d_t_in_s * 30.0f;
 		else if (table->enemies[i].y> table->player_y)
-			move_y = -1;
+			move_y = -d_t_in_s * 30.0f;
 		// else
 			// new_y = table->enemies[i].y;
 		
-		new_x = table->enemies[i].x + move_x;
-		new_y = table->enemies[i].y + move_y;
+		float new_x = table->enemies[i].x + move_x;
+		float new_y = table->enemies[i].y + move_y;
 
 		int r;
 
@@ -355,8 +366,9 @@ void ft_hook(void* param)
 		draw_minimap(table);
 		draw_raycasting(table);
 	}
-	insert_fireball(table);
-	if (table->is_attacking)
+	if (!table->is_attacking)
+		insert_fireball(table);
+	else
 		animate_attack(table);
 }
 

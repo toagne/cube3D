@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 15:52:24 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:44:15 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ void	draw_sprite(t_table *table, t_enemy sp, int x)
 		tex_y = (y - sp.y_start) * (table->sprite_tx.height - 1)
 			/ sp.screen_size;
 		if (table->sprite_tx.colors[tex_y][tex_x] != 0x00000000)
-			mlx_put_pixel(table->mlx_3D, x, y,
-				table->sprite_tx.colors[tex_y][tex_x]);
+		{
+			if (table->sprite_tx.colors[tex_y][tex_x] != table->w_colors[y][x])
+				table->w_colors[y][x] = table->sprite_tx.colors[tex_y][tex_x];
+			//mlx_put_pixel(table->mlx_3D, x, y,
+			//	table->sprite_tx.colors[tex_y][tex_x]);
+		}
 	}
 }
 
@@ -60,7 +64,7 @@ void	render_sprite(t_table *table, int i)
 {
 	float	angle_diff;
 
-	draw_dot(table, table->enemies[i].x / 2, table->enemies[i].y / 2, 2);
+	draw_dot(table, table->enemies[i].x / 4, table->enemies[i].y / 4, 2);
 	table->enemies[i].angle = atan2(table->enemies[i].dy,
 			table->enemies[i].dx) * 180 / PI;
 	if (table->enemies[i].angle < 0)
@@ -115,4 +119,11 @@ void	draw_sprites(t_table *table)
 	while (++i < N_ENEMIES)
 		if (table->enemies[i].x != 0 && table->enemies[i].y != 0)
 			render_sprite(table, i);
+	int y = -1;
+	while (++y < table->height)
+	{
+		int x = -1;
+		while (++x < table->width)
+			mlx_put_pixel(table->mlx_3D, x, y, table->w_colors[y][x]);
+	}
 }

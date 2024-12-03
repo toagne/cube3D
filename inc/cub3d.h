@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 16:17:05 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:39:11 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <math.h> 
 # include <MLX42/MLX42.h>
+# include <sys/time.h>
 # include "../libft/libft.h"
 
 # define PI 3.14159265358979323846
@@ -27,8 +28,8 @@
 
 typedef	struct	s_enemy
 {
-	int		x;
-	int		y;
+	float		x;
+	float		y;
 	float	dist;
 	float	dx;
 	float	dy;
@@ -142,6 +143,8 @@ typedef struct s_table
 	int32_t			y_mouse;
 	t_button		play_button;
 	t_button		exit_button;
+	long			last_time;
+	uint32_t		**w_colors;
 }	t_table;
 
 void			init_data(t_table *table);
@@ -175,6 +178,7 @@ void			convert_texture(t_texture *tx, uint32_t ***tx_colors, char *str);
 unsigned int	get_rgba(int r, int g, int b, int a);
 void			get_monitor_size(int *width, int *height);
 float			deg_to_rad(float deg);
+long			get_time(char type);
 
 void			draw_minimap(t_table *table);
 void	convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
@@ -201,7 +205,7 @@ int	insert_fireball(t_table *table);
 void	draw_sprites(t_table *table);
 
 void	draw_dot(t_table *table, int value_x, int value_y, int range);
-void	draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color);
+void	draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color, t_table *table, int type);
 
 void	check_vertical_lines(t_table *table, float angle);
 void	check_horizontal_lines(t_table *table, float angle);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:24:40 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 16:17:39 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 18:13:06 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ void	check_horizontal_lines(t_table *t, float angle)
 {
 	float	step_x;
 	float	step_y;
-	float	h_vector;
+	//float	h_vector;
 	float	h_side_t_x;
 	float	h_side_t_y;
 
-	h_vector = 10000;
+	//h_vector = 10000;
 	if (angle > 0 && angle < PI)
 	{
 		h_side_t_y = (int)(t->player_y / T_SIZE) * T_SIZE + T_SIZE;
@@ -102,11 +102,11 @@ void	check_vertical_lines(t_table *t, float angle)
 {
 	float	step_x;
 	float	step_y;
-	float	v_vector;
+	//float	v_vector;
 	float	v_side_t_x;
 	float	v_side_t_y;
 
-	v_vector = 10000;
+	//v_vector = 10000;
 	if (angle > 3 * PI / 2 || angle < PI / 2)
 	{
 		v_side_t_x = (int)(t->player_x / T_SIZE) * T_SIZE + T_SIZE;

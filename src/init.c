@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/29 12:51:28 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:14:11 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-#include <sys/time.h>
-
-long	get_time()
-{
-	struct timeval	tv;
-
-	// if (gettimeofday(&tv, NULL) == -1)
-	// 	return (return_error_int("gettimeofday failed\n"));
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec + tv.tv_usec / 1000000);
-}
 
 void	init_data(t_table *table)
 {
@@ -39,6 +28,22 @@ void	init_data(t_table *table)
 	table->y_stuck = 0;
 	table->e_spawn_pos_x = 0;
 	table->e_spawn_pos_y = 0;
-	table->lcg_seed = get_time();
+	table->lcg_seed = get_time('a');
 	table->n_of_rays = table->width / 2;
+	table->last_time = get_time('b');
+	table->w_colors = (uint32_t **)ft_calloc((table->height), sizeof(uint32_t *));
+	if (!table->w_colors) {
+		printf("Memory allocation failed for rows\n");
+		return;
+	}
+	int i = -1;
+	while (++i < table->height)
+	{
+		table->w_colors[i] = (uint32_t *)ft_calloc((table->width), sizeof(uint32_t));
+		if (!table->w_colors[i])
+		{
+			printf("Memory allocation failed for rows\n");
+			return ;
+		}
+	}
 }
