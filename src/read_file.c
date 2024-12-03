@@ -20,6 +20,24 @@ char	*ft_skipwhitespace(char *str)
 	return (str);
 }
 
+void	check_duplicate_color(t_table *table, int *array, char c)
+{
+	if (c == 'F')
+	{
+		if (!table->f_color)
+			table->f_color = array;
+		else
+			table->duplicate_id = 1;
+	}
+	else if (c == 'C')
+	{
+		if (!table->c_color)
+			table->c_color = array;
+		else
+			table->duplicate_id = 1;
+	}
+}
+
 int	parse_rgb(t_table *table, char *color, char c)
 {
 	char **rgb_arr;
@@ -49,20 +67,7 @@ int	parse_rgb(t_table *table, char *color, char c)
 		array[i] = number;
 		++i;
 	}
-	if (c == 'F')
-	{
-		if (!table->f_color)
-			table->f_color = array;
-		else
-			table->duplicate_id = 1;
-	}
-	else if (c == 'C')
-	{
-		if (!table->c_color)
-			table->c_color = array;
-		else
-			table->duplicate_id = 1;
-	}
+	check_duplicate_color(table, array, c);
 	free_table(&rgb_arr);
 	return (0);
 }
