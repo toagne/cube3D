@@ -154,9 +154,32 @@ int	is_map_line(char *line)
 			return (0);
 		++line;
 	}
+	printf("%s \n", line);
 	return (1);
 }
 
+int	verify_elements_ids(t_table *table)
+{
+	if (!table->f_color)
+		return (1);
+	if (!table->c_color)
+		return (1);
+	if (!table->ws_path_texture)
+		return (1);
+	if (!table->so_path_texture)
+		return (1);
+	if (!table->es_path_texture)
+		return (1);
+	if (!table->no_path_texture)
+		return (1);
+	return (0);
+}
+int	is_only_newline(char *line)
+{
+	if (ft_strlen(line) == 1 && *line == '\n')
+		return (1);
+	return (0);
+}
 int	read_file(t_table *table)
 {
 	int		fd;
@@ -175,32 +198,37 @@ int	read_file(t_table *table)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		temp = ft_strtrim(line, "\n");
-		if (!temp)
+		if (is_only_newline(line))
 		{
 			free(line);
-			return (1);
+			line = get_next_line(fd);
 		}
-		if (is_map_line(temp))
+		else
 		{
+			temp = ft_strtrim(line, "\n");
+			if (!temp)
+			{
+				free(line);
+				return (1);
+			}
+			if (is_map_line(temp))
+			{
+				free(line);
+				break;
+			}
+			temp1 = ft_skipwhitespace(temp);
+			if (!check_element_ids(table, temp1))
+			{ 
+				i += 1;
+			}
 			free(line);
 			free(temp);
-			break;
+			line = get_next_line(fd);
 		}
-		temp1 = ft_skipwhitespace(temp);
-		if (!check_element_ids(table, temp1))
-		{ 
-			i += 1;
-		}
-		free(line);
-		free(temp);
-		line = get_next_line(fd);
-		if (i == 6) // need to think about this when i us less than 6 it will be infinite loop
-			break;
 	}
-	if (i == 6 && !table->duplicate_id)
+	if (!verify_elements_ids(table) && !table->duplicate_id)
 	{
-		if (read_map(table, fd))
+		if (read_map(table, fd, temp))
 		{
 			ft_error("Read failed or empty file");
 			close(fd);

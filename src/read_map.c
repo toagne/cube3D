@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static int	check_empty_file(int fd, char **line, char **map)
+/* static int	check_empty_file(int fd, char **line, char **map)
 {
 	*line = get_next_line(fd);
 	if (!(*line))
@@ -21,7 +21,7 @@ static int	check_empty_file(int fd, char **line, char **map)
 		return (0);
 	}
 	return (1);
-}
+} */
 
 /* static	int count_chars(char *line, int c)
 {
@@ -88,15 +88,14 @@ static int	check_empty_file(int fd, char **line, char **map)
 	return (newstr);
 } */
 
-static int	read_lines(int fd, char ***map, t_table *table)
+static int	read_lines(int fd, char ***map, t_table *table, char *line)
 {
-	char	*line;
 	int		ln;
 	char	*trimmed;
 
-	line = NULL;
+	/* line = NULL;
 	if (!check_empty_file(fd, &line, *map))
-		return (0);
+		return (0); */
 	trimmed = ft_strtrim(line, " \n");
 	if (!trimmed)
 	{
@@ -234,7 +233,7 @@ int fill_spaces_to_map(char ***map)
 	return (0);
 }
 
-int	read_map(t_table *table, int fd)
+int	read_map(t_table *table, int fd, char *line)
 {
 	char	**map;
 
@@ -244,7 +243,7 @@ int	read_map(t_table *table, int fd)
 		close(fd);
 		return (1);
 	}
-	if (!read_lines(fd, &map, table))
+	if (!read_lines(fd, &map, table, line))
 	{
 		close(fd);
 		return (1);

@@ -85,45 +85,37 @@ void	set_image_instance_pos(mlx_instance_t *instance, int x, int y)
 
 int	insert_fireball(t_table *table)
 {
-	//int	i;
 	int base_x;
 	int base_y;
 
-	base_x = table->width / 2 - 400 / 2;
-	base_y = table->height / 2 + 300;
-
-	int frame_width = 400;   // Width of each frame
-    int frame_height = 400;  // Height of each frame
-
-    // Loop through each pixel in the 400x400 frame
+	int frame_width = table->width * 0.3;
+    int frame_height = table->height * 0.3;
+	float ratio = (float)table->ball_texture->width / 30 / table->ball_texture->height;
+	if (frame_width / ratio > frame_height) {
+        frame_width = (int)(frame_height * ratio);
+    } else {
+        frame_height = (int)(frame_width / ratio);
+    }
+	base_x = table->width / 2 - frame_width / 2;
+	base_y = table->height - frame_height;
+	float sw = (float)400 / frame_width;
+	float sh = (float)table->ball_texture->height / frame_height;
+	float	tx;
+	float	ty;
+	ty = 0;
     for (int y = 0; y < frame_height; y++)
     {
+		tx = 0;
         for (int x = 0; x < frame_width; x++)
         {
-            // Calculate the index of the color in the table.ball_texture_colors array
-            // Since the sprite sheet frames are laid out horizontally:
-            // - The first frame starts at index 0, the second at index 1, etc.
-
-            // Fetch the color from the sprite sheet array
-            uint32_t color = table->ball_texture_colors[y][x];
-
-            // Draw the color to the ball_image buffer at the correct position
+			int tex_x = (int)tx;
+			int tex_y = (int)ty;
+            uint32_t color = table->ball_texture_colors[tex_y][tex_x];
             mlx_put_pixel(table->ball_image, base_x + x, base_y + y, color);
-        }
-    }
-
-	/* i = 0;
-	while (i < 30)
-	{
-		mlx_resize_image(table->p_img[i], table->width / 2, table->height / 2);
-		mlx_image_to_window(table->mlx_start, table->p_img[i], base_x, base_y);
-		if (i > 0)
-		{
-			set_image_instance_pos(&table->p_img[i]->instances[0], base_x, base_y - (i * table->height / 100));
-			table->p_img[i]->instances[0].enabled = false;
+			tx += sw;
 		}
-		++i;
-	} */
+		ty += sh;
+    }
 	return (0);
 }
 

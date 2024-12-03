@@ -120,7 +120,7 @@ int				animate_enemy(t_table *table);
 void			draw_raycasting(t_table *table);
 
 // read_map.c
-int				read_map(t_table *table, int fd);
+int				read_map(t_table *table, int fd, char *line);
 
 // error.c
 void    		ft_error(char *s1);
