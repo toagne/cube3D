@@ -12,115 +12,28 @@
 
 #include "cub3d.h"
 
-/* static int	check_empty_file(int fd, char **line, char **map)
-{
-	*line = get_next_line(fd);
-	if (!(*line))
-	{
-		free(map);
-		return (0);
-	}
-	return (1);
-} */
-
-/* static	int count_chars(char *line, int c)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	if (!line)
-		return (0);
-	while (line[i] != '\0')
-	{
-		if (line[i] != c)
-			count++;
-		i++;
-	}
-	return (count);
-} */
-
-/* static char	*remove_spaces(char *line)
-{
-	char	*newstr;
-	int		j;
-	int		i;
-	int		nspaces;
-
-	i = 0;
-	j = 0;
-	nspaces = count_chars(line, ' ');
-	if (!line)
-		return (NULL);
-	if (nspaces != 0)
-	{
-		newstr = ft_calloc((ft_strlen(line) - nspaces) + 1, sizeof(char));
-		if (!newstr)
-			return (NULL);
-		while (line[j])
-		{
-			if (line[j] != ' ')
-			{
-				newstr[i] = line[j];
-				++i;
-			}
-			++j;
-		}
-		newstr[i] = '\0';
-		return (newstr);
-	}
-	return (line);
-} */
-
-/* static char *remove_spaces_and_nl(char *line)
-{
-	char	*trimmed;
-	char	*newstr;
-
-	trimmed = ft_strtrim(line, " \n");
-	if (!trimmed)
-		return (NULL);
-	newstr = remove_spaces(trimmed);
-	free(trimmed);
-	if (!newstr)
-		return (NULL);
-	return (newstr);
-} */
-
-static int	read_lines(int fd, char ***map, t_table *table, char *line)
+static int	read_lines(int fd, char ***map, t_table *table)
 {
 	int		ln;
+	char	*line;
 	char	*trimmed;
 
-	/* line = NULL;
-	if (!check_empty_file(fd, &line, *map))
-		return (0); */
-	trimmed = ft_strtrim(line, " \n");
-	if (!trimmed)
-	{
-		free(*map);
-		return (0);
-	}
-	(*map)[0] = trimmed;
 	ln = 1;
+	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		line = get_next_line(fd);
 		*map = ft_realloc(*map, ln * sizeof(char *), (ln + 1) * sizeof(char *));
-		if (line)
-			trimmed = ft_strtrim(line, " \n");
+		trimmed = ft_strtrim(line, " \n");
 		if (!*map || !trimmed)
 		{
 			free_map(*map, ln);
 			free(line);
-			line = NULL;
 			return (0);
 		}
 		(*map)[ln] = trimmed;
-		if (line)
-			++ln;
+		++ln;
 		free(line);
+		line = get_next_line(fd);
 	}
 	table->rows = ln;
 	(*map)[ln] = NULL;
@@ -164,10 +77,8 @@ void set_player_position(t_table *table)
 		}
 		++player_pos_y;
 	}
-	//printf("%d x %d\n", table->player_col, table->player_row);
 	table->player_x = (float)table->player_col * T_SIZE + T_SIZE / 2;
 	table->player_y = (float)table->player_row * T_SIZE + T_SIZE / 2;
-	//printf("%f x %f\n", table->player_x, table->player_y);
 }
 
 int	find_length_of_longest_line(char **map)
@@ -243,7 +154,8 @@ int	read_map(t_table *table, int fd, char *line)
 		close(fd);
 		return (1);
 	}
-	if (!read_lines(fd, &map, table, line))
+	map[0] = line;
+	if (!read_lines(fd, &map, table))
 	{
 		close(fd);
 		return (1);
