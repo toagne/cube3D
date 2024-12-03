@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 12:34:30 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/03 15:20:49 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,32 @@ void ft_mouse(void *param)
 		animate_button(&table->exit_button);
 	}
 
+}
+
+void	kill_sprite(t_table *table)
+{
+	int		i;
+	int		dx;
+	int		dy;
+	float	angle_to_enemy;
+	float	angle_diff;
+
+	i = -1;
+	while (++i < N_ENEMIES)
+	{
+		if (table->enemies[i].dead)
+			continue ;
+		dx = table->enemies[i].x - table->player_x;
+		dy = table->enemies[i].y - table->player_y;
+		angle_to_enemy = atan2(dy, dx) * 180 / PI;
+		angle_diff = table->player_angle - angle_to_enemy;
+		if (angle_diff > 180)
+			angle_diff -= 360;
+        if (angle_diff < -180)
+			angle_diff += 360;
+		if (fabs(angle_diff) <= 10)
+			table->enemies[i].dead = 1;
+	}
 }
 
 void ft_hook(void* param)
@@ -369,7 +395,10 @@ void ft_hook(void* param)
 	if (!table->is_attacking)
 		insert_fireball(table);
 	else
+	{
 		animate_attack(table);
+		kill_sprite(table);
+	}
 }
 
 void	ft_keyboard(mlx_key_data_t keydata, void *param)

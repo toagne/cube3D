@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 12:44:15 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/03 15:18:20 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	draw_sprites(t_table *table)
 	order_sprites(table, table->enemies);
 	i = -1;
 	while (++i < N_ENEMIES)
-		if (table->enemies[i].x != 0 && table->enemies[i].y != 0)
+		if (table->enemies[i].x != 0 && table->enemies[i].y != 0 && !table->enemies[i].dead)
 			render_sprite(table, i);
 	int y = -1;
 	while (++y < table->height)

@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 12:39:11 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/03 15:07:02 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef	struct	s_enemy
 	int		y_start;
 	int		y_end;
 	int		tx_start_x;
+	int		dead;
 } t_enemy;
 
 typedef	struct	s_texture
