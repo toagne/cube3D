@@ -12,6 +12,58 @@
 
 #include "cub3d.h"
 
+void	convert_rays_for_minimap(t_table *table, float angle, float ray_angle)
+{
+	int minimap_size = fmin(table->width / 4, table->height / 4);
+	// printf("minimap size = %d\n", minimap_size);
+	int vpx0 = (table->player_x - (minimap_size / 2));
+	int vpy0 = (table->player_y - (minimap_size / 2));
+	int vpx1 = vpx0 + minimap_size;
+	int vpy1 = vpy0 + minimap_size;
+	// printf("fx = %f	fy = %f\n", fx, fy);
+	// printf("vpx0 = %d	vpx1 = %d\n", vpx0, vpx1);
+	// printf("vpy0 = %d	vpy1 = %d\n", vpy0, vpy1);
+	int rx1 = table->ray.f_x;
+	int ry1 = table->ray.f_y;
+	if (vpx0 > table->ray.f_x && (vpx0 - table->ray.f_x) > (vpy0 - table->ray.f_y) && (vpx0 - table->ray.f_x) > (table->ray.f_y - vpy1))
+	{
+		rx1 = vpx0;
+		ry1 = -(table->player_x - rx1) * tan(angle) + table->player_y;
+	}
+	if (vpx1 < table->ray.f_x && (table->ray.f_x - vpx1) > (table->ray.f_y - vpy1) && (table->ray.f_x - vpx1) > (vpy0 - table->ray.f_y))
+	{
+		rx1 = vpx1;
+		if (ray_angle == 0 || ray_angle == 360)
+			ry1 = table->player_y;
+		else
+			ry1 = -(table->player_x - rx1) * tan(angle) + table->player_y;
+	}
+	if (vpy0 > table->ray.f_y && (vpy0 - table->ray.f_y) > (vpx0 - table->ray.f_x) && (vpy0 - table->ray.f_y) > (table->ray.f_x - vpx1))
+	{
+		ry1 = vpy0;
+		if (ray_angle == 270)
+			rx1 = table->player_x;
+		else
+			rx1 = -(table->player_y - ry1) / tan(angle) + table->player_x;
+	}
+	if (vpy1 < table->ray.f_y && (table->ray.f_y - vpy1) > (table->ray.f_x - vpx1) && (table->ray.f_y - vpy1) > (vpx0 - table->ray.f_x))
+	{
+		ry1 = vpy1;
+		rx1 = -(table->player_y - ry1) / tan(angle) + table->player_x;
+	}
+	rx1 -= vpx0;
+	ry1 -= vpy0;
+	if (rx1 == minimap_size)
+		rx1 -= 1;
+	if (ry1 == minimap_size)
+		ry1 -= 1;	
+	// printf("player x%f	player y%f\n", table->player_x, table->player_y);
+	// printf("rx1 = %d	ry1 = %d\n", rx1, ry1);
+	// printf("angle = %f\n", ray_angle);
+	
+	//draw_line(table->mlx_2D, table->player_x - vpx0, table->player_y - vpy0, rx1, ry1, 0xFFFF00FF);
+}
+
 void	draw_real_minimap(t_table *table)
 {
 	int	minimap_size;

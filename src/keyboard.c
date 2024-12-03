@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 11:23:49 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:10:52 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ void ft_hook(void* param)
 	}
 	*/
 	int i = -1;
-	while (i < N_ENEMIES)
+	while (++i < N_ENEMIES)
 	{
 		int move_x = 0;
 		int move_y = 0;
@@ -349,7 +349,6 @@ void ft_hook(void* param)
 		}
 		// printf("player x = %f	player y = %f\n", table->player_x, table->player_y);
 		// printf("sprite x = %d	sprite y = %d\n\n", table->enemies[i].x, table->enemies[i].y);
-		++i;
 	}
 	if (render_flag == 1)
 	{

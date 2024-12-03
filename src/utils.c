@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:41:29 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 10:56:02 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:06:52 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uin
 		angle += step;
 	}
 }
-//should not be used
+// draw circle should not be used
 
 int	my_rand(t_table *table)
 {

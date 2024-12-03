@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/27 17:24:13 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:51:28 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ long	get_time()
 void	init_data(t_table *table)
 {
 	ft_memset(table, 0, sizeof(t_table));
-	table->width = 2048;
-	table->height = 1024;
+	get_monitor_size(&table->width, &table->height);
 	table->player_angle = 270; // to ghange according NSEW where the player is looking on the map
 	table->player_delta_x = cos((float)table->player_angle / 180 * PI);
 	table->player_delta_y = sin((float)table->player_angle / 180 * PI);
@@ -41,4 +40,5 @@ void	init_data(t_table *table)
 	table->e_spawn_pos_x = 0;
 	table->e_spawn_pos_y = 0;
 	table->lcg_seed = get_time();
+	table->n_of_rays = table->width / 2;
 }
