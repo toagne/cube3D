@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:15:57 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/22 16:10:10 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:16:01 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int animate_attack(t_table *table)
             for (int x = 0; x < frame_width - 1; x++)
             {
                 // Access the color from the sprite sheet (2D array with sprite data)
-                uint32_t color = table->ball_texture_colors[y][frame_x_offset + x];
+                uint32_t color = table->ball_texture.colors[y][frame_x_offset + x];
                 
                 // Draw the current frame pixel to the screen at the right position
                 mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, color);
@@ -105,7 +105,7 @@ int	insert_fireball(t_table *table)
             // - The first frame starts at index 0, the second at index 1, etc.
 
             // Fetch the color from the sprite sheet array
-            uint32_t color = table->ball_texture_colors[y][x];
+            uint32_t color = table->ball_texture.colors[y][x];
 
             // Draw the color to the ball_image buffer at the correct position
             mlx_put_pixel(table->ball_image, base_x + x, base_y + y, color);
