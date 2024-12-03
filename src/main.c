@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 16:15:37 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:03:34 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
+	table.mouse_last_x = table.width / 2;
+	table.mouse_last_y = table.height / 2;
+	mlx_set_mouse_pos(table.mlx_start, table.width / 2, table.height / 2);
+	
 	init_enemies(&table);
 	main_menu(&table);
 	convert_texture(&table.no_texture, &table.no_texture.colors, "pngs/texture_no.png");

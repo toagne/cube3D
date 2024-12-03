@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 15:07:02 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/03 15:45:12 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,8 @@ typedef struct s_table
 	t_button		exit_button;
 	long			last_time;
 	uint32_t		**w_colors;
+	int				mouse_last_x;
+	int				mouse_last_y;
 }	t_table;
 
 void			init_data(t_table *table);
