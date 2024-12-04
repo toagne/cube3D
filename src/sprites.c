@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 15:52:24 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:42:39 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ void	draw_sprite(t_table *table, t_enemy sp, int x)
 		tex_y = (y - sp.y_start) * (table->sprite_tx.height - 1)
 			/ sp.screen_size;
 		if (table->sprite_tx.colors[tex_y][tex_x] != 0x00000000)
-			mlx_put_pixel(table->mlx_3D, x, y,
-				table->sprite_tx.colors[tex_y][tex_x]);
+		{
+			if (table->sprite_tx.colors[tex_y][tex_x] != table->w_colors[y][x])
+				table->w_colors[y][x] = table->sprite_tx.colors[tex_y][tex_x];
+			//mlx_put_pixel(table->mlx_3D, x, y,
+			//	table->sprite_tx.colors[tex_y][tex_x]);
+		}
 	}
 }
 
@@ -60,7 +64,7 @@ void	render_sprite(t_table *table, int i)
 {
 	float	angle_diff;
 
-	draw_dot(table, table->enemies[i].x / 2, table->enemies[i].y / 2, 2);
+	draw_dot(table, table->enemies[i].x / 4, table->enemies[i].y / 4, 2);
 	table->enemies[i].angle = atan2(table->enemies[i].dy,
 			table->enemies[i].dx) * 180 / PI;
 	if (table->enemies[i].angle < 0)
@@ -89,6 +93,13 @@ void	order_sprites(t_table *table, t_enemy *sp)
 		sp[i].dx = sp[i].x - table->player_x;
 		sp[i].dy = sp[i].y - table->player_y;
 		sp[i].dist = sqrt((sp[i].dx * sp[i].dx) + (sp[i].dy * sp[i].dy));
+		if (sp[i].dist < 30)
+		{
+			mlx_set_cursor_mode(table->mlx_start, MLX_MOUSE_NORMAL);
+			table->main_menu_on = 1;
+			init_dynamic_data(table);
+			display_main_menu(table);
+		}
 	}
 	i = -1;
 	while (++i < N_ENEMIES - 1)
@@ -113,6 +124,13 @@ void	draw_sprites(t_table *table)
 	order_sprites(table, table->enemies);
 	i = -1;
 	while (++i < N_ENEMIES)
-		if (table->enemies[i].x != 0 && table->enemies[i].y != 0)
+		if (table->enemies[i].x != 0 && table->enemies[i].y != 0 && !table->enemies[i].dead)
 			render_sprite(table, i);
+	int y = -1;
+	while (++y < table->height)
+	{
+		int x = -1;
+		while (++x < table->width)
+			mlx_put_pixel(table->mlx_3D, x, y, table->w_colors[y][x]);
+	}
 }
