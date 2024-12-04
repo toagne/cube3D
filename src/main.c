@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/04 14:07:49 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/04 17:06:47 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
-	// add_doors(&table);
+	add_doors(&table);
 	init_dynamic_data(&table);
 	init_main_menu(&table);
 	convert_texture(&table.no_texture, &table.no_texture.colors, "pngs/texture_no.png");
