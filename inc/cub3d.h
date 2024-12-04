@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 16:17:05 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:43:19 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,26 @@
 # include <fcntl.h>
 # include <math.h> 
 # include <MLX42/MLX42.h>
+# include <sys/time.h>
+# include <float.h>
 # include "../libft/libft.h"
 
 # define PI 3.14159265358979323846
 # define T_SIZE 64
 # define N_ENEMIES 10
 
+typedef	struct	s_door
+{
+	int	x;
+	int	y;
+	int	room_1;
+	int	room_2;
+} t_door;
+
 typedef	struct	s_enemy
 {
-	int		x;
-	int		y;
+	float		x;
+	float		y;
 	float	dist;
 	float	dx;
 	float	dy;
@@ -39,6 +49,8 @@ typedef	struct	s_enemy
 	int		y_start;
 	int		y_end;
 	int		tx_start_x;
+	int		dead;
+	int		pending_death;
 } t_enemy;
 
 typedef	struct	s_texture
@@ -123,13 +135,6 @@ typedef struct s_table
 	// mlx_texture_t	*ball_texture;
 	// uint32_t		**ball_texture_colors;
 	mlx_image_t		*ball_image;
-	int				sprite_x;
-	int				sprite_y;
-	int				x_aligned_flag;
-	int				y_stuck;
-	int				y_aligned_flag;
-	int				e_spawn_pos_x;
-	int				e_spawn_pos_y;
 	t_enemy			enemies[N_ENEMIES];
 	mlx_texture_t	*enemy_texture;
 	uint32_t		**enemy_texture_colors;
@@ -142,9 +147,18 @@ typedef struct s_table
 	int32_t			y_mouse;
 	t_button		play_button;
 	t_button		exit_button;
+	mlx_image_t		*bg_img;
+	long			last_time;
+	uint32_t		**w_colors;
+	int				mouse_last_x;
+	int				mouse_last_y;
+	int				kill;
 }	t_table;
 
-void			init_data(t_table *table);
+// init.c
+void			init_static_data(t_table *table);
+void			init_dynamic_data(t_table *table);
+
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			ft_hook(void* param);
 void			ft_enemy(void *param);
@@ -159,7 +173,7 @@ int				animate_enemy(t_table *table);
 void			draw_raycasting(t_table *table);
 
 // read_map.c
-int		read_map(t_table *table, int fd);
+int				read_map(t_table *table, int fd);
 
 // error.c
 void    		ft_error(char *s1);
@@ -175,9 +189,10 @@ void			convert_texture(t_texture *tx, uint32_t ***tx_colors, char *str);
 unsigned int	get_rgba(int r, int g, int b, int a);
 void			get_monitor_size(int *width, int *height);
 float			deg_to_rad(float deg);
+long			get_time(char type);
 
 void			draw_minimap(t_table *table);
-void	convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
+void			convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
 
 // read_file.c
 int	read_file(t_table *table);
@@ -187,9 +202,11 @@ void	free_map(char **map, size_t i);
 void	free_table(char ***table);
  
 // main_menu
-void main_menu(t_table *table);
+void init_main_menu(t_table *table);
 void animate_button(t_button *button);
 void ft_mouse(void *param);
+void	display_main_menu(t_table *table);
+void	undisplay_main_menu(t_table *table);
 
 void ft_hook(void* param);
 
@@ -201,7 +218,7 @@ int	insert_fireball(t_table *table);
 void	draw_sprites(t_table *table);
 
 void	draw_dot(t_table *table, int value_x, int value_y, int range);
-void	draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color);
+void	draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color, t_table *table, int type);
 
 void	check_vertical_lines(t_table *table, float angle);
 void	check_horizontal_lines(t_table *table, float angle);
@@ -212,5 +229,7 @@ void	get_coordinates_in_texture(t_table *table);
 
 void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp);
 int		check_sprite_is_visible(t_table *table, t_enemy sp);
+
+void	add_doors(t_table *table);
 
 #endif

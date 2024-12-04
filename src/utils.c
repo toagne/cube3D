@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:41:29 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/29 13:06:52 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/04 09:30:07 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,6 @@ void init_enemies(t_table *table)
 			if (table->map[y][x] == '0' && !flag)
 			{
 				// printf("spawn position found \n");
-				table->e_spawn_pos_x = x * T_SIZE + T_SIZE / 2;
-				table->e_spawn_pos_y = y * T_SIZE + T_SIZE / 2;
 				table->enemies[i].x = x * T_SIZE + T_SIZE / 2;
 				table->enemies[i].y = y * T_SIZE + T_SIZE / 2;
 				// i++;
@@ -139,4 +137,23 @@ void init_enemies(t_table *table)
 			printf("No valid enemy spawn position found \n");
 		i++;
 	}
+}
+
+long	get_time(char type)
+{
+	struct timeval	tv;
+
+	// if (gettimeofday(&tv, NULL) == -1)
+	// 	return (return_error_int("gettimeofday failed\n"));
+	gettimeofday(&tv, NULL);
+	if (type == 'a')
+	{
+		return (tv.tv_sec + tv.tv_usec / 1000000);
+	}
+	else if (type == 'b')
+	{
+		return (tv.tv_sec * 1000000 + tv.tv_usec);
+	}
+	else
+		return (0);
 }

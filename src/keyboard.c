@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 16:10:52 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:42:14 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,28 @@ int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y, int b
 	return (0);
 }
 
+void	move_visual_with_mouse(t_table *table)
+{
+	int	delta_x_mouse;
+
+	mlx_set_cursor_mode(table->mlx_start, MLX_MOUSE_HIDDEN);
+	delta_x_mouse = table->x_mouse - table->mouse_last_x;
+	if (delta_x_mouse != 0)
+	{
+		table->player_angle += delta_x_mouse * 0.5;
+		if (table->player_angle < 0)
+			table->player_angle += 360;
+		if (table->player_angle >= 360)
+			table->player_angle -= 360;
+		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
+		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
+		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
+		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
+		mlx_set_mouse_pos(table->mlx_start, table->width / 2, table->height / 2);
+		table->mouse_last_x = table->width / 2;
+		table->mouse_last_y = table->height / 2;
+	}
+}
 
 void ft_mouse(void *param)
 {
@@ -85,7 +107,10 @@ void ft_mouse(void *param)
 	table = (t_table *)param;
 	mlx_get_mouse_pos(table->mlx_start, &table->x_mouse, &table->y_mouse);
 	if (table->main_menu_on == 0)
+	{
+		move_visual_with_mouse(table);
 		return ;
+	}
 	if (table->x_mouse > table->play_button.white->instances[0].x && table->x_mouse < table->play_button.white->instances[0].x + table->width / 6 \
 	&& table->y_mouse > table->play_button.white->instances[0].y && table->y_mouse < table->play_button.white->instances[0].y + table->height / 6)
 	{
@@ -94,6 +119,7 @@ void ft_mouse(void *param)
 		if (mlx_is_mouse_down(table->mlx_start, MLX_MOUSE_BUTTON_LEFT))
 		{	
 			table->main_menu_on = 0;
+			undisplay_main_menu(table);
 		}
 	}
 	else
@@ -120,15 +146,76 @@ void ft_mouse(void *param)
 
 }
 
+void	kill_sprite(t_table *table)
+{
+	int		i;
+	int		dx;
+	int		dy;
+	float	angle_to_enemy;
+	float	angle_diff;
+	float	ray;
+	float	closest_ray;
+	int		closest_enemy_index;
+
+	closest_enemy_index = -1;
+	closest_ray = FLT_MAX;
+	i = -1;
+	while (++i < N_ENEMIES)
+	{
+		if (table->enemies[i].dead)
+			continue ;
+		dx = table->enemies[i].x - table->player_x;
+		dy = table->enemies[i].y - table->player_y;
+		ray = sqrt((dx * dx) + (dy * dy));
+		angle_to_enemy = atan2(dy, dx) * 180 / PI;
+		angle_diff = table->player_angle - angle_to_enemy;
+		if (angle_diff > 180)
+			angle_diff -= 360;
+		if (angle_diff < -180)
+			angle_diff += 360;
+		if (fabs(angle_diff) <= 10)
+		{
+			check_vertical_lines(table, deg_to_rad(angle_to_enemy));
+			check_horizontal_lines(table, deg_to_rad(angle_to_enemy));
+			chose_shortest_ray(table);
+			if (ray <= table->ray.f_v && ray < closest_ray)
+			{
+					closest_ray = ray;
+					closest_enemy_index = i;
+			}
+		}
+	}
+	if (closest_enemy_index != -1)
+	{
+		int i = closest_enemy_index;
+		table->enemies[i].pending_death = 1;
+		// table->enemies[i].dead = 1;
+		// table->enemies[i].x = 0;
+		// table->enemies[i].y = 0;
+		table->kill = 0;
+	}
+}
+
 void ft_hook(void* param)
 {
 	t_table	*table;
 	//int	avoid_wall_collision;
-	int		new_x;
-	int		new_y;
+	float		new_x;
+	float		new_y;
 	int		render_flag = 0;
 
 	table = (t_table *)param;
+
+	// --------------------- normalizing speed ------------------------
+	long	current_time = get_time('b');
+	//printf("ct = %ld\n", current_time);
+	//printf("lt = %ld\n", table->last_time);
+	long	delta_time = current_time - table->last_time;
+	table->last_time = current_time;
+	//printf("dt = %ld\n", delta_time);
+	float d_t_in_s = (float)delta_time / 1000000;
+	//printf("dt in s = %f\n", d_t_in_s);
+
 	if (table->main_menu_on)
 		return ;
 	table->frame_counter += 1;
@@ -138,59 +225,55 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_W))
 	{
 		render_flag = 1;
-		new_x = table->player_x + table->player_delta_x * 5;
-		new_y = table->player_y + table->player_delta_y * 5;
+		new_x = table->player_x + table->player_delta_x * d_t_in_s * 150;
+		new_y = table->player_y + table->player_delta_y * d_t_in_s * 150;
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 		//if (table->map[mpy][mpxcw] != '1')
 			table->player_x = new_x;
 		//if (table->map[mpycw][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y = new_y;
-		table->x_aligned_flag = 0;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_S))
 	{
 		render_flag = 1;
-		new_x = table->player_x - table->player_delta_x * 5;
-		new_y = table->player_y - table->player_delta_y * 5;
+		new_x = table->player_x - table->player_delta_x * d_t_in_s * 150;
+		new_y = table->player_y - table->player_delta_y * d_t_in_s * 150;
 		//if (table->map[mpy][mpxcs] != '1')
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
 		//if (table->map[mpycs][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y = new_y;
-		table->x_aligned_flag = 0;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_D))
 	{
 		render_flag = 1;
-		new_x = table->player_x + table->player_delta_x_ad * 5;
-		new_y = table->player_y + table->player_delta_y_ad * 5;
+		new_x = table->player_x + table->player_delta_x_ad * d_t_in_s * 150;
+		new_y = table->player_y + table->player_delta_y_ad * d_t_in_s * 150;
 		//if (table->map[mpy][mpxcd] != '1')
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
 		//if (table->map[mpycd][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y  = new_y;
-		table->x_aligned_flag = 0;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_A))
 	{
 		render_flag = 1;
-		new_x = table->player_x - table->player_delta_x_ad * 5;
-		new_y = table->player_y - table->player_delta_y_ad * 5;
+		new_x = table->player_x - table->player_delta_x_ad * d_t_in_s * 150;
+		new_y = table->player_y - table->player_delta_y_ad * d_t_in_s * 150;
 		//if (table->map[mpy][mpxca] != '1')
 		if (!wall_collision_w_circular_bumper(table, new_x, table->player_y, table->player_x, table->player_y, 10))
 			table->player_x = new_x;
 		//if (table->map[mpyca][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y = new_y;
-		table->x_aligned_flag = 0;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_LEFT))
 	{
 		render_flag = 1;
-		table->player_angle -= 10;
+		table->player_angle -= d_t_in_s * 150;
 		if (table->player_angle < 0)
 			table->player_angle += 360;
 		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
@@ -201,7 +284,7 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_RIGHT))
 	{
 		render_flag = 1;
-		table->player_angle += 10;
+		table->player_angle += d_t_in_s * 150;
 		if (table->player_angle > 359)
 			table->player_angle -= 360;
 		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
@@ -296,25 +379,25 @@ void ft_hook(void* param)
 	int i = -1;
 	while (++i < N_ENEMIES)
 	{
-		int move_x = 0;
-		int move_y = 0;
+		float move_x = 0;
+		float move_y = 0;
 
 		render_flag = 1;
 		if (table->enemies[i].x < table->player_x)
-			move_x = 1;
+			move_x = d_t_in_s * 30.0f;
 		else if (table->enemies[i].x > table->player_x)
-			move_x = -1;
+			move_x = -d_t_in_s * 30.0f;
 		// else
 			// new_x = table->enemies[i].x;
 		if (table->enemies[i].y < table->player_y)
-			move_y = 1;
+			move_y = d_t_in_s * 30.0f;
 		else if (table->enemies[i].y> table->player_y)
-			move_y = -1;
+			move_y = -d_t_in_s * 30.0f;
 		// else
 			// new_y = table->enemies[i].y;
 		
-		new_x = table->enemies[i].x + move_x;
-		new_y = table->enemies[i].y + move_y;
+		float new_x = table->enemies[i].x + move_x;
+		float new_y = table->enemies[i].y + move_y;
 
 		int r;
 
@@ -355,9 +438,14 @@ void ft_hook(void* param)
 		draw_minimap(table);
 		draw_raycasting(table);
 	}
-	insert_fireball(table);
-	if (table->is_attacking)
+	if (!table->is_attacking)
+		insert_fireball(table);
+	else
+	{
 		animate_attack(table);
+		if (table->kill)
+			kill_sprite(table);
+	}
 }
 
 void	ft_keyboard(mlx_key_data_t keydata, void *param)
@@ -442,5 +530,6 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
 	{
 		table->is_attacking = 1;
+		table->kill = 1;
 	}
 }
