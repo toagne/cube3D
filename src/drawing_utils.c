@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:14:14 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 15:23:39 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:44:26 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int find_increment(int i0, int i1)
 	return (i);
 }
 
-void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color)
+void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color, t_table *table, int type)
 {
 	int	dx;
 	int	dy;
@@ -39,7 +39,13 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color)
 	sy = find_increment(y0, y1);
 	while (1)
 	{
-		mlx_put_pixel(img, x0, y0, color);
+		if (type == 1)
+		{
+			if (color != table->w_colors[y0][x0])
+				table->w_colors[y0][x0] = color;
+		}
+		else
+			mlx_put_pixel(img, x0, y0, color);
 		if (x0 == x1 && y0 == y1)
 			break;// Stop if we’ve reached the end point
 		e2 = 2 * err;

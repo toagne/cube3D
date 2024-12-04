@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mainmenu.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:50:38 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/27 15:50:46 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:55:46 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,34 @@ void animate_button(t_button *button)
 	}
 }
 
-void main_menu(t_table *table)
+void	display_main_menu(t_table *table)
+{
+	if (table->bg_img->instances[0].z == 0)
+	{
+		mlx_set_instance_depth(&table->bg_img->instances[0], 9);
+		mlx_set_instance_depth(&table->play_button.white->instances[0], 10);
+		mlx_set_instance_depth(&table->play_button.colored->instances[0], 11);
+		mlx_set_instance_depth(&table->exit_button.white->instances[0], 10);
+		mlx_set_instance_depth(&table->exit_button.colored->instances[0], 11);
+	}
+	table->bg_img->instances[0].enabled = true;
+	table->play_button.white->instances[0].enabled = true;
+	table->exit_button.white->instances[0].enabled = true;
+	table->left_hand->instances[0].enabled = false;
+	table->right_hand->instances[0].enabled = false;
+	table->ball_image->instances[0].enabled = false;
+}
+
+void	undisplay_main_menu(t_table *table)
+{
+	table->bg_img->instances[0].enabled = false;
+	table->play_button.colored->instances[0].enabled = false;
+	table->exit_button.white->instances[0].enabled = false;
+	table->play_button.white->instances[0].enabled = false;
+	table->exit_button.colored->instances[0].enabled = false;
+}
+
+void init_main_menu(t_table *table)
 {
 	mlx_image_t *img;
 	t_button	play;
@@ -55,4 +82,5 @@ void main_menu(t_table *table)
 	mlx_put_string(table->mlx_start, "Our Cube Game", table->width / 2, 0);
 	table->play_button = play;
 	table->exit_button = exit;
+	table->bg_img = img;
 }

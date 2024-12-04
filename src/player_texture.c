@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:15:57 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/02 16:16:01 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/04 15:05:52 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 {
 	if (table->frame_counter)
 	{
-        if (table->p_anim_index > 0)
-            table->p_img[table->p_anim_index - 1]->instances[0].enabled = false;
-        else if (table->p_anim_index == 0 && table->is_attacking)
-            table->p_img[29]->instances[0].enabled = false;
+		if (table->p_anim_index > 0)
+			table->p_img[table->p_anim_index - 1]->instances[0].enabled = false;
+		else if (table->p_anim_index == 0 && table->is_attacking)
+			table->p_img[29]->instances[0].enabled = false;
 
 		if (table->p_anim_index == 29)
 		{
@@ -38,44 +38,92 @@
 
 int animate_attack(t_table *table)
 {
-    int frame_width = 400;   // Width of each frame (400px)
-    int frame_height = 400;  // Height of each frame (400px)
+	// Compute frame size based on window size
+	int frame_width = table->width * 0.3;
+	int frame_height = table->height * 0.3;
+	float ratio = (float)table->ball_texture.width / 30 / table->ball_texture.height;
 	int	y_offset;
-    int base_x = table->width / 2 - 400 / 2;
-	int base_y = table->height / 2 - 400 / 2;      // The y-coordinate where the animation will be drawn on the screen
+	if (frame_width / ratio > frame_height)
+		frame_width = (int)(frame_height * ratio);
+	else
+		frame_height = (int)(frame_width / ratio);
 
-    if (table->frame_counter)
-    {
-        // Draw the new frame using put_pixel (get the current frame from the sprite sheet)
-        int frame_x_offset = table->p_anim_index * frame_width;  // Each frame is 400px wide
+	// Base coordinates for animation
+	int base_x = table->width / 2 - frame_width / 2;
+	int base_y = table->height - frame_height;
 
-		y_offset = table->height / 2 - frame_height / 2 - (table->p_anim_index * 3);
-        for (int y = 0; y < frame_height - 1; y++)
-        {
-            for (int x = 0; x < frame_width - 1; x++)
-            {
-                // Access the color from the sprite sheet (2D array with sprite data)
-                uint32_t color = table->ball_texture.colors[y][frame_x_offset + x];
-                
-                // Draw the current frame pixel to the screen at the right position
-                mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, color);
-            }
-        }
+	// Scaling factors
+	float sw = (float)400 / frame_width; // One frame is 400px wide
+	float sh = (float)table->ball_texture.height / frame_height;
 
-        // Update the animation index
-        if (table->p_anim_index == 29)  // If the last frame (frame 29), reset animation
-        {
-            table->is_attacking = 0;
-            table->p_anim_index = 0;
-			//set_image_instance_pos(&table->ball_image->instances[0], base_x, base_y);
-        }
-        else
-        {
-            table->p_anim_index += 1;
-        }
-    }
+	// Draw current animation frame
+	float tx, ty = 0.0f;
+	if (table->frame_counter)
+	{
+		int frame_x_offset = table->p_anim_index * 400; // Offset for the current frame
+		y_offset = (table->height / 2 - base_y) / 30 * table->p_anim_index;
+		for (int y = 0; y < frame_height; y++)
+		{
+			tx = 0.0f;
+			for (int x = 0; x < frame_width; x++)
+			{
+				int tex_x = (int)(frame_x_offset + tx);
+				int tex_y = (int)ty;
+				
+				mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, 0x00000000);
+
+				uint32_t color = table->ball_texture.colors[tex_y][tex_x];
+
+				// Skip transparent pixels (assuming 0x00000000 is transparent)
+				if ((color & 0xFF000000) != 0)
+				{
+					mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, color);
+				}
+				tx += sw;
+			}
+			ty += sh;
+		}
+
+		if (table->p_anim_index == 28)
+		{
+			int i = -1;
+			while (++i < N_ENEMIES)
+			{
+				if (table->enemies[i].pending_death)
+				{
+					table->enemies[i].dead = 1;
+					table->enemies[i].x = 0;
+					table->enemies[i].y = 0;
+					table->enemies[i].pending_death = 0;
+				}
+			}
+		}
+
+		// Update the animation index
+		if (table->p_anim_index == 29) // If the last frame
+		{
+			table->is_attacking = 0;
+			table->p_anim_index = 0;
+			int y = table->height / 2 - 1;
+			while (++y < table->height - frame_height)
+			{
+				int x = -1;
+				while (++x < frame_width)
+				{
+					// printf("base_x = %d	base_y = %d\n", base_x, base_y);
+					mlx_put_pixel(table->ball_image, base_x + x, y, 0x00000000);
+				}
+			}
+		}
+		else
+		{
+			table->p_anim_index += 1;
+		}
+	}
+
 	return (0);
 }
+
 
 void	set_image_instance_pos(mlx_instance_t *instance, int x, int y)
 {
@@ -89,13 +137,15 @@ int	insert_fireball(t_table *table)
 	int base_y;
 
 	int frame_width = table->width * 0.3;
-    int frame_height = table->height * 0.3;
+	int frame_height = table->height * 0.3;
 	float ratio = (float)table->ball_texture.width / 30 / table->ball_texture.height;
-	if (frame_width / ratio > frame_height) {
-        frame_width = (int)(frame_height * ratio);
-    } else {
-        frame_height = (int)(frame_width / ratio);
-    }
+	if (frame_width / ratio > frame_height) 
+	{
+		frame_width = (int)(frame_height * ratio);
+	} else 
+	{
+		frame_height = (int)(frame_width / ratio);
+	}
 	base_x = table->width / 2 - frame_width / 2;
 	base_y = table->height - frame_height;
 	float sw = (float)400 / frame_width;
@@ -103,26 +153,19 @@ int	insert_fireball(t_table *table)
 	float	tx;
 	float	ty;
 	ty = 0;
-    for (int y = 0; y < frame_height; y++)
-    {
+	for (int y = 0; y < frame_height; y++)
+	{
 		tx = 0;
-        for (int x = 0; x < frame_width; x++)
-        {
+		for (int x = 0; x < frame_width; x++)
+		{
 			int tex_x = (int)tx;
 			int tex_y = (int)ty;
-            // Calculate the index of the color in the table.ball_texture_colors array
-            // Since the sprite sheet frames are laid out horizontally:
-            // - The first frame starts at index 0, the second at index 1, etc.
-
-            // Fetch the color from the sprite sheet array
-            uint32_t color = table->ball_texture.colors[tex_y][tex_x];
-
-            // Draw the color to the ball_image buffer at the correct position
-            mlx_put_pixel(table->ball_image, base_x + x, base_y + y, color);
+			uint32_t color = table->ball_texture.colors[tex_y][tex_x];
+			mlx_put_pixel(table->ball_image, base_x + x, base_y + y, color);
 			tx += sw;
 		}
 		ty += sh;
-    }
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 16:15:37 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:07:49 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main (int argc, char **argv)
 	}
 	// check that argc 1 is a file that can be opened and read and ends with .cub
 	//parse_input();
-	init_data(&table);
+	init_static_data(&table);
 	table.filename = argv[1];
 	if (read_file(&table))
 	{
@@ -38,8 +38,9 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
-	init_enemies(&table);
-	main_menu(&table);
+	// add_doors(&table);
+	init_dynamic_data(&table);
+	init_main_menu(&table);
 	convert_texture(&table.no_texture, &table.no_texture.colors, "pngs/texture_no.png");
 	convert_texture(&table.so_texture, &table.so_texture.colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture.colors, "pngs/texture_es.png");
@@ -59,42 +60,6 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
-	// ---how to scale a texture---
-	/*int h = 300;
-	int w = 300;
-	float sh = (float)table.es_texture->height / h;
-	float sw = (float)table.es_texture->width / w;
-	printf("sh = %f\n", sh);
-	printf("sw = %f\n", sw);
-	int a = -1;
-	float c = 0;
-	while (++a < h)
-	{
-		int b = -1;
-		float d = 0;
-		while (++b < w)
-		{
-			int tex_c = (int)c;
-			int tex_d = (int)d;
-			mlx_put_pixel(table.mlx_3D, b, a, table.es_texture_colors[tex_c][tex_d]);
-			d += sw;
-			printf("%d\n", tex_d);
-		}
-		c += sh;
-	}
-	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);*/
-
-	/*y = -1;
-	while (++y < table.es_texture->height)
-	{
-		x = -1;
-		while (++x < table.es_texture->width)
-			mlx_put_pixel(table.mlx_3D, x, y, table.es_texture_colors[y][x]);
-	}
-	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);*/
-
-	//draw_minimap(&table);
-	//draw_raycasting(&table);
 	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.ball_image, 0, 0);
@@ -104,3 +69,28 @@ int	main (int argc, char **argv)
 	mlx_loop_hook(table.mlx_start, &ft_mouse, &table);
 	mlx_loop(table.mlx_start);
 }
+
+// ---how to scale a texture---
+/*int h = 300;
+int w = 300;
+float sh = (float)table.es_texture->height / h;
+float sw = (float)table.es_texture->width / w;
+printf("sh = %f\n", sh);
+printf("sw = %f\n", sw);
+int a = -1;
+float c = 0;
+while (++a < h)
+{
+	int b = -1;
+	float d = 0;
+	while (++b < w)
+	{
+		int tex_c = (int)c;
+		int tex_d = (int)d;
+		mlx_put_pixel(table.mlx_3D, b, a, table.es_texture_colors[tex_c][tex_d]);
+		d += sw;
+		printf("%d\n", tex_d);
+	}
+	c += sh;
+}
+mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);*/
