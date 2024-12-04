@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_texture.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:15:57 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/03 12:08:35 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/04 15:05:52 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 {
 	if (table->frame_counter)
 	{
-        if (table->p_anim_index > 0)
-            table->p_img[table->p_anim_index - 1]->instances[0].enabled = false;
-        else if (table->p_anim_index == 0 && table->is_attacking)
-            table->p_img[29]->instances[0].enabled = false;
+		if (table->p_anim_index > 0)
+			table->p_img[table->p_anim_index - 1]->instances[0].enabled = false;
+		else if (table->p_anim_index == 0 && table->is_attacking)
+			table->p_img[29]->instances[0].enabled = false;
 
 		if (table->p_anim_index == 29)
 		{
@@ -38,64 +38,90 @@
 
 int animate_attack(t_table *table)
 {
-    // Compute frame size based on window size
-    int frame_width = table->width * 0.3;
-    int frame_height = table->height * 0.3;
-    float ratio = (float)table->ball_texture.width / 30 / table->ball_texture.height;
+	// Compute frame size based on window size
+	int frame_width = table->width * 0.3;
+	int frame_height = table->height * 0.3;
+	float ratio = (float)table->ball_texture.width / 30 / table->ball_texture.height;
 	int	y_offset;
-    if (frame_width / ratio > frame_height)
-        frame_width = (int)(frame_height * ratio);
-    else
-        frame_height = (int)(frame_width / ratio);
+	if (frame_width / ratio > frame_height)
+		frame_width = (int)(frame_height * ratio);
+	else
+		frame_height = (int)(frame_width / ratio);
 
-    // Base coordinates for animation
-    int base_x = table->width / 2 - frame_width / 2;
-    int base_y = table->height - frame_height;
+	// Base coordinates for animation
+	int base_x = table->width / 2 - frame_width / 2;
+	int base_y = table->height - frame_height;
 
-    // Scaling factors
-    float sw = (float)400 / frame_width; // One frame is 400px wide
-    float sh = (float)table->ball_texture.height / frame_height;
+	// Scaling factors
+	float sw = (float)400 / frame_width; // One frame is 400px wide
+	float sh = (float)table->ball_texture.height / frame_height;
 
-    // Draw current animation frame
-    float tx, ty = 0.0f;
-    if (table->frame_counter)
-    {
-        int frame_x_offset = table->p_anim_index * 400; // Offset for the current frame
+	// Draw current animation frame
+	float tx, ty = 0.0f;
+	if (table->frame_counter)
+	{
+		int frame_x_offset = table->p_anim_index * 400; // Offset for the current frame
 		y_offset = (table->height / 2 - base_y) / 30 * table->p_anim_index;
-        for (int y = 0; y < frame_height; y++)
-        {
-            tx = 0.0f;
-            for (int x = 0; x < frame_width; x++)
-            {
-                int tex_x = (int)(frame_x_offset + tx);
-                int tex_y = (int)ty;
+		for (int y = 0; y < frame_height; y++)
+		{
+			tx = 0.0f;
+			for (int x = 0; x < frame_width; x++)
+			{
+				int tex_x = (int)(frame_x_offset + tx);
+				int tex_y = (int)ty;
+				
+				mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, 0x00000000);
 
-                uint32_t color = table->ball_texture.colors[tex_y][tex_x];
+				uint32_t color = table->ball_texture.colors[tex_y][tex_x];
 
-                // Skip transparent pixels (assuming 0x00000000 is transparent)
-                if ((color & 0xFF000000) != 0)
-                {
-                    mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, color);
-                }
+				// Skip transparent pixels (assuming 0x00000000 is transparent)
+				if ((color & 0xFF000000) != 0)
+				{
+					mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, color);
+				}
+				tx += sw;
+			}
+			ty += sh;
+		}
 
-                tx += sw;
-            }
-            ty += sh;
-        }
+		if (table->p_anim_index == 28)
+		{
+			int i = -1;
+			while (++i < N_ENEMIES)
+			{
+				if (table->enemies[i].pending_death)
+				{
+					table->enemies[i].dead = 1;
+					table->enemies[i].x = 0;
+					table->enemies[i].y = 0;
+					table->enemies[i].pending_death = 0;
+				}
+			}
+		}
 
-        // Update the animation index
-        if (table->p_anim_index == 29) // If the last frame
-        {
-            table->is_attacking = 0;
-            table->p_anim_index = 0;
-        }
-        else
-        {
-            table->p_anim_index += 1;
-        }
-    }
+		// Update the animation index
+		if (table->p_anim_index == 29) // If the last frame
+		{
+			table->is_attacking = 0;
+			table->p_anim_index = 0;
+			int y = table->height / 2 - 1;
+			while (++y < table->height - frame_height)
+			{
+				int x = -1;
+				while (++x < frame_width)
+				{
+					// printf("base_x = %d	base_y = %d\n", base_x, base_y);
+					mlx_put_pixel(table->ball_image, base_x + x, y, 0x00000000);
+				}
+			}
+		}
+		else
+		{
+			table->p_anim_index += 1;
+		}
+	}
 
-    return (0);
+	return (0);
 }
 
 
@@ -111,13 +137,15 @@ int	insert_fireball(t_table *table)
 	int base_y;
 
 	int frame_width = table->width * 0.3;
-    int frame_height = table->height * 0.3;
+	int frame_height = table->height * 0.3;
 	float ratio = (float)table->ball_texture.width / 30 / table->ball_texture.height;
-	if (frame_width / ratio > frame_height) {
-        frame_width = (int)(frame_height * ratio);
-    } else {
-        frame_height = (int)(frame_width / ratio);
-    }
+	if (frame_width / ratio > frame_height) 
+	{
+		frame_width = (int)(frame_height * ratio);
+	} else 
+	{
+		frame_height = (int)(frame_width / ratio);
+	}
 	base_x = table->width / 2 - frame_width / 2;
 	base_y = table->height - frame_height;
 	float sw = (float)400 / frame_width;
@@ -125,19 +153,19 @@ int	insert_fireball(t_table *table)
 	float	tx;
 	float	ty;
 	ty = 0;
-    for (int y = 0; y < frame_height; y++)
-    {
+	for (int y = 0; y < frame_height; y++)
+	{
 		tx = 0;
-        for (int x = 0; x < frame_width; x++)
-        {
+		for (int x = 0; x < frame_width; x++)
+		{
 			int tex_x = (int)tx;
 			int tex_y = (int)ty;
-            uint32_t color = table->ball_texture.colors[tex_y][tex_x];
-            mlx_put_pixel(table->ball_image, base_x + x, base_y + y, color);
+			uint32_t color = table->ball_texture.colors[tex_y][tex_x];
+			mlx_put_pixel(table->ball_image, base_x + x, base_y + y, color);
 			tx += sw;
 		}
 		ty += sh;
-    }
+	}
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 16:24:26 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/04 13:42:39 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ void	order_sprites(t_table *table, t_enemy *sp)
 		sp[i].dist = sqrt((sp[i].dx * sp[i].dx) + (sp[i].dy * sp[i].dy));
 		if (sp[i].dist < 30)
 		{
+			mlx_set_cursor_mode(table->mlx_start, MLX_MOUSE_NORMAL);
 			table->main_menu_on = 1;
-			main_menu(table);
+			init_dynamic_data(table);
+			display_main_menu(table);
 		}
 	}
 	i = -1;

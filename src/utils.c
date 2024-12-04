@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:41:29 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 10:29:16 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/04 09:30:07 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,6 @@ void init_enemies(t_table *table)
 			if (table->map[y][x] == '0' && !flag)
 			{
 				// printf("spawn position found \n");
-				table->e_spawn_pos_x = x * T_SIZE + T_SIZE / 2;
-				table->e_spawn_pos_y = y * T_SIZE + T_SIZE / 2;
 				table->enemies[i].x = x * T_SIZE + T_SIZE / 2;
 				table->enemies[i].y = y * T_SIZE + T_SIZE / 2;
 				// i++;

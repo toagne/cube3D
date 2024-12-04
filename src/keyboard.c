@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 17:56:04 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/04 13:42:14 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,16 @@ void	move_visual_with_mouse(t_table *table)
 	{
 		table->player_angle += delta_x_mouse * 0.5;
 		if (table->player_angle < 0)
-            table->player_angle += 360;
-        if (table->player_angle >= 360)
-            table->player_angle -= 360;
+			table->player_angle += 360;
+		if (table->player_angle >= 360)
+			table->player_angle -= 360;
 		table->player_delta_x = cos((float)table->player_angle / 180 * PI);
-        table->player_delta_y = sin((float)table->player_angle / 180 * PI);
-        table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
-        table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
-        mlx_set_mouse_pos(table->mlx_start, table->width / 2, table->height / 2);
-        table->mouse_last_x = table->width / 2;
-        table->mouse_last_y = table->height / 2;
+		table->player_delta_y = sin((float)table->player_angle / 180 * PI);
+		table->player_delta_x_ad = cos((float)(table->player_angle + 90) / 180 * PI);
+		table->player_delta_y_ad = sin((float)(table->player_angle + 90) / 180 * PI);
+		mlx_set_mouse_pos(table->mlx_start, table->width / 2, table->height / 2);
+		table->mouse_last_x = table->width / 2;
+		table->mouse_last_y = table->height / 2;
 	}
 }
 
@@ -119,6 +119,7 @@ void ft_mouse(void *param)
 		if (mlx_is_mouse_down(table->mlx_start, MLX_MOUSE_BUTTON_LEFT))
 		{	
 			table->main_menu_on = 0;
+			undisplay_main_menu(table);
 		}
 	}
 	else
@@ -170,7 +171,7 @@ void	kill_sprite(t_table *table)
 		angle_diff = table->player_angle - angle_to_enemy;
 		if (angle_diff > 180)
 			angle_diff -= 360;
-        if (angle_diff < -180)
+		if (angle_diff < -180)
 			angle_diff += 360;
 		if (fabs(angle_diff) <= 10)
 		{
@@ -179,19 +180,20 @@ void	kill_sprite(t_table *table)
 			chose_shortest_ray(table);
 			if (ray <= table->ray.f_v && ray < closest_ray)
 			{
-                    closest_ray = ray;
-                    closest_enemy_index = i;
+					closest_ray = ray;
+					closest_enemy_index = i;
 			}
 		}
 	}
 	if (closest_enemy_index != -1)
-    {
-        int i = closest_enemy_index;
-        table->enemies[i].dead = 1;
-        table->enemies[i].x = 0;
-        table->enemies[i].y = 0;
+	{
+		int i = closest_enemy_index;
+		table->enemies[i].pending_death = 1;
+		// table->enemies[i].dead = 1;
+		// table->enemies[i].x = 0;
+		// table->enemies[i].y = 0;
 		table->kill = 0;
-    }
+	}
 }
 
 void ft_hook(void* param)
@@ -231,7 +233,6 @@ void ft_hook(void* param)
 		//if (table->map[mpycw][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y = new_y;
-		table->x_aligned_flag = 0;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_S))
 	{
@@ -244,7 +245,6 @@ void ft_hook(void* param)
 		//if (table->map[mpycs][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y = new_y;
-		table->x_aligned_flag = 0;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_D))
 	{
@@ -257,7 +257,6 @@ void ft_hook(void* param)
 		//if (table->map[mpycd][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y  = new_y;
-		table->x_aligned_flag = 0;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_A))
 	{
@@ -270,7 +269,6 @@ void ft_hook(void* param)
 		//if (table->map[mpyca][mpx] != '1')
 		if (!wall_collision_w_circular_bumper(table, table->player_x, new_y, table->player_x, table->player_y, 10))
 			table->player_y = new_y;
-		table->x_aligned_flag = 0;
 	}
 	if (mlx_is_key_down(table->mlx_start, MLX_KEY_LEFT))
 	{
