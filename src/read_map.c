@@ -23,7 +23,7 @@ static int	read_lines(int fd, char ***map, t_table *table)
 	while (line != NULL)
 	{
 		*map = ft_realloc(*map, ln * sizeof(char *), (ln + 1) * sizeof(char *));
-		trimmed = ft_strtrim(line, " \n");
+		trimmed = ft_strtrim(line, "\n");
 		if (!*map || !trimmed)
 		{
 			free_map(*map, ln);
@@ -114,7 +114,7 @@ char	*fill_spaces(int len, char *line)
 	src_len = ft_strlen(line);
 	while (src_len < len)
 	{
-		newline[src_len] = ' ';
+		newline[src_len] = '1';
 		src_len++;
 	}
 	newline[len] = '\0';

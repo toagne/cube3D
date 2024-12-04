@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 10:58:09 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:17:05 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,47 @@ typedef	struct	s_enemy
 	int		x;
 	int		y;
 	float	dist;
+	float	dx;
+	float	dy;
+	float	angle;
+	float	screen_size;
+	int		x_start;
+	int		x_end;
+	int		y_start;
+	int		y_end;
+	int		tx_start_x;
 } t_enemy;
+
+typedef	struct	s_texture
+{
+	uint32_t	width;
+	uint32_t	height;
+	uint32_t	**colors;
+	
+} t_texture;
+
+typedef	struct	s_ray
+{
+	float		v_x;
+	float		v_y;
+	float		v_v;
+	float		h_x;
+	float		h_y;
+	float		h_v;
+	float		f_x;
+	float		f_y;
+	float		f_v;
+	t_texture	texture;
+	int 		wall_h;
+	float		tx_v_step;
+	float		tx_v_offset;
+	int			start_wall;
+	int			end_wall;
+	int			x_start;
+	int			x_end;
+	float		tx;
+	float		ty;
+} t_ray;
 
 typedef struct s_button
 {
@@ -76,16 +116,13 @@ typedef struct s_table
 	mlx_image_t		*p_img[30];
 	mlx_image_t		*left_hand;
 	mlx_image_t		*right_hand;
-	mlx_texture_t	*no_texture;
-	mlx_texture_t	*so_texture;
-	mlx_texture_t	*es_texture;
-	mlx_texture_t	*ws_texture;
-	uint32_t		**no_texture_colors;
-	uint32_t		**so_texture_colors;
-	uint32_t		**es_texture_colors;
-	uint32_t		**ws_texture_colors;
-	mlx_texture_t	*ball_texture;
-	uint32_t		**ball_texture_colors;
+	t_texture		no_texture;
+	t_texture		so_texture;
+	t_texture		es_texture;
+	t_texture		ws_texture;
+	t_texture		ball_texture;
+	// mlx_texture_t	*ball_texture;
+	// uint32_t		**ball_texture_colors;
 	mlx_image_t		*ball_image;
 	int				sprite_x;
 	int				sprite_y;
@@ -98,6 +135,9 @@ typedef struct s_table
 	mlx_texture_t	*enemy_texture;
 	uint32_t		**enemy_texture_colors;
 	long			lcg_seed;
+	t_ray			ray;
+	int				n_of_rays;
+	t_texture		sprite_tx;
 	int				main_menu_on;
 	int32_t			x_mouse;
 	int32_t			y_mouse;
@@ -131,13 +171,14 @@ int				validate_map(t_table *table);
 // load_images.c
 mlx_image_t 	*load_image(mlx_t *mlx, char *str);
 mlx_texture_t 	*load_texture(char *str);
-void			convert_texture(mlx_texture_t **tx, uint32_t ***tx_colors, char *str);
+void			convert_texture(t_texture *tx, uint32_t ***tx_colors, char *str);
 
 unsigned int	get_rgba(int r, int g, int b, int a);
 void			get_monitor_size(int *width, int *height);
 float			deg_to_rad(float deg);
 
 void			draw_minimap(t_table *table);
+void	convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
 
 // read_file.c
 int				read_file(t_table *table);
@@ -157,5 +198,20 @@ void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uin
 
 void init_enemies(t_table *table);
 int	insert_fireball(t_table *table);
+
+void	draw_sprites(t_table *table);
+
+void	draw_dot(t_table *table, int value_x, int value_y, int range);
+void	draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color);
+
+void	check_vertical_lines(t_table *table, float angle);
+void	check_horizontal_lines(t_table *table, float angle);
+void	chose_shortest_ray(t_table *table);
+
+void	select_texture(t_table *table, t_texture *tx);
+void	get_coordinates_in_texture(t_table *table);
+
+void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp);
+int		check_sprite_is_visible(t_table *table, t_enemy sp);
 
 #endif

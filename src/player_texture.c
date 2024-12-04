@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:15:57 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/22 16:10:10 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:16:01 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int animate_attack(t_table *table)
             for (int x = 0; x < frame_width - 1; x++)
             {
                 // Access the color from the sprite sheet (2D array with sprite data)
-                uint32_t color = table->ball_texture_colors[y][frame_x_offset + x];
+                uint32_t color = table->ball_texture.colors[y][frame_x_offset + x];
                 
                 // Draw the current frame pixel to the screen at the right position
                 mlx_put_pixel(table->ball_image, base_x + x, base_y + y + y_offset, color);
@@ -90,7 +90,7 @@ int	insert_fireball(t_table *table)
 
 	int frame_width = table->width * 0.3;
     int frame_height = table->height * 0.3;
-	float ratio = (float)table->ball_texture->width / 30 / table->ball_texture->height;
+	float ratio = (float)table->ball_texture.width / 30 / table->ball_texture.height;
 	if (frame_width / ratio > frame_height) {
         frame_width = (int)(frame_height * ratio);
     } else {
@@ -99,7 +99,7 @@ int	insert_fireball(t_table *table)
 	base_x = table->width / 2 - frame_width / 2;
 	base_y = table->height - frame_height;
 	float sw = (float)400 / frame_width;
-	float sh = (float)table->ball_texture->height / frame_height;
+	float sh = (float)table->ball_texture.height / frame_height;
 	float	tx;
 	float	ty;
 	ty = 0;
@@ -110,7 +110,14 @@ int	insert_fireball(t_table *table)
         {
 			int tex_x = (int)tx;
 			int tex_y = (int)ty;
-            uint32_t color = table->ball_texture_colors[tex_y][tex_x];
+            // Calculate the index of the color in the table.ball_texture_colors array
+            // Since the sprite sheet frames are laid out horizontally:
+            // - The first frame starts at index 0, the second at index 1, etc.
+
+            // Fetch the color from the sprite sheet array
+            uint32_t color = table->ball_texture.colors[tex_y][tex_x];
+
+            // Draw the color to the ball_image buffer at the correct position
             mlx_put_pixel(table->ball_image, base_x + x, base_y + y, color);
 			tx += sw;
 		}

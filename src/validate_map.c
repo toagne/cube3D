@@ -87,13 +87,13 @@ static int	validate_walls_sides(t_table *table)
 	size_t	col;
 	size_t	row;
 
-	col = 0;
 	row = 0;
+	col = 0;
 	while (row < table->rows)
 	{
-		col = 0;
+		/* col = 0;
 		while (table->map[row][col] == ' ')
-			++col;
+			++col; */
 		if (table->map[row][col] != '1')
 		{
 			ft_error("Map has invalid characters at sides");
@@ -102,12 +102,12 @@ static int	validate_walls_sides(t_table *table)
 		++row;
 	}
 	row = 0;
-	col = table->columns;
+	col = table->columns - 1;
 	while (row < table->rows)
 	{
-		col = 0;
+		/* col = table->columns - 1;
 		while (table->map[row][col] == ' ')
-			--col;
+			--col; */
 		if (table->map[row][col] != '1')
 		{
 			ft_error("Map has invalid characters at sides");
@@ -142,7 +142,7 @@ static int	validate_walls_top_bot(t_table *table)
 		if (table->map[0][col] != '1' && table->map[0][col] != ' ')
 		{
 			printf("we are here 2 %zu\n", col);
-			ft_error("Map has invalid characters top or bot");
+			ft_error("Map has invalid characters top");
 			return (0);
 		}
 		++col;
@@ -153,7 +153,7 @@ static int	validate_walls_top_bot(t_table *table)
 		if (table->map[table->rows - 1][col] != '1' && table->map[table->rows - 1][col] != ' ')
 		{
 			printf("we are here 1\n");
-			ft_error("Map has invalid characters top or bot");
+			ft_error("Map has invalid characters bot");
 			return (0);
 		}
 		++col;
@@ -163,7 +163,7 @@ static int	validate_walls_top_bot(t_table *table)
 
 int	validate_map(t_table *table)
 {
-	//print_map(table);
+	print_map(table);
 	if (!validate_map_chars_and_ext(table))
 		return (0);
 	if (!validate_walls_sides(table))

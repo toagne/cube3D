@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/11/28 11:21:40 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/02 16:15:37 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	main (int argc, char **argv)
 	{
 		return (1);
 	}
-	get_monitor_size(&table.width, &table.height);
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
 	{
@@ -41,12 +40,12 @@ int	main (int argc, char **argv)
 	}
 	init_enemies(&table);
 	main_menu(&table);
-	convert_texture(&table.no_texture, &table.no_texture_colors, table.no_path_texture);
-	convert_texture(&table.so_texture, &table.so_texture_colors, table.so_path_texture);
-	convert_texture(&table.es_texture, &table.es_texture_colors, table.es_path_texture);
-	convert_texture(&table.ws_texture, &table.ws_texture_colors, table.ws_path_texture);
-	convert_texture(&table.enemy_texture, &table.enemy_texture_colors, "pngs/enemy.png");
-	convert_texture(&table.ball_texture, &table.ball_texture_colors, "pngs/ballsheet.png");
+	convert_texture(&table.no_texture, &table.no_texture.colors, "pngs/texture_no.png");
+	convert_texture(&table.so_texture, &table.so_texture.colors, "pngs/texture_so.png");
+	convert_texture(&table.es_texture, &table.es_texture.colors, "pngs/texture_es.png");
+	convert_texture(&table.ws_texture, &table.ws_texture.colors, "pngs/texture_ws.png");
+	convert_texture(&table.sprite_tx, &table.sprite_tx.colors, "pngs/enemy.png");
+	convert_texture(&table.ball_texture, &table.ball_texture.colors, "pngs/ballsheet.png");
 	table.right_hand = load_image(table.mlx_start, "pngs/rigth_hand.png");
 	table.left_hand = load_image(table.mlx_start, "pngs/left_hand.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.width, table.height); //to change
