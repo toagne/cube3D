@@ -6,24 +6,25 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:37:42 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/20 18:17:58 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:11:35 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	read_lines(int fd, char ***map, t_table *table)
+static int	read_lines(int fd, char ***map, t_table *table, char *line)
 {
 	int		ln;
-	char	*line;
 	char	*trimmed;
 
 	ln = 1;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
+		line = get_next_line(fd);
 		*map = ft_realloc(*map, ln * sizeof(char *), (ln + 1) * sizeof(char *));
-		trimmed = ft_strtrim(line, "\n");
+		if (line)
+			trimmed = ft_strtrim(line, "\n");
 		if (!*map || !trimmed)
 		{
 			free_map(*map, ln);
@@ -31,9 +32,9 @@ static int	read_lines(int fd, char ***map, t_table *table)
 			return (0);
 		}
 		(*map)[ln] = trimmed;
-		++ln;
+		if (line)
+			++ln;
 		free(line);
-		line = get_next_line(fd);
 	}
 	table->rows = ln;
 	(*map)[ln] = NULL;
@@ -163,7 +164,7 @@ int	read_map(t_table *table, int fd, char *line)
 		return (1);
 	}
 	map[0] = line;
-	if (!read_lines(fd, &map, table))
+	if (!read_lines(fd, &map, table, line))
 	{
 		close(fd);
 		return (1);
