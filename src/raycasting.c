@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 12:43:45 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/05 18:36:50 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	draw_v_lines(t_table *table)
 	i = table->ray.x_start;
 	while (i <= table->ray.x_end)
 	{
-		draw_line(table->mlx_3D, i, 0, i, table->ray.start_wall, 0xADD8E6FF, table, 1);
-		draw_line(table->mlx_3D, i, table->ray.end_wall, i, table->height - 1, 0x8B4513FF, table, 1);
+		draw_line(table->mlx_3D, i, 0, i, table->ray.start_wall, get_rgba(table->c_color[0], table->c_color[1], table->c_color[2], 255), table, 1);
+		draw_line(table->mlx_3D, i, table->ray.end_wall, i, table->height - 1, get_rgba(table->f_color[0], table->f_color[1], table->f_color[2], 255), table, 1);
 		j = table->ray.start_wall;
 		table->ray.ty = table->ray.tx_v_offset * table->ray.tx_v_step;
 		while (j <= table->ray.end_wall)

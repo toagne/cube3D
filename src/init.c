@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 17:21:59 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:24:54 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,13 @@ void	init_dynamic_data(t_table *table)
 	init_enemies(table);
 	table->mouse_last_x = table->width / 2;
 	table->mouse_last_y = table->height / 2;
+	table->duplicate_id = 0;
 	mlx_set_mouse_pos(table->mlx_start, table->width / 2, table->height / 2);
 	table->kill = 0;
 	table->sprite_frames = 0;
+	int i = -1;
+	while (++i < N_ENEMIES)
+		table->enemies[i].dead = 0;
+	table->player_x = (float)table->player_col * T_SIZE + T_SIZE / 2;
+	table->player_y = (float)table->player_row * T_SIZE + T_SIZE / 2;
 }

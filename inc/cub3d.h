@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 17:22:05 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:14:18 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_table
 	mlx_t			*mlx_start;
 	mlx_image_t		*mlx_2D;
 	mlx_image_t		*mlx_3D;
+	int				duplicate_id;	/// checking for duplicate identifiers in the .cub file
 	int				frame_counter;
 	int				is_attacking;
 	int				enemy_attack;
@@ -121,8 +122,8 @@ typedef struct s_table
 	int				*c_color;
 	char			*no_path_texture;
 	char			*so_path_texture;
-	char			*ea_path_texture;
-	char			*we_path_texture;
+	char			*es_path_texture;
+	char			*ws_path_texture;
 	char			*p_path_texture;
 	mlx_image_t		*p_img[30];
 	mlx_image_t		*left_hand;
@@ -155,6 +156,11 @@ typedef struct s_table
 	int				mouse_last_y;
 	int				kill;
 	int				sprite_frames;
+	long			menudelaytime;
+	mlx_image_t		*gameoverimg;
+	mlx_image_t		*gamewonimg;
+	int				gameover_on;
+	int				gamewon_on;
 }	t_table;
 
 // init.c
@@ -175,7 +181,7 @@ int				animate_enemy(t_table *table);
 void			draw_raycasting(t_table *table);
 
 // read_map.c
-int				read_map(t_table *table, int fd);
+int				read_map(t_table *table, int fd, char *line);
 
 // error.c
 void    		ft_error(char *s1);
@@ -197,11 +203,11 @@ void			draw_minimap(t_table *table);
 void			convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
 
 // read_file.c
-int	read_file(t_table *table);
+int				read_file(t_table *table);
 
 // free.c
-void	free_map(char **map, size_t i);
-void	free_table(char ***table);
+void			free_map(char **map, size_t i);
+void			free_table(char ***table);
  
 // main_menu
 void init_main_menu(t_table *table);
@@ -209,8 +215,13 @@ void animate_button(t_button *button);
 void ft_mouse(void *param);
 void	display_main_menu(t_table *table);
 void	undisplay_main_menu(t_table *table);
+void	display_gameover(t_table *table);
+void	display_gamewon(t_table *table);
+void	init_gameover(t_table *table);
+void	init_gamewon(t_table *table);
+void	run_gamestate_img(t_table *table, mlx_image_t * img);
 
-void ft_hook(void* param);
+void			ft_hook(void* param);
 
 void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color);
 

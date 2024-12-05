@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 17:22:18 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:42:19 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,16 @@ void ft_hook(void* param)
 	//printf("dt = %ld\n", delta_time);
 	float d_t_in_s = (float)delta_time / 1000000;
 	//printf("dt in s = %f\n", d_t_in_s);
-
+	if (table->gameover_on == 1)
+	{
+		run_gamestate_img(table, table->gameoverimg);
+		return ;
+	}
+	if (table->gamewon_on == 1)
+	{
+		run_gamestate_img(table, table->gamewonimg);
+		return ;
+	}
 	if (table->main_menu_on)
 		return ;
 	table->frame_counter += 1;
@@ -439,7 +448,10 @@ void ft_hook(void* param)
 		if (table->enemies[i].dead == 1)
 			n_of_deaths++;
 		if (n_of_deaths == N_ENEMIES)
-			display_main_menu(table);
+		{
+			init_dynamic_data(table);
+			display_gamewon(table);
+		}
 	}
 	if (render_flag == 1)
 	{

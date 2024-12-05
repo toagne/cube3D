@@ -105,10 +105,8 @@ void	order_sprites(t_table *table, t_enemy *sp)
 		sp[i].dist = sqrt((sp[i].dx * sp[i].dx) + (sp[i].dy * sp[i].dy));
 		if (sp[i].dist < 30)
 		{
-			mlx_set_cursor_mode(table->mlx_start, MLX_MOUSE_NORMAL);
-			table->main_menu_on = 1;
 			init_dynamic_data(table);
-			display_main_menu(table);
+			display_gameover(table);
 		}
 	}
 	i = -1;

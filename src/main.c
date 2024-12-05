@@ -41,6 +41,8 @@ int	main (int argc, char **argv)
 	add_doors(&table);
 	init_dynamic_data(&table);
 	init_main_menu(&table);
+	init_gameover(&table);
+	init_gamewon(&table);
 	convert_texture(&table.no_texture, &table.no_texture.colors, "pngs/texture_no.png");
 	convert_texture(&table.so_texture, &table.so_texture.colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture.colors, "pngs/texture_es.png");

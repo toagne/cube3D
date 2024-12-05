@@ -6,116 +6,29 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:37:42 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/20 18:17:58 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:11:35 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	check_empty_file(int fd, char **line, char **map)
+static int	read_lines(int fd, char ***map, t_table *table, char *line)
 {
-	*line = get_next_line(fd);
-	if (!(*line))
-	{
-		free(map);
-		return (0);
-	}
-	return (1);
-}
-
-/* static	int count_chars(char *line, int c)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	if (!line)
-		return (0);
-	while (line[i] != '\0')
-	{
-		if (line[i] != c)
-			count++;
-		i++;
-	}
-	return (count);
-} */
-
-/* static char	*remove_spaces(char *line)
-{
-	char	*newstr;
-	int		j;
-	int		i;
-	int		nspaces;
-
-	i = 0;
-	j = 0;
-	nspaces = count_chars(line, ' ');
-	if (!line)
-		return (NULL);
-	if (nspaces != 0)
-	{
-		newstr = ft_calloc((ft_strlen(line) - nspaces) + 1, sizeof(char));
-		if (!newstr)
-			return (NULL);
-		while (line[j])
-		{
-			if (line[j] != ' ')
-			{
-				newstr[i] = line[j];
-				++i;
-			}
-			++j;
-		}
-		newstr[i] = '\0';
-		return (newstr);
-	}
-	return (line);
-} */
-
-/* static char *remove_spaces_and_nl(char *line)
-{
-	char	*trimmed;
-	char	*newstr;
-
-	trimmed = ft_strtrim(line, " \n");
-	if (!trimmed)
-		return (NULL);
-	newstr = remove_spaces(trimmed);
-	free(trimmed);
-	if (!newstr)
-		return (NULL);
-	return (newstr);
-} */
-
-static int	read_lines(int fd, char ***map, t_table *table)
-{
-	char	*line;
 	int		ln;
 	char	*trimmed;
 
-	line = NULL;
-	if (!check_empty_file(fd, &line, *map))
-		return (0);
-	trimmed = ft_strtrim(line, " \n");
-	if (!trimmed)
-	{
-		free(*map);
-		return (0);
-	}
-	(*map)[0] = trimmed;
 	ln = 1;
+	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		line = get_next_line(fd);
 		*map = ft_realloc(*map, ln * sizeof(char *), (ln + 1) * sizeof(char *));
 		if (line)
-			trimmed = ft_strtrim(line, " \n");
+			trimmed = ft_strtrim(line, "\n");
 		if (!*map || !trimmed)
 		{
 			free_map(*map, ln);
 			free(line);
-			line = NULL;
 			return (0);
 		}
 		(*map)[ln] = trimmed;
@@ -165,10 +78,8 @@ void set_player_position(t_table *table)
 		}
 		++player_pos_y;
 	}
-	//printf("%d x %d\n", table->player_col, table->player_row);
 	table->player_x = (float)table->player_col * T_SIZE + T_SIZE / 2;
 	table->player_y = (float)table->player_row * T_SIZE + T_SIZE / 2;
-	//printf("%f x %f\n", table->player_x, table->player_y);
 }
 
 int	find_length_of_longest_line(char **map)
@@ -192,10 +103,11 @@ int	find_length_of_longest_line(char **map)
 	return (len);
 }
 
-char	*fill_spaces(int len, char *line)
+char	*fill_ones(int len, char *line)
 {
 	char	*newline;
 	int		src_len;
+	int		i;
 
 	newline = malloc((len + 1) * sizeof(char));
 	if (!newline)
@@ -204,14 +116,21 @@ char	*fill_spaces(int len, char *line)
 	src_len = ft_strlen(line);
 	while (src_len < len)
 	{
-		newline[src_len] = ' ';
+		newline[src_len] = '1';
 		src_len++;
 	}
 	newline[len] = '\0';
+	i = 0;
+	while (i < len)
+	{
+		if (newline[i] == ' ')
+			newline[i] = '1';
+		++i;
+	}
 	return (newline);
 }
 
-int fill_spaces_to_map(char ***map)
+int fill_ones_to_map(char ***map)
 {
 	size_t	i;
 	size_t	len;
@@ -223,7 +142,7 @@ int fill_spaces_to_map(char ***map)
 	{
 		if (ft_strlen((*map)[i]) != len)
 		{
-			temp = fill_spaces(len, (*map)[i]);
+			temp = fill_ones(len, (*map)[i]);
 			if (!temp)
 				return (1);
 			free((*map)[i]);
@@ -234,7 +153,7 @@ int fill_spaces_to_map(char ***map)
 	return (0);
 }
 
-int	read_map(t_table *table, int fd)
+int	read_map(t_table *table, int fd, char *line)
 {
 	char	**map;
 
@@ -244,18 +163,18 @@ int	read_map(t_table *table, int fd)
 		close(fd);
 		return (1);
 	}
-	if (!read_lines(fd, &map, table))
+	map[0] = line;
+	if (!read_lines(fd, &map, table, line))
 	{
 		close(fd);
 		return (1);
 	}
-	if (fill_spaces_to_map(&map))
+	if (fill_ones_to_map(&map))
 	{
 		free_table(&map);
 		return (0);
 	}
 	table->columns = ft_strlen(map[0]);
-	//printf("table->columns = %zu\n", table->columns);
 	table->map = map;
 	set_player_position(table);
 	return (0);

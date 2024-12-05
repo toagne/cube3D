@@ -20,6 +20,24 @@ char	*ft_skipwhitespace(char *str)
 	return (str);
 }
 
+void	check_duplicate_color(t_table *table, int *array, char c)
+{
+	if (c == 'F')
+	{
+		if (!table->f_color)
+			table->f_color = array;
+		else
+			table->duplicate_id = 1;
+	}
+	else if (c == 'C')
+	{
+		if (!table->c_color)
+			table->c_color = array;
+		else
+			table->duplicate_id = 1;
+	}
+}
+
 int	parse_rgb(t_table *table, char *color, char c)
 {
 	char **rgb_arr;
@@ -49,85 +67,124 @@ int	parse_rgb(t_table *table, char *color, char c)
 		array[i] = number;
 		++i;
 	}
-	if (c == 'F')
-		table->f_color = array;
-	else if (c == 'C')
-		table->c_color = array;
+	check_duplicate_color(table, array, c);
 	free_table(&rgb_arr);
 	return (0);
 }
 
-int	check_element_identifier(t_table *table, char *line)
+void	set_element_texture(t_table *table, char *str, char *texture)
+{
+	if (ft_strncmp(str, "NO ", 3) == 0)
+	{
+		if (!table->no_path_texture)
+			table->no_path_texture = texture;
+		else
+			table->duplicate_id = 1;
+	}
+	else if (ft_strncmp(str, "SO ", 3) == 0)
+	{
+		if (!table->so_path_texture)
+			table->so_path_texture = texture;
+		else
+			table->duplicate_id = 1;
+	}
+	else if (ft_strncmp(str, "WE ", 3) == 0)
+	{
+		if (!table->ws_path_texture)
+			table->ws_path_texture = texture;
+		else
+			table->duplicate_id = 1;
+	}
+	else if (ft_strncmp(str, "EA ", 3) == 0)
+	{
+		if (!table->es_path_texture)
+			table->es_path_texture = texture;
+		else
+			table->duplicate_id = 1;
+	}
+}
+
+int	check_element_id(t_table *table, char *line, char *str)
 {
 	char	*temp;
 	char	*temp1;
-
 	temp = NULL;
-	if (ft_strncmp(line, "NO ", 3) == 0)
+	if (ft_strncmp(line, str, 3) == 0)
 	{
-		temp = ft_strtrim(line, "NO");
+		temp = ft_strtrim(line, str);
 		if (!temp)
 			return (1);
 		temp1 = ft_strtrim(temp, " ");
 		free(temp); 
-		table->no_path_texture = temp1;
+		set_element_texture(table, str, temp1);
 		return (0);
 	}
-	else if (ft_strncmp(line, "SO ", 3) == 0)
+	else if (ft_strncmp(line, str, 2) == 0)
 	{
-		temp = ft_strtrim(line, "SO ");
+		temp = ft_strtrim(line, str);
 		if (!temp)
 			return (1);
 		temp1 = ft_strtrim(temp, " ");
 		free(temp); 
-		table->so_path_texture = temp1;
-		return (0);
-	}
-	else if (ft_strncmp(line, "WE ", 3) == 0)
-	{
-		temp = ft_strtrim(line, "WE ");
-		if (!temp)
-			return (1);
-		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
-		table->we_path_texture = temp1;
-		return (0);
-	}
-	else if (ft_strncmp(line, "EA ", 3) == 0)
-	{
-		temp = ft_strtrim(line, "EA ");
-		if (!temp)
-			return (1);
-		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
-		table->ea_path_texture = temp1;
-		return (0);
-	}
-	else if (ft_strncmp(line, "F ", 2) == 0)
-	{
-		temp = ft_strtrim(line, "F");
-		if (!temp)
-			return (1);
-		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
-		if (parse_rgb(table, temp1, 'F'))
-			return (1);
-		return (0);
-	}
-	else if (ft_strncmp(line, "C ", 2) == 0)
-	{
-		temp = ft_strtrim(line, "C");
-		if (!temp)
-			return (1);
-		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
-		if (parse_rgb(table, temp1, 'C'))
+		if (parse_rgb(table, temp1, str[0]))
 			return (1);
 		return (0);
 	}
 	return (1);
 }
 
+int	check_element_ids(t_table *table, char *line)
+{
+	if (!check_element_id(table, line, "NO "))
+		return (0);
+	else if (!check_element_id(table, line, "SO "))
+		return (0);
+	else if (!check_element_id(table, line, "WE "))
+		return (0);
+	else if (!check_element_id(table, line, "EA "))
+		return (0);
+	else if (!check_element_id(table, line, "F "))
+		return (0);
+	else if (!check_element_id(table, line, "C "))
+		return (0);
+	return (1);
+}
+
+int	is_map_line(char *line)
+{
+	while (*line)
+	{
+		if (*line != 'N' && *line != 'S' && *line != 'E' && *line != 'W' &&
+		*line != '0' && *line != '1' && *line != ' ')
+			return (0);
+		++line;
+	}
+	printf("%s \n", line);
+	return (1);
+}
+
+int	verify_elements_ids(t_table *table)
+{
+	if (!table->f_color)
+		return (1);
+	if (!table->c_color)
+		return (1);
+	if (!table->ws_path_texture)
+		return (1);
+	if (!table->so_path_texture)
+		return (1);
+	if (!table->es_path_texture)
+		return (1);
+	if (!table->no_path_texture)
+		return (1);
+	return (0);
+}
+int	is_only_newline(char *line)
+{
+	if (ft_strlen(line) == 1 && *line == '\n')
+		return (1);
+	return (0);
+}
 int	read_file(t_table *table)
 {
 	int		fd;
@@ -146,26 +203,37 @@ int	read_file(t_table *table)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
-		temp = ft_strtrim(line, "\n");
-		if (!temp)
+		if (is_only_newline(line))
 		{
 			free(line);
-			return (1);
+			line = get_next_line(fd);
 		}
-		temp1 = ft_skipwhitespace(temp);
-		if (!check_element_identifier(table, temp1))
-		{ 
-			i += 1;
+		else
+		{
+			temp = ft_strtrim(line, "\n");
+			if (!temp)
+			{
+				free(line);
+				return (1);
+			}
+			if (is_map_line(temp))
+			{
+				free(line);
+				break;
+			}
+			temp1 = ft_skipwhitespace(temp);
+			if (!check_element_ids(table, temp1))
+			{ 
+				i += 1;
+			}
+			free(line);
+			free(temp);
+			line = get_next_line(fd);
 		}
-		free(line);
-		free(temp);
-		line = get_next_line(fd);
-		if (i == 6) // need to think about this when i us less than 6 it will be infinite loop
-			break;
 	}
-	if (i == 6)
+	if (!verify_elements_ids(table) && !table->duplicate_id)
 	{
-		if (read_map(table, fd))
+		if (read_map(table, fd, temp))
 		{
 			ft_error("Read failed or empty file");
 			close(fd);
@@ -180,7 +248,12 @@ int	read_file(t_table *table)
 		return (0);
 	}
 	else
-		ft_error("invalid file");
+	{
+		if (table->duplicate_id)
+			ft_error("duplicate ids in the file");
+		else
+			ft_error("invalid file");
+	}
 	close(fd);
 	return (1);
 }
