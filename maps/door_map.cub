@@ -1,0 +1,18 @@
+NO ./pngs/texture_no.png
+SO ./pngs/texture_so.png
+WE ./pngs/texture_es.png
+EA ./pngs/texture_ws.png
+
+F 220,100,0
+C 225,30,0
+
+1111111111
+1000100001
+1000100001
+1111100001
+1000100001
+1000100001
+1000111111
+10N0100001
+1000100001
+1111111111

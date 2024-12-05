@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/04 14:07:49 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:25:06 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
-	// add_doors(&table);
+	add_doors(&table);
 	init_dynamic_data(&table);
 	init_main_menu(&table);
 	init_gameover(&table);
@@ -47,8 +47,9 @@ int	main (int argc, char **argv)
 	convert_texture(&table.so_texture, &table.so_texture.colors, "pngs/texture_so.png");
 	convert_texture(&table.es_texture, &table.es_texture.colors, "pngs/texture_es.png");
 	convert_texture(&table.ws_texture, &table.ws_texture.colors, "pngs/texture_ws.png");
-	convert_texture(&table.sprite_tx, &table.sprite_tx.colors, "pngs/enemy.png");
+	convert_texture(&table.sprite_tx, &table.sprite_tx.colors, "pngs/sprite.png");
 	convert_texture(&table.ball_texture, &table.ball_texture.colors, "pngs/ballsheet.png");
+	convert_texture(&table.door_texture, &table.door_texture.colors, "pngs/door_0.png");
 	table.right_hand = load_image(table.mlx_start, "pngs/rigth_hand.png");
 	table.left_hand = load_image(table.mlx_start, "pngs/left_hand.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.width, table.height); //to change

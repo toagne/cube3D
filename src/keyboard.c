@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/04 13:42:14 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:42:19 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y, int b
 			check_tile_y = mpy + y;
 			if (check_tile_x >= 0 && check_tile_x < (int)table->columns && check_tile_y >= 0 && check_tile_y < (int)table->rows)
 			{
-				if (table->map[check_tile_y][check_tile_x] == '1')
+				if (table->map[check_tile_y][check_tile_x] == '1' || table->map[check_tile_y][check_tile_x] == '2')
 				{
+					if (radius == 10 && table->map[check_tile_y][check_tile_x] == '2')
+							table->map[check_tile_y][check_tile_x] = '0';
 					//printf("tile x = %d	tile y = %d\n", check_tile_x, check_tile_y);
 					wall_x = check_tile_x * T_SIZE;// + T_SIZE / 2;
 					wall_y = check_tile_y * T_SIZE;// + T_SIZE / 2;
@@ -190,9 +192,9 @@ void	kill_sprite(t_table *table)
 	{
 		int i = closest_enemy_index;
 		table->enemies[i].pending_death = 1;
-		// table->enemies[i].dead = 1;
-		// table->enemies[i].x = 0;
-		// table->enemies[i].y = 0;
+		table->enemies[i].dead = 1;
+		table->enemies[i].x = 0;
+		table->enemies[i].y = 0;
 		table->kill = 0;
 	}
 }
@@ -387,6 +389,7 @@ void ft_hook(void* param)
 	}
 	*/
 	int i = -1;
+	int	n_of_deaths = 0;
 	while (++i < N_ENEMIES)
 	{
 		float move_x = 0;
@@ -442,6 +445,13 @@ void ft_hook(void* param)
 		}
 		// printf("player x = %f	player y = %f\n", table->player_x, table->player_y);
 		// printf("sprite x = %d	sprite y = %d\n\n", table->enemies[i].x, table->enemies[i].y);
+		if (table->enemies[i].dead == 1)
+			n_of_deaths++;
+		if (n_of_deaths == N_ENEMIES)
+		{
+			init_dynamic_data(table);
+			display_gamewon(table);
+		}
 	}
 	if (render_flag == 1)
 	{

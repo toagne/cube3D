@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:15:57 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/04 15:05:52 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:47:17 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int animate_attack(t_table *table)
 	float tx, ty = 0.0f;
 	if (table->frame_counter)
 	{
-		int frame_x_offset = table->p_anim_index * 400; // Offset for the current frame
-		y_offset = (table->height / 2 - base_y) / 30 * table->p_anim_index;
+		int frame_x_offset = table->p_anim_index * 400 * 6 + table->p_anim_index; // Offset for the current frame
+		y_offset = (table->height / 2 - base_y) / 5 * table->p_anim_index;
 		for (int y = 0; y < frame_height; y++)
 		{
 			tx = 0.0f;
@@ -83,24 +83,8 @@ int animate_attack(t_table *table)
 			}
 			ty += sh;
 		}
-
-		if (table->p_anim_index == 28)
-		{
-			int i = -1;
-			while (++i < N_ENEMIES)
-			{
-				if (table->enemies[i].pending_death)
-				{
-					table->enemies[i].dead = 1;
-					table->enemies[i].x = 0;
-					table->enemies[i].y = 0;
-					table->enemies[i].pending_death = 0;
-				}
-			}
-		}
-
 		// Update the animation index
-		if (table->p_anim_index == 29) // If the last frame
+		if (table->p_anim_index == 4) // If the last frame
 		{
 			table->is_attacking = 0;
 			table->p_anim_index = 0;
