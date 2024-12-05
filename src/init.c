@@ -55,6 +55,7 @@ void	init_dynamic_data(t_table *table)
 	init_enemies(table);
 	table->mouse_last_x = table->width / 2;
 	table->mouse_last_y = table->height / 2;
+	table->duplicate_id = 0;
 	mlx_set_mouse_pos(table->mlx_start, table->width / 2, table->height / 2);
 	table->kill = 0;
 }

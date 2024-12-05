@@ -120,6 +120,7 @@ void ft_mouse(void *param)
 		{	
 			table->main_menu_on = 0;
 			undisplay_main_menu(table);
+			return ;
 		}
 	}
 	else
@@ -215,7 +216,16 @@ void ft_hook(void* param)
 	//printf("dt = %ld\n", delta_time);
 	float d_t_in_s = (float)delta_time / 1000000;
 	//printf("dt in s = %f\n", d_t_in_s);
-
+	if (table->gameover_on == 1)
+	{
+		run_gamestate_img(table, table->gameoverimg);
+		return ;
+	}
+	if (table->gamewon_on == 1)
+	{
+		run_gamestate_img(table, table->gamewonimg);
+		return ;
+	}
 	if (table->main_menu_on)
 		return ;
 	table->frame_counter += 1;

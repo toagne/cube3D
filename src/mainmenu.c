@@ -18,26 +18,22 @@ void animate_button(t_button *button)
 	{
 		button->white->instances[0].enabled = true;
 		button->colored->instances[0].enabled = false;
-		//button->status = 0;
 	}
 	else if (button->status == 0)
 	{
 		button->colored->instances[0].enabled = true;
 		button->white->instances[0].enabled = false;
-		//button->status = 1;
 	}
 }
 
 void	display_main_menu(t_table *table)
 {
-	if (table->bg_img->instances[0].z == 0)
-	{
-		mlx_set_instance_depth(&table->bg_img->instances[0], 9);
-		mlx_set_instance_depth(&table->play_button.white->instances[0], 10);
-		mlx_set_instance_depth(&table->play_button.colored->instances[0], 11);
-		mlx_set_instance_depth(&table->exit_button.white->instances[0], 10);
-		mlx_set_instance_depth(&table->exit_button.colored->instances[0], 11);
-	}
+	mlx_set_cursor_mode(table->mlx_start, MLX_MOUSE_NORMAL);
+	mlx_set_instance_depth(&table->bg_img->instances[0], 11);
+	mlx_set_instance_depth(&table->play_button.white->instances[0], 12);
+	mlx_set_instance_depth(&table->play_button.colored->instances[0], 13);
+	mlx_set_instance_depth(&table->exit_button.white->instances[0], 12);
+	mlx_set_instance_depth(&table->exit_button.colored->instances[0], 13);
 	table->bg_img->instances[0].enabled = true;
 	table->play_button.white->instances[0].enabled = true;
 	table->exit_button.white->instances[0].enabled = true;
