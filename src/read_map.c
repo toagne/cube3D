@@ -102,10 +102,11 @@ int	find_length_of_longest_line(char **map)
 	return (len);
 }
 
-char	*fill_spaces(int len, char *line)
+char	*fill_ones(int len, char *line)
 {
 	char	*newline;
 	int		src_len;
+	int		i;
 
 	newline = malloc((len + 1) * sizeof(char));
 	if (!newline)
@@ -118,10 +119,17 @@ char	*fill_spaces(int len, char *line)
 		src_len++;
 	}
 	newline[len] = '\0';
+	i = 0;
+	while (i < len)
+	{
+		if (newline[i] == ' ')
+			newline[i] = '1';
+		++i;
+	}
 	return (newline);
 }
 
-int fill_spaces_to_map(char ***map)
+int fill_ones_to_map(char ***map)
 {
 	size_t	i;
 	size_t	len;
@@ -133,7 +141,7 @@ int fill_spaces_to_map(char ***map)
 	{
 		if (ft_strlen((*map)[i]) != len)
 		{
-			temp = fill_spaces(len, (*map)[i]);
+			temp = fill_ones(len, (*map)[i]);
 			if (!temp)
 				return (1);
 			free((*map)[i]);
@@ -160,7 +168,7 @@ int	read_map(t_table *table, int fd, char *line)
 		close(fd);
 		return (1);
 	}
-	if (fill_spaces_to_map(&map))
+	if (fill_ones_to_map(&map))
 	{
 		free_table(&map);
 		return (0);

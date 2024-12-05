@@ -126,7 +126,7 @@ static int	print_map(t_table *table)
 	while (row < table->rows)
 	{
 		printf("%s\n", table->map[row]);
-		printf("number of elements in a row %zu\n", ft_strlen(table->map[row]));
+		//printf("number of elements in a row %zu\n", ft_strlen(table->map[row]));
 		++row;
 	}
 	return (0);
