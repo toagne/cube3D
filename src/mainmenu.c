@@ -12,63 +12,17 @@
 
 #include "../inc/cub3d.h"
 
-void	display_gamewon(t_table *table)
-{
-	table->menudelaytime = get_time('a');
-	table->gamewonimg->instances[0].enabled = true;
-	mlx_set_instance_depth(&table->gamewonimg->instances[0], 13);
-	table->gamewon_on = 1;
-}
-
-void	init_gamewon(t_table *table)
-{
-	table->gamewonimg = load_image(table->mlx_start, "pngs/gamewon.png");
-	mlx_image_to_window(table->mlx_start, table->gamewonimg, 0, 0);
-	mlx_resize_image(table->gamewonimg, table->width, table->height);
-	table->gamewonimg->instances[0].enabled = false;
-}
-
-void	init_gameover(t_table *table)
-{
-	table->gameoverimg = load_image(table->mlx_start, "pngs/gameover.png");
-	mlx_image_to_window(table->mlx_start, table->gameoverimg, 0, 0);
-	mlx_resize_image(table->gameoverimg, table->width, table->height);
-	table->gameoverimg->instances[0].enabled = false;	
-}
-
-void	display_gameover(t_table *table)
-{
-	table->menudelaytime = get_time('a');
-	table->gameoverimg->instances[0].enabled = true;
-	mlx_set_instance_depth(&table->gameoverimg->instances[0], 13);
-	table->gameover_on = 1;
-}
-
-void	run_gamestate_img(t_table *table, mlx_image_t * img)
-{
-	if (get_time('a') - table->menudelaytime > 3)
-	{
-		table->main_menu_on = 1;
-		img->instances[0].enabled = false;
-		table->gameover_on = 0;
-		table->gamewon_on = 0;
-		display_main_menu(table);
-	}
-}
-
 void animate_button(t_button *button)
 {
 	if (button->status == 1)
 	{
 		button->white->instances[0].enabled = true;
 		button->colored->instances[0].enabled = false;
-		//button->status = 0;
 	}
 	else if (button->status == 0)
 	{
 		button->colored->instances[0].enabled = true;
 		button->white->instances[0].enabled = false;
-		//button->status = 1;
 	}
 }
 
