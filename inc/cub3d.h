@@ -154,6 +154,11 @@ typedef struct s_table
 	int				mouse_last_x;
 	int				mouse_last_y;
 	int				kill;
+	long			menudelaytime;
+	mlx_image_t		*gameoverimg;
+	mlx_image_t		*gamewonimg;
+	int				gameover_on;
+	int				gamewon_on;
 }	t_table;
 
 // init.c
@@ -208,6 +213,11 @@ void animate_button(t_button *button);
 void ft_mouse(void *param);
 void	display_main_menu(t_table *table);
 void	undisplay_main_menu(t_table *table);
+void	display_gameover(t_table *table);
+void	display_gamewon(t_table *table);
+void	init_gameover(t_table *table);
+void	init_gamewon(t_table *table);
+void	run_gamestate_img(t_table *table, mlx_image_t * img);
 
 void			ft_hook(void* param);
 

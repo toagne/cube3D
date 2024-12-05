@@ -12,24 +12,48 @@
 
 #include "../inc/cub3d.h"
 
-void	display_youwon(t_table *table)
+void	display_gamewon(t_table *table)
 {
-	mlx_image_t *img;
+	table->menudelaytime = get_time('a');
+	table->gamewonimg->instances[0].enabled = true;
+	mlx_set_instance_depth(&table->gamewonimg->instances[0], 13);
+	table->gamewon_on = 1;
+}
 
-	img = load_image(t_table *table, "pngs/youwon.png");
-	mlx_image_to_window(table->mlx_3D, img);
-	// while loop tähän
-	mlx_delete_image(table->mlx_start, img);
+void	init_gamewon(t_table *table)
+{
+	table->gamewonimg = load_image(table->mlx_start, "pngs/gamewon.png");
+	mlx_image_to_window(table->mlx_start, table->gamewonimg, 0, 0);
+	mlx_resize_image(table->gamewonimg, table->width, table->height);
+	table->gamewonimg->instances[0].enabled = false;
+}
+
+void	init_gameover(t_table *table)
+{
+	table->gameoverimg = load_image(table->mlx_start, "pngs/gameover.png");
+	mlx_image_to_window(table->mlx_start, table->gameoverimg, 0, 0);
+	mlx_resize_image(table->gameoverimg, table->width, table->height);
+	table->gameoverimg->instances[0].enabled = false;	
 }
 
 void	display_gameover(t_table *table)
 {
-	mlx_image_t *img;
+	table->menudelaytime = get_time('a');
+	table->gameoverimg->instances[0].enabled = true;
+	mlx_set_instance_depth(&table->gameoverimg->instances[0], 13);
+	table->gameover_on = 1;
+}
 
-	img = load_image(table->mlx_start, "pngs/gameover.png");
-	mlx_image_to_window(table->mlx_3D, img);
-	//while loop tähän
-	mlx_delete_image(table->mlx_start, img);
+void	run_gamestate_img(t_table *table, mlx_image_t * img)
+{
+	if (get_time('a') - table->menudelaytime > 3)
+	{
+		table->main_menu_on = 1;
+		img->instances[0].enabled = false;
+		table->gameover_on = 0;
+		table->gamewon_on = 0;
+		display_main_menu(table);
+	}
 }
 
 void animate_button(t_button *button)
@@ -50,14 +74,12 @@ void animate_button(t_button *button)
 
 void	display_main_menu(t_table *table)
 {
-	if (table->bg_img->instances[0].z == 0)
-	{
-		mlx_set_instance_depth(&table->bg_img->instances[0], 9);
-		mlx_set_instance_depth(&table->play_button.white->instances[0], 10);
-		mlx_set_instance_depth(&table->play_button.colored->instances[0], 11);
-		mlx_set_instance_depth(&table->exit_button.white->instances[0], 10);
-		mlx_set_instance_depth(&table->exit_button.colored->instances[0], 11);
-	}
+	mlx_set_cursor_mode(table->mlx_start, MLX_MOUSE_NORMAL);
+	mlx_set_instance_depth(&table->bg_img->instances[0], 11);
+	mlx_set_instance_depth(&table->play_button.white->instances[0], 12);
+	mlx_set_instance_depth(&table->play_button.colored->instances[0], 13);
+	mlx_set_instance_depth(&table->exit_button.white->instances[0], 12);
+	mlx_set_instance_depth(&table->exit_button.colored->instances[0], 13);
 	table->bg_img->instances[0].enabled = true;
 	table->play_button.white->instances[0].enabled = true;
 	table->exit_button.white->instances[0].enabled = true;
