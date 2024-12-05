@@ -162,7 +162,7 @@ void	draw_tile(t_table *table, int col, int row)
 
 	x = col * T_SIZE / 4;
 	y = row * T_SIZE / 4;
-	if (table->map[row][col] == '1')
+	if (table->map[row][col] == '1' || table->map[row][col] == '2')
 		color = 0xFFFFFFFF;
 	else
 		color = 0x000000FF;

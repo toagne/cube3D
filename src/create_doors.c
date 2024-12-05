@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:34:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/04 17:55:47 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 12:00:35 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,46 @@ void	place_doors(t_table *table, int door_index, t_door *door)
 			}
 		}
 		if (!door_exists)
-		{
-			// printf("\n%d	%d\n", door[i].y, door[i].x);
 			table->map[door[i].y][door[i].x] = '2';
-		}
 	}
 }
+
+/* void	label_map(int x, int y, char labeled_map[y][x], int door_index)
+{
+	char	room_1;
+	char	room_2;
+
+	if (labeled_map[y][x] == '1')
+	{
+		room_1 = '0';
+		room_2 = '0';
+		if (labeled_map[y - 1][x] > 1 + '0')
+			room_1 = labeled_map[y - 1][x];
+		if (labeled_map[y + 1][x] > 1 + '0')
+		{
+			if (room_2 == '0')
+				room_2 = labeled_map[y + 1][x];
+		}
+		if (labeled_map[y][x - 1] > 1 + '0')
+		{
+			if (room_1 == '0')
+				room_1 = labeled_map[y][x - 1];
+		}
+		if (labeled_map[y][x + 1] > 1 + '0')
+		{
+			if (room_2 == '0')
+				room_2 = labeled_map[y][x + 1];
+		}
+		if (room_1 != '0' && room_2 != '0' && room_1 != room_2)
+		{
+			temp_door[door_index].x = x;
+			temp_door[door_index].y = y;
+			temp_door[door_index].room_1 = room_1;
+			temp_door[door_index].room_2 = room_2;
+			door_index++;
+		}
+	}
+} */
 
 void	find_walls_separating_rooms(t_table *table, int h, int w, char labeled_map[h][w])
 {
@@ -107,7 +141,7 @@ void	find_walls_separating_rooms(t_table *table, int h, int w, char labeled_map[
 
 void	add_doors(t_table *table)
 {
-	char	labelled_map[table->rows][table->columns];
+	char	labeled_map[table->rows][table->columns];
 	int		y;
 	int		x;
 	int		label;
@@ -116,37 +150,13 @@ void	add_doors(t_table *table)
 
 	h = table->rows;
 	w = table->columns;
-
-/* 	y = -1;
-	printf("original map\n");
-	while (++y < h)
-	{
-		x = -1;
-		while (++x < w)
-			printf("%c", table->map[y][x]);
-		printf("\n");
-	}
-	printf("\n"); */
-
 	y = -1;
 	while (++y < h)
 	{
 		x = -1;
 		while (++x < w)
-			labelled_map[y][x] = table->map[y][x];
+			labeled_map[y][x] = table->map[y][x];
 	}
-
-/* 	y = -1;
-	printf("copy map\n");
-	while (++y < h)
-	{
-		x = -1;
-		while (++x < w)
-			printf("%c", labelled_map[y][x]);
-		printf("\n");
-	}
-	printf("\n"); */
-
 	label = 2;
 	y = -1;
 	while (++y < h)
@@ -154,34 +164,12 @@ void	add_doors(t_table *table)
 		x = -1;
 		while (++x < w)
 		{
-			if (labelled_map[y][x] == '0')
+			if (labeled_map[y][x] == '0')
 			{
-				flood_fill(h, w, labelled_map, x, y, label);
+				flood_fill(h, w, labeled_map, x, y, label);
 				label++;
 			}
 		}
 	}
-
-/* 	y = -1;
-	printf("labelled map\n");
-	while (++y < h)
-	{
-		x = -1;
-		while (++x < w)
-			printf("%c", labelled_map[y][x]);
-		printf("\n");
-	}
-	printf("\n"); */
-
-	find_walls_separating_rooms(table, h, w, labelled_map);
-
-/* 	printf("final map\n");
-	y = -1;
-	while (++y < h)
-	{
-		x = -1;
-		while (++x < w)
-			printf("%c", table->map[y][x]);
-		printf("\n");
-	} */
+	find_walls_separating_rooms(table, h, w, labeled_map);
 }

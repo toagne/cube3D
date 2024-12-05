@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/04 17:06:47 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 09:44:50 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main (int argc, char **argv)
 	convert_texture(&table.ws_texture, &table.ws_texture.colors, "pngs/texture_ws.png");
 	convert_texture(&table.sprite_tx, &table.sprite_tx.colors, "pngs/enemy.png");
 	convert_texture(&table.ball_texture, &table.ball_texture.colors, "pngs/ballsheet.png");
+	convert_texture(&table.door_texture, &table.door_texture.colors, "pngs/Door02.png");
 	table.right_hand = load_image(table.mlx_start, "pngs/rigth_hand.png");
 	table.left_hand = load_image(table.mlx_start, "pngs/left_hand.png");
 	table.mlx_2D = mlx_new_image(table.mlx_start, table.width, table.height); //to change

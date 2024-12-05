@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/04 13:43:19 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 09:39:49 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ typedef struct s_table
 	t_texture		es_texture;
 	t_texture		ws_texture;
 	t_texture		ball_texture;
+	t_texture		door_texture;
 	// mlx_texture_t	*ball_texture;
 	// uint32_t		**ball_texture_colors;
 	mlx_image_t		*ball_image;
