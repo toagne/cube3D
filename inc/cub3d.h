@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 09:39:49 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:22:05 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ typedef struct s_table
 	int				mouse_last_x;
 	int				mouse_last_y;
 	int				kill;
+	int				sprite_frames;
 }	t_table;
 
 // init.c

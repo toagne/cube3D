@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:47:36 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/02 15:58:03 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:20:53 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_sprite_is_visible(t_table *table, t_enemy sp)
 	float	p_fov_r;
 	float	p_fov_l;
 
-	half_width_angle = atan2(table->sprite_tx.width / 2, sp.dist) * 180 / PI;
+	half_width_angle = atan2(table->sprite_tx.width / 11 / 2, sp.dist) * 180 / PI;
 	s_l_angle = sp.angle - half_width_angle;
 	s_r_angle = sp.angle + half_width_angle;
 	if (s_l_angle < 0)
@@ -63,8 +63,7 @@ int	check_sprite_is_visible(t_table *table, t_enemy sp)
 
 void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp)
 {
-	float
-		sprite_center_screen;
+	float	sprite_center_screen;
 
 	sprite_center_screen = (angle_diff + 30) * table->width / 60;
 	sp->screen_size = T_SIZE * table->height / sp->dist;
@@ -75,8 +74,7 @@ void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp)
 	sp->tx_start_x = 0;
 	if (sp->x_start < 0)
 	{
-		sp->tx_start_x = -sp->x_start * table->sprite_tx.width
-			/ sp->screen_size;
+		sp->tx_start_x = -sp->x_start * (table->sprite_tx.width / 11) / sp->screen_size;
 		sp->x_start = 0;
 	}
 	if (sp->x_end >= table->width)
