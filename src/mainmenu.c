@@ -12,6 +12,26 @@
 
 #include "../inc/cub3d.h"
 
+void	display_youwon(t_table *table)
+{
+	mlx_image_t *img;
+
+	img = load_image(t_table *table, "pngs/youwon.png");
+	mlx_image_to_window(table->mlx_3D, img);
+	// while loop tähän
+	mlx_delete_image(table->mlx_start, img);
+}
+
+void	display_gameover(t_table *table)
+{
+	mlx_image_t *img;
+
+	img = load_image(table->mlx_start, "pngs/gameover.png");
+	mlx_image_to_window(table->mlx_3D, img);
+	//while loop tähän
+	mlx_delete_image(table->mlx_start, img);
+}
+
 void animate_button(t_button *button)
 {
 	if (button->status == 1)
