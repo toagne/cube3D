@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:44:07 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/20 09:26:18 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/07 00:02:18 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static int	validate_walls_sides(t_table *table)
 	return (1);
 }
 
-static int	print_map(t_table *table)
+/* static int	print_map(t_table *table)
 {
 	size_t	row;
 
@@ -130,7 +130,7 @@ static int	print_map(t_table *table)
 		++row;
 	}
 	return (0);
-}
+} */
 
 static int	validate_walls_top_bot(t_table *table)
 {
@@ -163,7 +163,7 @@ static int	validate_walls_top_bot(t_table *table)
 
 int	validate_map(t_table *table)
 {
-	print_map(table);
+	//print_map(table);
 	if (!validate_map_chars_and_ext(table))
 		return (0);
 	if (!validate_walls_sides(table))

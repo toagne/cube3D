@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/06 16:10:10 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/06 23:53:43 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,23 @@ int	init_static_data(t_table *table, char ** argv)
 	return (0);
 }
 
+void	reset_doors(t_table *table)
+{
+	int y;
+	int	x;
+
+	y = -1;
+	while (++y < (int)table->rows)
+	{
+		x = -1;
+		while (++x < (int)table->columns)
+		{
+			if (table->map[y][x] == '3')
+				table->map[y][x] = '2';
+		}
+	}
+}
+
 void	init_dynamic_data(t_table *table)
 {
 	if (table->player_dir == 'N')
@@ -97,4 +114,5 @@ void	init_dynamic_data(t_table *table)
 		table->enemies[i].dead = 0;
 	table->player_x = (float)table->player_col * T_SIZE + T_SIZE / 2;
 	table->player_y = (float)table->player_row * T_SIZE + T_SIZE / 2;
+	reset_doors(table);
 }

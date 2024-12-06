@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:47:36 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 17:20:53 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/06 23:45:32 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_sprite_is_visible(t_table *table, t_enemy sp)
 	float	p_fov_r;
 	float	p_fov_l;
 
-	half_width_angle = atan2(table->sprite_tx.width / 11 / 2, sp.dist) * 180 / PI;
+	half_width_angle = atan2((table->sprite_tx.width / 11) / 2, sp.dist) * 180 / PI;
 	s_l_angle = sp.angle - half_width_angle;
 	s_r_angle = sp.angle + half_width_angle;
 	if (s_l_angle < 0)

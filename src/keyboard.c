@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/06 19:30:39 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/06 23:46:30 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,20 +422,21 @@ void ft_hook(void* param)
 	int	n_of_deaths = 0;
 	while (++i < N_ENEMIES)
 	{
+		float	speed = 10 + (i * 2);
 		float move_x = 0;
 		float move_y = 0;
 
 		render_flag = 1;
 		if (table->enemies[i].x < table->player_x)
-			move_x = d_t_in_s * 30.0f;
+			move_x = d_t_in_s * (float)speed;//30.0f;
 		else if (table->enemies[i].x > table->player_x)
-			move_x = -d_t_in_s * 30.0f;
+			move_x = -d_t_in_s * (float)speed;//30.0f;
 		// else
 			// new_x = table->enemies[i].x;
 		if (table->enemies[i].y < table->player_y)
-			move_y = d_t_in_s * 30.0f;
+			move_y = d_t_in_s * (float)speed;//30.0f;
 		else if (table->enemies[i].y> table->player_y)
-			move_y = -d_t_in_s * 30.0f;
+			move_y = -d_t_in_s * (float)speed;//30.0f;
 		// else
 			// new_y = table->enemies[i].y;
 		
@@ -445,10 +446,9 @@ void ft_hook(void* param)
 		int r;
 
 		if (new_x != table->enemies[i].x && new_y != table->enemies[i].y)
-			r = 25 * sqrt(2);
+			r = 15 * sqrt(2);
 		else
-			r = 25;
-
+			r = 15;
 		if (!wall_collision_w_circular_bumper(table, new_x, new_y, table->enemies[i].x, table->enemies[i].y, r))
 		{
 			// printf("normal\n");
@@ -458,13 +458,13 @@ void ft_hook(void* param)
 		}
 		else
 		{
-				if (!wall_collision_w_circular_bumper(table, table->enemies[i].x, new_y, table->enemies[i].x, table->enemies[i].y, 25))
+				if (!wall_collision_w_circular_bumper(table, table->enemies[i].x, new_y, table->enemies[i].x, table->enemies[i].y, r))
 				{
 					// printf("vertical\n");
 					table->enemies[i].y = new_y;
 					render_flag = 1;
 				}
-				else if (!wall_collision_w_circular_bumper(table, new_x, table->enemies[i].y, table->enemies[i].x, table->enemies[i].y, 25))
+				else if (!wall_collision_w_circular_bumper(table, new_x, table->enemies[i].y, table->enemies[i].x, table->enemies[i].y, r))
 				{
 					// printf("horizontal\n");
 					table->enemies[i].x = new_x;

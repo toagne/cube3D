@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:29:28 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/06 12:03:47 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/07 00:04:07 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	is_map_line(char *line)
 			return (0);
 		++line;
 	}
-	printf("%s \n", line);
+	//printf("%s \n", line);
 	return (1);
 }
 

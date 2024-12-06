@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 17:12:31 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/06 23:59:23 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	draw_sprite(t_table *table, t_enemy sp, int x)
 	int animation_x_offset;
 
 	animation_x_offset = table->sprite_frames * 200;
-	tex_x = ((x - sp.x_start) * table->sprite_tx.width / 11) / sp.screen_size + sp.tx_start_x + animation_x_offset;
+	tex_x = ((x - sp.x_start) * (table->sprite_tx.width / 11)) / sp.screen_size + sp.tx_start_x + animation_x_offset;
 	y = sp.y_start - 1;
 	while (++y < sp.y_end)
 	{
