@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 18:14:18 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:10:43 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,9 @@ typedef struct s_table
 }	t_table;
 
 // init.c
-void			init_static_data(t_table *table);
+int				init_static_data(t_table *table, char **argv);
 void			init_dynamic_data(t_table *table);
+void			init_texture_and_images(t_table *table);
 
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			ft_hook(void* param);
