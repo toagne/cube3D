@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:30:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 10:36:06 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/07 00:48:32 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ void	select_texture(t_table *table, t_texture *tx)
 		tx->height = table->door_texture.height;
 		tx->width = table->door_texture.width;
 		tx->colors = table->door_texture.colors;
+		return ;
+	}
+	if (table->map[tile_y / T_SIZE][tile_x / T_SIZE] == '4')
+	{
+		tx->height = table->win_texture.height;
+		tx->width = table->win_texture.width;
+		tx->colors = table->win_texture.colors;
 		return ;
 	}
 	dx = table->ray.f_x - tile_x;

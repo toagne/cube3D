@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/06 12:40:55 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/07 00:23:41 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main (int argc, char **argv)
 		;//error
 	}
 	add_doors(&table);
+	get_random_win_spot(&table);
 	init_dynamic_data(&table);
 	init_main_menu(&table);
 	init_gameover(&table);

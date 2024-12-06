@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/06 23:53:43 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/07 00:48:14 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_texture_and_images(t_table *table)
 	convert_texture(&table->sprite_tx, &table->sprite_tx.colors, "pngs/sprite.png");
 	convert_texture(&table->ball_texture, &table->ball_texture.colors, "pngs/ballsheet.png");
 	convert_texture(&table->door_texture, &table->door_texture.colors, "pngs/door_0.png");
+	convert_texture(&table->win_texture, &table->win_texture.colors, "pngs/win.png");
 	table->right_hand = load_image(table->mlx_start, "pngs/rigth_hand.png");
 	table->left_hand = load_image(table->mlx_start, "pngs/left_hand.png");
 	table->mlx_2D = mlx_new_image(table->mlx_start, table->width, table->height);

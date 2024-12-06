@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/06 16:10:43 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/07 00:45:27 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ typedef struct s_table
 	t_texture		ws_texture;
 	t_texture		ball_texture;
 	t_texture		door_texture;
+	t_texture		win_texture;
 	// mlx_texture_t	*ball_texture;
 	// uint32_t		**ball_texture_colors;
 	mlx_image_t		*ball_image;
@@ -245,5 +246,6 @@ void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp);
 int		check_sprite_is_visible(t_table *table, t_enemy sp);
 
 void	add_doors(t_table *table);
+void	get_random_win_spot(t_table *table);
 
 #endif

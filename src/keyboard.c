@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/06 23:46:30 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/07 00:59:31 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,16 @@ int wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y, int b
 				wall_x = check_tile_x * T_SIZE;
 				wall_y = check_tile_y * T_SIZE;
 
-				if (table->map[check_tile_y][check_tile_x] == '1' || table->map[check_tile_y][check_tile_x] == '2') {
+				if (table->map[check_tile_y][check_tile_x] == '1' || table->map[check_tile_y][check_tile_x] == '2' || table->map[check_tile_y][check_tile_x] == '4')
+				{
 					if (circle_rectangle_collision(new_x, new_y, radius, wall_x, wall_y, T_SIZE)) {
 						if (radius == 10 && table->map[check_tile_y][check_tile_x] == '2')
 							table->map[check_tile_y][check_tile_x] = '3'; // Open the door
+						if (radius == 10 && table->map[check_tile_y][check_tile_x] == '4')
+						{
+							init_dynamic_data(table);
+							display_gamewon(table);
+						}
 						collision_detected = 1; // Block movement
 					}
 				}

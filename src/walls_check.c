@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:24:40 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 09:39:48 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/07 00:38:06 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	check_if_wall(t_table *t, float step_x, float step_y, float side_t_x
 	{
 		map_x = side_t_x / T_SIZE;
 		map_y = side_t_y / T_SIZE;
-		if (t->map[map_y][map_x] == '1' || t->map[map_y][map_x] == '2')
+		if (t->map[map_y][map_x] == '1' || t->map[map_y][map_x] == '2' || t->map[map_y][map_x] == '4')
 			break ;
 		else
 		{
