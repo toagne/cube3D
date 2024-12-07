@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/07 00:45:27 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/07 11:13:46 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ typedef	struct	s_ray
 	int			x_end;
 	float		tx;
 	float		ty;
+	float		dx_for_wall;
+	float		dy_for_wall;
 } t_ray;
 
 typedef struct s_button

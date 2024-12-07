@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/07 00:59:31 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/07 10:44:05 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ void	move_visual_with_mouse(t_table *table)
 		mlx_set_mouse_pos(table->mlx_start, table->width / 2, table->height / 2);
 		table->mouse_last_x = table->width / 2;
 		table->mouse_last_y = table->height / 2;
+		draw_minimap(table);
+		draw_raycasting(table);
 	}
 }
 
