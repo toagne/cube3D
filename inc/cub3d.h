@@ -6,7 +6,7 @@
 /*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/07 11:13:46 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/07 19:10:36 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,15 @@
 # define T_SIZE 64
 # define N_ENEMIES 10
 
-typedef	struct	s_door
+typedef	struct	s_door_helper
 {
 	int	x;
 	int	y;
 	int	room_1;
 	int	room_2;
-} t_door;
+	int	label;
+	int	door_index;
+} t_door_helper;
 
 typedef	struct	s_enemy
 {
