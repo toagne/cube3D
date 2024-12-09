@@ -29,11 +29,13 @@ void animate_button(t_button *button)
 void	display_main_menu(t_table *table)
 {
 	mlx_set_cursor_mode(table->mlx_start, MLX_MOUSE_NORMAL);
-	mlx_set_instance_depth(&table->bg_img->instances[0], 11);
-	mlx_set_instance_depth(&table->play_button.white->instances[0], 12);
-	mlx_set_instance_depth(&table->play_button.colored->instances[0], 13);
-	mlx_set_instance_depth(&table->exit_button.white->instances[0], 12);
-	mlx_set_instance_depth(&table->exit_button.colored->instances[0], 13);
+	mlx_set_instance_depth(&table->bg_img->instances[0], 13);
+	mlx_set_instance_depth(&table->play_button.white->instances[0], 14);
+	mlx_set_instance_depth(&table->play_button.colored->instances[0], 15);
+	mlx_set_instance_depth(&table->exit_button.white->instances[0], 14);
+	mlx_set_instance_depth(&table->exit_button.colored->instances[0], 15);
+	mlx_set_instance_depth(&table->controls_button.white->instances[0], 14);
+	mlx_set_instance_depth(&table->controls_button.colored->instances[0], 15);
 	table->bg_img->instances[0].enabled = true;
 	table->play_button.white->instances[0].enabled = true;
 	table->exit_button.white->instances[0].enabled = true;
@@ -49,6 +51,8 @@ void	undisplay_main_menu(t_table *table)
 	table->exit_button.white->instances[0].enabled = false;
 	table->play_button.white->instances[0].enabled = false;
 	table->exit_button.colored->instances[0].enabled = false;
+	table->controls_button.white->instances[0].enabled = false;
+	table->controls_button.colored->instances[0].enabled = false;
 }
 
 void init_main_menu(t_table *table)
@@ -56,10 +60,12 @@ void init_main_menu(t_table *table)
 	mlx_image_t *img;
 	t_button	play;
 	t_button	exit;
+	t_button	options;
 
 	table->main_menu_on = 1;
 	play.status = 1;
 	exit.status = 1;
+	options.status = 1;
 	img = load_image(table->mlx_start, "pngs/Background_0.png");
 	mlx_resize_image(img, table->width, table->height);
 	mlx_image_to_window(table->mlx_start, img, 0, 0);
@@ -75,8 +81,14 @@ void init_main_menu(t_table *table)
 	exit.white = load_image(table->mlx_start, "pngs/Exit Button.png");
 	mlx_resize_image(exit.white, table->width / 6, table->height / 6);
 	mlx_image_to_window(table->mlx_start, exit.white, table->width / 2 - table->width / 6 / 2, table->height / 2);
-	mlx_put_string(table->mlx_start, "Our Cube Game", table->width / 2, 0);
+	options.colored = load_image(table->mlx_start, "pngs/Controls  col_Button.png");
+	mlx_resize_image(options.colored, table->width / 6, table->height / 6);
+	mlx_image_to_window(table->mlx_start, options.colored, table->width / 2 - table->width / 6 / 2, table->height * 0.75);
+	options.white = load_image(table->mlx_start, "pngs/Controls Button.png");
+	mlx_resize_image(options.white, table->width / 6, table->height / 6);
+	mlx_image_to_window(table->mlx_start, options.white, table->width / 2 - table->width / 6 / 2, table->height * 0.75);
 	table->play_button = play;
 	table->exit_button = exit;
+	table->controls_button = options;
 	table->bg_img = img;
 }

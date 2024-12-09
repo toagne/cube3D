@@ -11,11 +11,27 @@
 /* ************************************************************************** */
 #include "../inc/cub3d.h"
 
+void	display_controls(t_table *table)
+{
+	table->menudelaytime = get_time('a');
+	mlx_set_instance_depth(&table->controlsimg->instances[0], 16);
+	table->controlsimg->instances[0].enabled = true;
+	table->controls_on = 1;
+}
+
+void	init_controls(t_table *table)
+{
+	table->controlsimg = load_image(table->mlx_start, "pngs/controlsbackground.png");
+	mlx_image_to_window(table->mlx_start, table->controlsimg, 0, 0);
+	mlx_resize_image(table->controlsimg, table->width, table->height);
+	table->controlsimg->instances[0].enabled = false;
+}
+
 void	display_gamewon(t_table *table)
 {
 	table->menudelaytime = get_time('a');
 	table->gamewonimg->instances[0].enabled = true;
-	mlx_set_instance_depth(&table->gamewonimg->instances[0], 13);
+	mlx_set_instance_depth(&table->gamewonimg->instances[0], 16);
 	table->gamewon_on = 1;
 }
 
@@ -39,18 +55,19 @@ void	display_gameover(t_table *table)
 {
 	table->menudelaytime = get_time('a');
 	table->gameoverimg->instances[0].enabled = true;
-	mlx_set_instance_depth(&table->gameoverimg->instances[0], 13);
+	mlx_set_instance_depth(&table->gameoverimg->instances[0], 16);
 	table->gameover_on = 1;
 }
 
-void	run_gamestate_img(t_table *table, mlx_image_t * img)
+void	run_gamestate_img(t_table *table, mlx_image_t * img, int delay)
 {
-	if (get_time('a') - table->menudelaytime > 3)
+	if (get_time('a') - table->menudelaytime > delay)
 	{
 		table->main_menu_on = 1;
 		img->instances[0].enabled = false;
 		table->gameover_on = 0;
 		table->gamewon_on = 0;
+		table->controls_on = 0;
 		display_main_menu(table);
 	}
 }

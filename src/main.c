@@ -36,6 +36,7 @@ int	main (int argc, char **argv)
 	init_main_menu(&table);
 	init_gameover(&table);
 	init_gamewon(&table);
+	init_controls(&table);
 	init_texture_and_images(&table);
 	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);

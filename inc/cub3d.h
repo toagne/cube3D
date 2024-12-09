@@ -154,6 +154,7 @@ typedef struct s_table
 	int32_t			y_mouse;
 	t_button		play_button;
 	t_button		exit_button;
+	t_button		controls_button;
 	mlx_image_t		*bg_img;
 	long			last_time;
 	uint32_t		**w_colors;
@@ -164,8 +165,10 @@ typedef struct s_table
 	long			menudelaytime;
 	mlx_image_t		*gameoverimg;
 	mlx_image_t		*gamewonimg;
+	mlx_image_t		*controlsimg;
 	int				gameover_on;
 	int				gamewon_on;
+	int				controls_on;
 }	t_table;
 
 // init.c
@@ -225,7 +228,9 @@ void	display_gameover(t_table *table);
 void	display_gamewon(t_table *table);
 void	init_gameover(t_table *table);
 void	init_gamewon(t_table *table);
-void	run_gamestate_img(t_table *table, mlx_image_t * img);
+void	run_gamestate_img(t_table *table, mlx_image_t * img, int delay);
+void	init_controls(t_table *table);
+void	display_controls(t_table *table);
 
 void			ft_hook(void* param);
 

@@ -184,6 +184,21 @@ void ft_mouse(void *param)
 		table->exit_button.status = 1;
 		animate_button(&table->exit_button);
 	}
+	if (table->x_mouse > table->controls_button.white->instances[0].x && table->x_mouse < table->controls_button.white->instances[0].x + table->width / 6 \
+	&& table->y_mouse > table->controls_button.white->instances[0].y && table->y_mouse < table->controls_button.white->instances[0].y + table->height / 6)
+	{
+		table->controls_button.status = 0;
+		animate_button(&table->controls_button);
+		if (mlx_is_mouse_down(table->mlx_start, MLX_MOUSE_BUTTON_LEFT))
+		{
+			display_controls(table);
+		}
+	}
+	else
+	{
+		table->controls_button.status = 1;
+		animate_button(&table->controls_button);
+	}
 
 }
 
@@ -256,14 +271,19 @@ void ft_hook(void* param)
 	//printf("dt = %ld\n", delta_time);
 	float d_t_in_s = (float)delta_time / 1000000;
 	//printf("dt in s = %f\n", d_t_in_s);
+	if (table->controls_on == 1)
+	{
+		run_gamestate_img(table, table->controlsimg, 10);
+		return ;
+	}
 	if (table->gameover_on == 1)
 	{
-		run_gamestate_img(table, table->gameoverimg);
+		run_gamestate_img(table, table->gameoverimg, 3);
 		return ;
 	}
 	if (table->gamewon_on == 1)
 	{
-		run_gamestate_img(table, table->gamewonimg);
+		run_gamestate_img(table, table->gamewonimg, 3);
 		return ;
 	}
 	if (table->main_menu_on)
@@ -495,6 +515,7 @@ void ft_hook(void* param)
 	{
 		draw_minimap(table);
 		draw_raycasting(table);
+		//mlx_put_string(table->mlx_start, "Enemies: ", table->width / 2, 0);
 	}
 	if (!table->is_attacking)
 		insert_fireball(table);
