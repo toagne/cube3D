@@ -14,10 +14,10 @@
 
 void	init_texture_and_images(t_table *table)
 {
-	convert_texture(&table->no_texture, &table->no_texture.colors, "pngs/texture_no.png");
-	convert_texture(&table->so_texture, &table->so_texture.colors, "pngs/texture_so.png");
-	convert_texture(&table->es_texture, &table->es_texture.colors, "pngs/texture_es.png");
-	convert_texture(&table->ws_texture, &table->ws_texture.colors, "pngs/texture_ws.png");
+	convert_texture(&table->no_texture, &table->no_texture.colors, table->no_path_texture);
+	convert_texture(&table->so_texture, &table->so_texture.colors, table->so_path_texture);
+	convert_texture(&table->es_texture, &table->es_texture.colors, table->es_path_texture);
+	convert_texture(&table->ws_texture, &table->ws_texture.colors, table->ws_path_texture);
 	convert_texture(&table->sprite_tx, &table->sprite_tx.colors, "pngs/sprite.png");
 	convert_texture(&table->ball_texture, &table->ball_texture.colors, "pngs/ballsheet.png");
 	convert_texture(&table->door_texture, &table->door_texture.colors, "pngs/door_0.png");
@@ -27,9 +27,10 @@ void	init_texture_and_images(t_table *table)
 	table->mlx_2D = mlx_new_image(table->mlx_start, table->width, table->height);
 	table->mlx_3D = mlx_new_image(table->mlx_start, table->width, table->height);
 	table->ball_image = mlx_new_image(table->mlx_start, table->width, table->height);
-	if (!table->mlx_2D || !table->mlx_3D || table->ball_image)
+	if (!table->mlx_2D || !table->mlx_3D || !table->ball_image)
 	{
-		;//error
+		printf("test \n");
+		exit(EXIT_FAILURE);
 	}
 }
 
