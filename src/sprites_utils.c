@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:47:36 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/06 23:45:32 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/09 10:11:06 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int	check_sprite_is_visible(t_table *table, t_enemy sp)
 		s_l_angle += 360;
 	if (s_r_angle >= 360)
 		s_r_angle -= 360;
-	p_fov_r = table->player_angle - 30;
-	p_fov_l = table->player_angle + 30;
-	if (p_fov_r < 0)
-		p_fov_r += 360;
-	if (p_fov_l >= 360)
-		p_fov_l -= 360;
+	p_fov_l = table->player_angle - 30;
+	p_fov_r = table->player_angle + 30;
+	if (p_fov_l < 0)
+		p_fov_l += 360;
+	if (p_fov_r >= 360)
+		p_fov_r -= 360;
 	if (real_check(p_fov_r, p_fov_l, s_r_angle, s_l_angle))
 		return (1);
 	return (0);
