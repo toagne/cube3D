@@ -159,7 +159,6 @@ int	is_map_line(char *line)
 			return (0);
 		++line;
 	}
-	//printf("%s \n", line);
 	return (1);
 }
 
@@ -185,15 +184,42 @@ int	is_only_newline(char *line)
 		return (1);
 	return (0);
 }
+
+int	verify_file_reading(t_table *table, int fd, char *line)
+{
+	if (!verify_elements_ids(table) && !table->duplicate_id)
+	{
+		if (read_map(table, fd, line))
+		{
+			ft_error("Read failed or empty file");
+			close(fd);
+			return (1);
+		}
+		if (!validate_map(table))
+		{
+			free_map(table->map, table->rows);
+			close(fd);
+			return (1);
+		}
+		return (0);
+	}
+	else
+	{
+		if (table->duplicate_id)
+			ft_error("duplicate ids in the file");
+		else
+			ft_error("invalid file");
+		return (1);
+	}
+}
+
 int	read_file(t_table *table)
 {
 	int		fd;
 	char	*line;
 	char	*temp;
 	char	*temp1;
-	//int		i;
 
-	//i = 0;
 	fd = open(table->filename, O_RDONLY);
 	if (fd == -1)
 	{
@@ -222,38 +248,17 @@ int	read_file(t_table *table)
 				break;
 			}
 			temp1 = ft_skipwhitespace(temp);
-/* 			if (!*/check_element_ids(table, temp1);/*)
+ 			if (check_element_ids(table, temp1))
 			{ 
-				i += 1;
-			} */
+				ft_error("Set element texture failed");
+			}
 			free(line);
 			free(temp);
 			line = get_next_line(fd);
 		}
 	}
-	if (!verify_elements_ids(table) && !table->duplicate_id)
-	{
-		if (read_map(table, fd, temp))
-		{
-			ft_error("Read failed or empty file");
-			close(fd);
-			return (1);
-		}
-		if (!validate_map(table))
-		{
-			free_map(table->map, table->rows);
-			close(fd);
-			return (1);
-		}
+	if (!verify_file_reading(table, fd, temp))
 		return (0);
-	}
-	else
-	{
-		if (table->duplicate_id)
-			ft_error("duplicate ids in the file");
-		else
-			ft_error("invalid file");
-	}
 	close(fd);
 	return (1);
 }
