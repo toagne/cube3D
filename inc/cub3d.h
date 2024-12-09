@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/07 19:10:36 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/09 14:58:00 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int				validate_map(t_table *table);
 // load_images.c
 mlx_image_t 	*load_image(mlx_t *mlx, char *str);
 mlx_texture_t 	*load_texture(char *str);
-void			convert_texture(t_texture *tx, uint32_t ***tx_colors, char *str);
+void			convert_tx(t_texture *tx, uint32_t ***tx_colors, char *str);
 
 unsigned int	get_rgba(int r, int g, int b, int a);
 void			get_monitor_size(int *width, int *height);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_check.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:24:40 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/07 00:38:06 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/09 15:27:10 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static void	check_if_wall(t_table *t, float step_x, float step_y, float side_t_x
 	{
 		map_x = side_t_x / T_SIZE;
 		map_y = side_t_y / T_SIZE;
-		if (t->map[map_y][map_x] == '1' || t->map[map_y][map_x] == '2' || t->map[map_y][map_x] == '4')
+		if (t->map[map_y][map_x] == '1' || t->map[map_y][map_x] == '2'
+		|| t->map[map_y][map_x] == '4')
 			break ;
 		else
 		{
@@ -76,11 +77,10 @@ void	check_horizontal_lines(t_table *t, float angle)
 {
 	float	step_x;
 	float	step_y;
-	//float	h_vector;
 	float	h_side_t_x;
 	float	h_side_t_y;
 
-	//h_vector = 10000;
+	t->ray.h_v = 100000;
 	if (angle > 0 && angle < PI)
 	{
 		h_side_t_y = (int)(t->player_y / T_SIZE) * T_SIZE + T_SIZE;
@@ -102,11 +102,10 @@ void	check_vertical_lines(t_table *t, float angle)
 {
 	float	step_x;
 	float	step_y;
-	//float	v_vector;
 	float	v_side_t_x;
 	float	v_side_t_y;
 
-	//v_vector = 10000;
+	t->ray.v_v = 100000;
 	if (angle > 3 * PI / 2 || angle < PI / 2)
 	{
 		v_side_t_x = (int)(t->player_x / T_SIZE) * T_SIZE + T_SIZE;

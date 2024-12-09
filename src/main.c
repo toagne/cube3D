@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/07 00:23:41 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/09 10:39:46 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	main (int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_table	table;
-	
+
 	if (argc != 2)
 	{
 		//write (2, "wrong input\n", 12);
@@ -28,7 +28,8 @@ int	main (int argc, char **argv)
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
 	{
-		;//error
+		printf("mlx init failed\n");
+		exit(EXIT_FAILURE); // error
 	}
 	add_doors(&table);
 	get_random_win_spot(&table);

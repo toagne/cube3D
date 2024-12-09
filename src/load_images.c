@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:32:58 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/28 14:03:24 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/09 10:51:44 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ mlx_image_t *load_image(mlx_t *mlx, char *str)
 	}
 	return (img);
 }
-void	convert_texture(t_texture *my_tx, uint32_t ***tx_colors, char *str)
+void	convert_tx(t_texture *my_tx, uint32_t ***tx_colors, char *str)
 {
 	uint32_t		i;
 	uint32_t		x;

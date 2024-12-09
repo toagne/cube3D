@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 18:36:50 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/09 10:57:42 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	draw_v_lines(t_table *table)
 				tex_y = table->ray.texture.height - 1;
 			if (table->ray.texture.colors[tex_y][tex_x] != table->w_colors[j][i])
 				table->w_colors[j][i] = table->ray.texture.colors[tex_y][tex_x];
-			//mlx_put_pixel(table->mlx_3D, i, j, table->ray.texture.colors[tex_y][tex_x]);
 			table->ray.ty += table->ray.tx_v_step;
 			j++;
 		}
@@ -98,7 +97,7 @@ void	draw_raycasting(t_table *table)
 		check_horizontal_lines(table, angle);
 		chose_shortest_ray(table);
 		// following line not needed
-		draw_line(table->mlx_2D, table->player_x / 4, table->player_y / 4, table->ray.f_x / 4, table->ray.f_y / 4, 0xFFFF00FF, table, 0);
+		// draw_line(table->mlx_2D, table->player_x / 4, table->player_y / 4, table->ray.f_x / 4, table->ray.f_y / 4, 0xFFFF00FF, table, 0);
 		convert_rays_for_minimap(table, angle, ray_angle);
 		select_texture(table, &table->ray.texture);
 		get_wall_dimensions(table, ray_angle);
