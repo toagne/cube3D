@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   walls_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:30:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 10:36:06 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/07 10:50:59 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ static void	check_side_wall(t_table *table, t_texture *tx, float dx, float dy)
 	}
 	else if (dx <= dy && dx <= (T_SIZE - dy))
 	{
-		tx->height = table->ws_texture.height;
-		tx->width = table->ws_texture.width;
-		tx->colors = table->ws_texture.colors;
-	}
-	else
-	{
 		tx->height = table->es_texture.height;
 		tx->width = table->es_texture.width;
 		tx->colors = table->es_texture.colors;
+	}
+	else
+	{
+		tx->height = table->ws_texture.height;
+		tx->width = table->ws_texture.width;
+		tx->colors = table->ws_texture.colors;
 	}
 }
 
@@ -44,8 +44,6 @@ void	select_texture(t_table *table, t_texture *tx)
 {
 	int			tile_x;
 	int			tile_y;
-	float		dx;
-	float		dy;
 
 	tile_x = (int)(table->ray.f_x / T_SIZE) * T_SIZE;
 	tile_y = (int)(table->ray.f_y / T_SIZE) * T_SIZE;
@@ -56,9 +54,16 @@ void	select_texture(t_table *table, t_texture *tx)
 		tx->colors = table->door_texture.colors;
 		return ;
 	}
-	dx = table->ray.f_x - tile_x;
-	dy = table->ray.f_y - tile_y;
-	check_side_wall(table, tx, dx, dy);
+	if (table->map[tile_y / T_SIZE][tile_x / T_SIZE] == '4')
+	{
+		tx->height = table->win_texture.height;
+		tx->width = table->win_texture.width;
+		tx->colors = table->win_texture.colors;
+		return ;
+	}
+	table->ray.dx_for_wall = table->ray.f_x - tile_x;
+	table->ray.dy_for_wall = table->ray.f_y - tile_y;
+	check_side_wall(table, tx, table->ray.dx_for_wall, table->ray.dy_for_wall);
 }
 
 void	get_coordinates_in_texture(t_table *table)
@@ -68,7 +73,8 @@ void	get_coordinates_in_texture(t_table *table)
 	{
 		table->ray.tx = ((int)table->ray.f_x % T_SIZE)
 			* table->ray.texture.width / T_SIZE;
-		if (table->player_angle < 180)
+		if (table->ray.dy_for_wall < table->ray.dx_for_wall
+			&& table->ray.dy_for_wall < (T_SIZE - table->ray.dx_for_wall))
 		{
 			if (table->ray.tx == 0)
 				table->ray.tx = table->ray.texture.width;
@@ -79,7 +85,8 @@ void	get_coordinates_in_texture(t_table *table)
 	{
 		table->ray.tx = ((int)table->ray.f_y % T_SIZE)
 			* table->ray.texture.width / T_SIZE;
-		if (table->player_angle > 90 && table->player_angle < 270)
+		if (table->ray.dx_for_wall >= table->ray.dy_for_wall
+			&& table->ray.dx_for_wall >= (T_SIZE - table->ray.dy_for_wall))
 		{
 			if (table->ray.tx == 0)
 				table->ray.tx = table->ray.texture.width;

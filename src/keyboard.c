@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 18:42:19 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/09 09:15:31 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,21 @@ int circle_rectangle_collision(int circle_x, int circle_y, int radius, int rect_
 	return (dx * dx + dy * dy) < (radius * radius);
 }
 
-
-int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y, int boh_x, int boh_y, int radius)
-{
-	// int	radius;
-	//int new_x;
-	//int	new_y;
-	int	mpx;
-	int	mpy;
+int wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y, int boh_x, int boh_y, int radius) {
+	int mpx;
+	int mpy;
 	int x;
 	int y;
 	int check_tile_x;
-	int	check_tile_y;
+	int check_tile_y;
 	int wall_x;
-	int	wall_y;
-	//int	offset;
+	int wall_y;
+	int collision_detected;
 
-	//radius = 20;// + T_SIZE / 2;
-	//new_x = table->player_x + table->player_delta_x * 5;
-	//new_y = table->player_y + table->player_delta_y * 5;
 	mpx = boh_x / T_SIZE;
 	mpy = boh_y / T_SIZE;
+	collision_detected = 0;
+	// Check for collisions with walls ('1') and closed doors ('2')
 	y = -1;
 	while (y <= 1)
 	{
@@ -55,29 +49,71 @@ int	wall_collision_w_circular_bumper(t_table *table, int new_x, int new_y, int b
 		{
 			check_tile_x = mpx + x;
 			check_tile_y = mpy + y;
-			if (check_tile_x >= 0 && check_tile_x < (int)table->columns && check_tile_y >= 0 && check_tile_y < (int)table->rows)
+			if (check_tile_x >= 0 && check_tile_x < (int)table->columns && check_tile_y >= 0 && check_tile_y < (int)table->rows) 
 			{
-				if (table->map[check_tile_y][check_tile_x] == '1' || table->map[check_tile_y][check_tile_x] == '2')
+				wall_x = check_tile_x * T_SIZE;
+				wall_y = check_tile_y * T_SIZE;
+
+				if (table->map[check_tile_y][check_tile_x] == '1' || table->map[check_tile_y][check_tile_x] == '2' || table->map[check_tile_y][check_tile_x] == '4')
 				{
-					if (radius == 10 && table->map[check_tile_y][check_tile_x] == '2')
-							table->map[check_tile_y][check_tile_x] = '0';
-					//printf("tile x = %d	tile y = %d\n", check_tile_x, check_tile_y);
-					wall_x = check_tile_x * T_SIZE;// + T_SIZE / 2;
-					wall_y = check_tile_y * T_SIZE;// + T_SIZE / 2;
-					//offset = (new_x - wall_x) * (new_x - wall_x) + (new_y - wall_y) * (new_y - wall_y);
-					//printf("offset = %d\n", offset);
-					//printf("r2 = %d\n", radius * radius);
-					//if (offset < radius * radius)
-					//	return (1);
-					if (circle_rectangle_collision(new_x, new_y, radius, wall_x, wall_y, T_SIZE))
-						return 1;
+					if (circle_rectangle_collision(new_x, new_y, radius, wall_x, wall_y, T_SIZE)) {
+						if (radius == 10 && table->map[check_tile_y][check_tile_x] == '2')
+							table->map[check_tile_y][check_tile_x] = '3'; // Open the door
+						if (radius == 10 && table->map[check_tile_y][check_tile_x] == '4')
+						{
+							init_dynamic_data(table);
+							display_gamewon(table);
+						}
+						collision_detected = 1; // Block movement
+					}
 				}
 			}
 			x++;
 		}
 		y++;
 	}
-	return (0);
+	// Handle door-closing logic for open doors ('3')
+	y = -1;
+	while (y <= 1)
+	{
+		x = -1;
+		while (x <= 1)
+		{
+			check_tile_x = mpx + x;
+			check_tile_y = mpy + y;
+			if (check_tile_x >= 0 && check_tile_x < (int)table->columns && check_tile_y >= 0 && check_tile_y < (int)table->rows) 
+			{
+				wall_x = check_tile_x * T_SIZE + T_SIZE / 2;
+				wall_y = check_tile_y * T_SIZE + T_SIZE / 2;
+				if (table->map[check_tile_y][check_tile_x] == '3')
+				{
+					// Calculate distance between the player and the door
+					float dx = new_x - wall_x;
+					float dy = new_y - wall_y;
+					float dist = sqrt(dx * dx + dy * dy);
+					// Check if any enemy is in the door's position
+					int enemy_in_door = 0;
+					int i = -1;
+					while (++i < N_ENEMIES)
+					{
+						int enemy_tile_x = (int)(table->enemies[i].x / T_SIZE);
+						int enemy_tile_y = (int)(table->enemies[i].y / T_SIZE);
+						if (enemy_tile_x == check_tile_x && enemy_tile_y == check_tile_y)
+						{
+							enemy_in_door = 1;
+							break;
+						}
+					}
+					// Close the door only if the player is far enough and no enemy is present
+					if (dist > T_SIZE * 1.5 && !enemy_in_door)
+						table->map[check_tile_y][check_tile_x] = '2'; // Close the door
+				}
+			}
+			x++;
+		}
+		y++;
+	}
+	return collision_detected;
 }
 
 void	move_visual_with_mouse(t_table *table)
@@ -100,6 +136,8 @@ void	move_visual_with_mouse(t_table *table)
 		mlx_set_mouse_pos(table->mlx_start, table->width / 2, table->height / 2);
 		table->mouse_last_x = table->width / 2;
 		table->mouse_last_y = table->height / 2;
+		// draw_minimap(table);
+		// draw_raycasting(table);
 	}
 }
 
@@ -392,20 +430,21 @@ void ft_hook(void* param)
 	int	n_of_deaths = 0;
 	while (++i < N_ENEMIES)
 	{
+		float	speed = 10 + (i * 2);
 		float move_x = 0;
 		float move_y = 0;
 
 		render_flag = 1;
 		if (table->enemies[i].x < table->player_x)
-			move_x = d_t_in_s * 30.0f;
+			move_x = d_t_in_s * (float)speed;//30.0f;
 		else if (table->enemies[i].x > table->player_x)
-			move_x = -d_t_in_s * 30.0f;
+			move_x = -d_t_in_s * (float)speed;//30.0f;
 		// else
 			// new_x = table->enemies[i].x;
 		if (table->enemies[i].y < table->player_y)
-			move_y = d_t_in_s * 30.0f;
+			move_y = d_t_in_s * (float)speed;//30.0f;
 		else if (table->enemies[i].y> table->player_y)
-			move_y = -d_t_in_s * 30.0f;
+			move_y = -d_t_in_s * (float)speed;//30.0f;
 		// else
 			// new_y = table->enemies[i].y;
 		
@@ -415,10 +454,9 @@ void ft_hook(void* param)
 		int r;
 
 		if (new_x != table->enemies[i].x && new_y != table->enemies[i].y)
-			r = 25 * sqrt(2);
+			r = 15 * sqrt(2);
 		else
-			r = 25;
-
+			r = 15;
 		if (!wall_collision_w_circular_bumper(table, new_x, new_y, table->enemies[i].x, table->enemies[i].y, r))
 		{
 			// printf("normal\n");
@@ -428,13 +466,13 @@ void ft_hook(void* param)
 		}
 		else
 		{
-				if (!wall_collision_w_circular_bumper(table, table->enemies[i].x, new_y, table->enemies[i].x, table->enemies[i].y, 25))
+				if (!wall_collision_w_circular_bumper(table, table->enemies[i].x, new_y, table->enemies[i].x, table->enemies[i].y, r))
 				{
 					// printf("vertical\n");
 					table->enemies[i].y = new_y;
 					render_flag = 1;
 				}
-				else if (!wall_collision_w_circular_bumper(table, new_x, table->enemies[i].y, table->enemies[i].x, table->enemies[i].y, 25))
+				else if (!wall_collision_w_circular_bumper(table, new_x, table->enemies[i].y, table->enemies[i].x, table->enemies[i].y, r))
 				{
 					// printf("horizontal\n");
 					table->enemies[i].x = new_x;

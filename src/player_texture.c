@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_texture.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:15:57 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/05 13:47:17 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/07 11:04:39 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,16 @@ int	insert_fireball(t_table *table)
 
 int	insert_player_texture(t_table *table)
 {
+	int	hand_w;
+	int hand_h;
+
+	hand_w = table->width / 10;
+	hand_h = table->height / 6;
 	insert_fireball(table);
-	mlx_resize_image(table->left_hand, table->width / 10, table->height / 6);
-	mlx_resize_image(table->right_hand, table->width / 10, table->height / 6);
-	mlx_image_to_window(table->mlx_start, table->left_hand, table->width / 2 - 200, table->height - 150);
-	mlx_image_to_window(table->mlx_start , table->right_hand, table->width / 2 + 50, table->height - 150);
+	mlx_resize_image(table->left_hand, hand_w, hand_h);
+	mlx_resize_image(table->right_hand, hand_w, hand_h);
+	mlx_image_to_window(table->mlx_start, table->left_hand, table->width / 2 - hand_w, table->height - hand_h);
+	mlx_image_to_window(table->mlx_start, table->right_hand, table->width / 2, table->height - hand_h);
 	table->left_hand->instances[0].enabled = false;
 	table->right_hand->instances[0].enabled = false;
 	table->ball_image->instances[0].enabled = false;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 18:14:18 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/07 19:10:36 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,15 @@
 # define T_SIZE 64
 # define N_ENEMIES 10
 
-typedef	struct	s_door
+typedef	struct	s_door_helper
 {
 	int	x;
 	int	y;
 	int	room_1;
 	int	room_2;
-} t_door;
+	int	label;
+	int	door_index;
+} t_door_helper;
 
 typedef	struct	s_enemy
 {
@@ -82,6 +84,8 @@ typedef	struct	s_ray
 	int			x_end;
 	float		tx;
 	float		ty;
+	float		dx_for_wall;
+	float		dy_for_wall;
 } t_ray;
 
 typedef struct s_button
@@ -134,6 +138,7 @@ typedef struct s_table
 	t_texture		ws_texture;
 	t_texture		ball_texture;
 	t_texture		door_texture;
+	t_texture		win_texture;
 	// mlx_texture_t	*ball_texture;
 	// uint32_t		**ball_texture_colors;
 	mlx_image_t		*ball_image;
@@ -164,8 +169,9 @@ typedef struct s_table
 }	t_table;
 
 // init.c
-void			init_static_data(t_table *table);
+int				init_static_data(t_table *table, char **argv);
 void			init_dynamic_data(t_table *table);
+void			init_texture_and_images(t_table *table);
 
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			ft_hook(void* param);
@@ -244,5 +250,6 @@ void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp);
 int		check_sprite_is_visible(t_table *table, t_enemy sp);
 
 void	add_doors(t_table *table);
+void	get_random_win_spot(t_table *table);
 
 #endif

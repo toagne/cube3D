@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:41:29 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/04 09:30:07 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/07 01:08:01 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,36 @@ int	my_rand(t_table *table)
 	return (0);
 }
  */
+
+void	get_random_win_spot(t_table *table)
+{
+	int	x_tile;
+	int	y_tile;
+
+	y_tile = -1;
+	while (++y_tile < (int)table->rows)
+	{
+		x_tile = -1;
+		while (++x_tile < (int)table->columns)
+		{
+			if (table->map[y_tile][x_tile] == '1')
+			{
+				if (abs(x_tile - table->player_col) > (int)table->columns / 2 && abs(y_tile - table->player_row) > (int)table->rows / 2)
+				{
+                if ((y_tile + 1 < (int)table->rows && table->map[y_tile + 1][x_tile] == '0') ||
+                    (y_tile - 1 >= 0 && table->map[y_tile - 1][x_tile] == '0') ||
+                    (x_tile + 1 < (int)table->columns && table->map[y_tile][x_tile + 1] == '0') ||
+                    (x_tile - 1 >= 0 && table->map[y_tile][x_tile - 1] == '0'))
+					{
+						table->map[y_tile][x_tile] = '4';
+						return ;
+					}
+				}
+			}
+		}
+	}
+}
+
 void init_enemies(t_table *table) 
 {
 	size_t	x;

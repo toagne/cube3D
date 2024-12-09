@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 17:12:31 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/09 08:33:55 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	draw_sprite(t_table *table, t_enemy sp, int x)
 	int animation_x_offset;
 
 	animation_x_offset = table->sprite_frames * 200;
-	tex_x = ((x - sp.x_start) * table->sprite_tx.width / 11) / sp.screen_size + sp.tx_start_x + animation_x_offset;
+	tex_x = ((x - sp.x_start) * (table->sprite_tx.width / 11)) / sp.screen_size + sp.tx_start_x + animation_x_offset;
 	y = sp.y_start - 1;
 	while (++y < sp.y_end)
 	{
@@ -141,4 +141,11 @@ void	draw_sprites(t_table *table)
 		while (++x < table->width)
 			mlx_put_pixel(table->mlx_3D, x, y, table->w_colors[y][x]);
 	}
+	int lim_1 = table->height / 100;
+	int lim_2 = lim_1 / 2;
+	draw_line(table->mlx_3D, table->width / 2 - lim_1, table->height / 2, table->width / 2 - lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
+	draw_line(table->mlx_3D, table->width / 2, table->height / 2 - lim_1, table->width / 2, table->height / 2 - lim_2, 0xFFFFFFFF, table, 0);
+	draw_line(table->mlx_3D, table->width / 2 + lim_1, table->height / 2, table->width / 2 + lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
+	draw_line(table->mlx_3D, table->width / 2, table->height / 2 + lim_1, table->width / 2, table->height / 2 + lim_2, 0xFFFFFFFF, table, 0);
+	draw_line(table->mlx_3D, table->width / 2, table->height / 2, table->width / 2, table->height / 2, 0xFFFFFFFF, table, 0);
 }

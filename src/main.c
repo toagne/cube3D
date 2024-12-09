@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 17:25:06 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/07 00:23:41 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,54 +15,28 @@
 int	main (int argc, char **argv)
 {
 	t_table	table;
-
-	(void) argc;
-	(void) argv;
-	ft_memset(&table, 0, sizeof(table));
-	table.enemy_attack = 0;
+	
 	if (argc != 2)
 	{
 		//write (2, "wrong input\n", 12);
 		exit(EXIT_FAILURE);
 	}
-	// check that argc 1 is a file that can be opened and read and ends with .cub
-	//parse_input();
-	init_static_data(&table);
-	table.filename = argv[1];
+	if (init_static_data(&table, argv) == 1)
+		exit(EXIT_FAILURE);
 	if (read_file(&table))
-	{
-		return (1);
-	}
+		exit(EXIT_FAILURE);
 	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
 	if (!table.mlx_start)
 	{
 		;//error
 	}
 	add_doors(&table);
+	get_random_win_spot(&table);
 	init_dynamic_data(&table);
 	init_main_menu(&table);
 	init_gameover(&table);
 	init_gamewon(&table);
-	convert_texture(&table.no_texture, &table.no_texture.colors, "pngs/texture_no.png");
-	convert_texture(&table.so_texture, &table.so_texture.colors, "pngs/texture_so.png");
-	convert_texture(&table.es_texture, &table.es_texture.colors, "pngs/texture_es.png");
-	convert_texture(&table.ws_texture, &table.ws_texture.colors, "pngs/texture_ws.png");
-	convert_texture(&table.sprite_tx, &table.sprite_tx.colors, "pngs/sprite.png");
-	convert_texture(&table.ball_texture, &table.ball_texture.colors, "pngs/ballsheet.png");
-	convert_texture(&table.door_texture, &table.door_texture.colors, "pngs/door_0.png");
-	table.right_hand = load_image(table.mlx_start, "pngs/rigth_hand.png");
-	table.left_hand = load_image(table.mlx_start, "pngs/left_hand.png");
-	table.mlx_2D = mlx_new_image(table.mlx_start, table.width, table.height); //to change
-	if (!table.mlx_2D)
-	{
-		;//error
-	}
-	table.mlx_3D = mlx_new_image(table.mlx_start, table.width, table.height);
-	table.ball_image = mlx_new_image(table.mlx_start, table.width, table.height);
-	if (!table.mlx_3D)
-	{
-		;//error
-	}
+	init_texture_and_images(&table);
 	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.ball_image, 0, 0);

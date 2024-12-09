@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 08:29:28 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/15 09:18:39 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/07 00:04:07 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	is_map_line(char *line)
 			return (0);
 		++line;
 	}
-	printf("%s \n", line);
+	//printf("%s \n", line);
 	return (1);
 }
 
@@ -191,9 +191,9 @@ int	read_file(t_table *table)
 	char	*line;
 	char	*temp;
 	char	*temp1;
-	int		i;
+	//int		i;
 
-	i = 0;
+	//i = 0;
 	fd = open(table->filename, O_RDONLY);
 	if (fd == -1)
 	{
@@ -222,10 +222,10 @@ int	read_file(t_table *table)
 				break;
 			}
 			temp1 = ft_skipwhitespace(temp);
-			if (!check_element_ids(table, temp1))
+/* 			if (!*/check_element_ids(table, temp1);/*)
 			{ 
 				i += 1;
-			}
+			} */
 			free(line);
 			free(temp);
 			line = get_next_line(fd);
