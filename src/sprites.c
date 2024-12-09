@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/09 15:29:41 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:48:13 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ void	render_sprite(t_table *table, int i)
 		angle_diff -= 360;
 	if (angle_diff < -180)
 		angle_diff += 360;
-	if (check_sprite_is_visible(table, table->enemies[i]))
-	{
-		convert_sprite_sizes(table, angle_diff, &table->enemies[i]);
-		select_texture_part_size_and_draw(table, table->enemies[i]);
-	}
+	// if (check_sprite_is_visible(table, table->enemies[i]))
+	// {
+	convert_sprite_sizes(table, angle_diff, &table->enemies[i]);
+	select_texture_part_size_and_draw(table, table->enemies[i]);
+	// }
 }
 
 void	order_sprites(t_table *table, t_enemy *sp)

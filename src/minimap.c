@@ -64,23 +64,6 @@ void	convert_rays_for_minimap(t_table *table, float angle, float ray_angle)
 	// draw_line(table->mlx_2D, table->player_x - vpx0, table->player_y - vpy0, rx1, ry1, 0xFFFF00FF, table, 0);
 }
 
-void draw_filled_circle(void *mlx_2D, int cx, int cy, int radius, uint32_t color)
-{
-    int x_start = cx - radius;
-    int x_end = cx + radius;
-    int y_start = cy - radius;
-    int y_end = cy + radius;
-
-    for (int y = y_start; y <= y_end; y++) {
-        for (int x = x_start; x <= x_end; x++) {
-            // Check if the point is within the circle
-            if ((x - cx) * (x - cx) + (y - cy) * (y - cy) <= radius * radius) {
-                mlx_put_pixel(mlx_2D, x, y, color);
-            }
-        }
-    }
-}
-
 void draw_real_minimap(t_table *table, float scale)
 {
 	int minimap_size = fmin(table->width / 4, table->height / 4); // Fixed minimap size
@@ -130,7 +113,6 @@ void draw_real_minimap(t_table *table, float scale)
 	// Calculate the player's scaled position on the minimap
 	int player_x_minimap = (table->player_x - x0) * scale;
 	int player_y_minimap = (table->player_y - y0) * scale;
-
 	// Draw player marker in the scaled minimap
 	i = player_y_minimap - 3;
 	while (++i <= player_y_minimap + 2)
@@ -141,8 +123,8 @@ void draw_real_minimap(t_table *table, float scale)
 				mlx_put_pixel(table->mlx_2D, j, i, 0xFFFF00FF);
 	}
 	// Calculate scaled deltas for direction vector
-	int delta_x_scaled = table->player_delta_x * scale * 30; // Adjust the multiplier for line length
-	int delta_y_scaled = table->player_delta_y * scale * 30;
+	int delta_x_scaled = table->player_delta_x * scale * table->height / 50; // Adjust the multiplier for line length
+	int delta_y_scaled = table->player_delta_y * scale * table->height / 50;
 
 	// Line endpoint based on scaled deltas
 	int line_end_x = player_x_minimap + delta_x_scaled;
