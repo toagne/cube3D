@@ -87,6 +87,17 @@ int	init_button_img(t_table *table, t_button *button, char *cpath, char *wpath)
 	return (0);
 }
 
+void	set_button_height_width(t_button *button, int w, int h)
+{
+	button->height = h;
+	button->width = w;
+}
+
+void	set_button_x_y(t_button *button, int x, int y)
+{
+	button->x = x;
+	button->y = y;
+}
 int	init_buttons(t_table *table)
 {
 	t_button	play;
@@ -96,18 +107,12 @@ int	init_buttons(t_table *table)
 	play.status = 1;
 	exit.status = 1;
 	controls.status = 1;
-	play.width = table->width / 6;
-	play.height = table->height / 6;
-	play.x = table->width / 2 - table->width / 6 / 2;
-	play.y = table->height / 4;
-	exit.width = table->width / 6;
-	exit.height = table->height / 6;
-	exit.x = table->width / 2 - table->width / 6 / 2;
-	exit.y = table->height / 2;
-	controls.width = table->width / 6;
-	controls.height = table->height / 6;
-	controls.x = table->width / 2 - table->width / 6 / 2;
-	controls.y = table->height * 0.75;
+	set_button_height_width(&play, table->width / 6, table->height / 6);
+	set_button_height_width(&exit, table->width / 6, table->height / 6);
+	set_button_height_width(&controls, table->width / 6, table->height / 6);
+	set_button_x_y(&play, table->width / 2 - table->width / 6 / 2, table->height / 4);
+	set_button_x_y(&exit, table->width / 2 - table->width / 6 / 2, table->height / 2);
+	set_button_x_y(&controls, table->width / 2 - table->width / 6 / 2, table->height * 0.75);
 	if (init_button_img(table, &play, "pngs/Play col_Button.png", "pngs/Play Button.png"))
 		return (1);
 	if (init_button_img(table, &exit, "pngs/Exit  col_Button.png", "pngs/Exit Button.png"))
@@ -131,36 +136,3 @@ int init_main_menu(t_table *table)
 	return (0);
 }
 
-/* void init_main_menu(t_table *table)
-{
-	t_button	play;
-	t_button	exit;
-	t_button	controls;
-
-	table->main_menu_on = 1;
-	play.status = 1;
-	exit.status = 1;
-	controls.status = 1;
-	table->bg_img = init_background(table);
-	play.colored = load_image(table->mlx_start, "pngs/Play col_Button.png");
-	mlx_resize_image(play.colored, table->width / 6, table->height / 6);
-	mlx_image_to_window(table->mlx_start, play.colored, table->width / 2 - table->width / 6 / 2, table->height / 4);
-	play.white = load_image(table->mlx_start, "pngs/Play Button.png");
-	mlx_resize_image(play.white, table->width / 6, table->height / 6);
-	mlx_image_to_window(table->mlx_start, play.white, table->width / 2 - table->width / 6 / 2, table->height / 4);
-	exit.colored = load_image(table->mlx_start, "pngs/Exit  col_Button.png");
-	mlx_resize_image(exit.colored, table->width / 6, table->height / 6);
-	mlx_image_to_window(table->mlx_start, exit.colored, table->width / 2 - table->width / 6 / 2, table->height / 2);
-	exit.white = load_image(table->mlx_start, "pngs/Exit Button.png");
-	mlx_resize_image(exit.white, table->width / 6, table->height / 6);
-	mlx_image_to_window(table->mlx_start, exit.white, table->width / 2 - table->width / 6 / 2, table->height / 2);
-	controls.colored = load_image(table->mlx_start, "pngs/Controls  col_Button.png");
-	mlx_resize_image(controls.colored, table->width / 6, table->height / 6);
-	mlx_image_to_window(table->mlx_start, controls.colored, table->width / 2 - table->width / 6 / 2, table->height * 0.75);
-	controls.white = load_image(table->mlx_start, "pngs/Controls Button.png");
-	mlx_resize_image(controls.white, table->width / 6, table->height / 6);
-	mlx_image_to_window(table->mlx_start, controls.white, table->width / 2 - table->width / 6 / 2, table->height * 0.75);
-	table->play_button = play;
-	table->exit_button = exit;
-	table->controls_button = controls;
-} */
