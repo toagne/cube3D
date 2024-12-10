@@ -113,18 +113,19 @@ void draw_real_minimap(t_table *table, float scale)
 	// Calculate the player's scaled position on the minimap
 	int player_x_minimap = (table->player_x - x0) * scale;
 	int player_y_minimap = (table->player_y - y0) * scale;
+	int	dot_dim = (float)table->height / 500;
 	// Draw player marker in the scaled minimap
-	i = player_y_minimap - 3;
-	while (++i <= player_y_minimap + 2)
+	i = player_y_minimap - dot_dim - 1;
+	while (++i <= player_y_minimap + dot_dim)
 	{
-		j = player_x_minimap - 3;
-		while (++j <= player_x_minimap + 2)
+		j = player_x_minimap - dot_dim - 1;
+		while (++j <= player_x_minimap + dot_dim)
 			if (i >= 0 && i < minimap_size && j >= 0 && j < minimap_size)
 				mlx_put_pixel(table->mlx_2D, j, i, 0xFFFF00FF);
 	}
 	// Calculate scaled deltas for direction vector
-	int delta_x_scaled = table->player_delta_x * scale * table->height / 50; // Adjust the multiplier for line length
-	int delta_y_scaled = table->player_delta_y * scale * table->height / 50;
+	int delta_x_scaled = table->player_delta_x * scale * table->height / 20; // Adjust the multiplier for line length
+	int delta_y_scaled = table->player_delta_y * scale * table->height / 20;
 
 	// Line endpoint based on scaled deltas
 	int line_end_x = player_x_minimap + delta_x_scaled;
@@ -141,11 +142,11 @@ void draw_real_minimap(t_table *table, float scale)
 		int enemy_y_minimap = (table->enemies[i].y - y0) * scale;
 
 		// Check if the enemy is within the minimap bounds
-		int y = enemy_y_minimap - 3;
-		while (++y <= enemy_y_minimap + 2)
+		int y = enemy_y_minimap - dot_dim - 1;
+		while (++y <= enemy_y_minimap + dot_dim)
 		{
-			int x = enemy_x_minimap - 3;
-			while (++x <= enemy_x_minimap + 2)
+			int x = enemy_x_minimap - dot_dim - 1;
+			while (++x <= enemy_x_minimap + dot_dim)
 				if (y >= 0 && y < minimap_size && x >= 0 && x < minimap_size)
 					mlx_put_pixel(table->mlx_2D, x, y, 0xFF0000FF);
 		}
@@ -226,5 +227,6 @@ void	draw_minimap(t_table *table)
 		++row;
 	}
 	draw_player(table); */
-	draw_real_minimap(table, 0.5);
+	float	scale = (float)table->width / 5000;
+	draw_real_minimap(table, scale);
 }
