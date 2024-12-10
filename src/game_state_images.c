@@ -14,7 +14,7 @@
 void	display_controls(t_table *table)
 {
 	table->menudelaytime = get_time('a');
-	mlx_set_instance_depth(&table->controlsimg->instances[0], 16);
+	mlx_set_instance_depth(&table->controlsimg->instances[0], 15);
 	table->controlsimg->instances[0].enabled = true;
 	table->controls_on = 1;
 }
@@ -31,7 +31,7 @@ void	display_gamewon(t_table *table)
 {
 	table->menudelaytime = get_time('a');
 	table->gamewonimg->instances[0].enabled = true;
-	mlx_set_instance_depth(&table->gamewonimg->instances[0], 16);
+	mlx_set_instance_depth(&table->gamewonimg->instances[0], 15);
 	table->gamewon_on = 1;
 }
 
@@ -55,7 +55,7 @@ void	display_gameover(t_table *table)
 {
 	table->menudelaytime = get_time('a');
 	table->gameoverimg->instances[0].enabled = true;
-	mlx_set_instance_depth(&table->gameoverimg->instances[0], 16);
+	mlx_set_instance_depth(&table->gameoverimg->instances[0], 15);
 	table->gameover_on = 1;
 }
 

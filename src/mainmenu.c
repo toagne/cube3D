@@ -55,6 +55,7 @@ void	undisplay_main_menu(t_table *table)
 	table->controls_button.colored->instances[0].enabled = false;
 }
 
+
 void init_main_menu(t_table *table)
 {
 	mlx_image_t *img;

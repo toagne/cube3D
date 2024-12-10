@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-
+#include <MLX42/MLX42_Int.h>
 int	main (int argc, char **argv)
 {
 	t_table	table;
@@ -30,6 +30,7 @@ int	main (int argc, char **argv)
 	{
 		;//error
 	}
+	printf("zdepth %d \n", ((mlx_ctx_t*)table.mlx_start->context)->zdepth);
 	add_doors(&table);
 	get_random_win_spot(&table);
 	init_dynamic_data(&table);
@@ -42,6 +43,7 @@ int	main (int argc, char **argv)
 	mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.ball_image, 0, 0);
 	insert_player_texture(&table);
+	printf("zdepth %d \n", ((mlx_ctx_t*)table.mlx_start->context)->zdepth);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);
 	mlx_loop_hook(table.mlx_start, &ft_hook, &table);
 	mlx_loop_hook(table.mlx_start, &ft_mouse, &table);
