@@ -93,6 +93,10 @@ typedef struct s_button
 	mlx_image_t *colored;
 	mlx_image_t *white;
 	int			status;
+	int			width;
+	int			height;
+	int			x;
+	int			y;
 } t_button;
 
 typedef struct s_table
@@ -219,9 +223,9 @@ void			free_map(char **map, size_t i);
 void			free_table(char ***table);
  
 // main_menu
-void init_main_menu(t_table *table);
-void animate_button(t_button *button);
-void ft_mouse(void *param);
+int		init_main_menu(t_table *table);
+void	animate_button(t_button *button);
+void	ft_mouse(void *param);
 void	display_main_menu(t_table *table);
 void	undisplay_main_menu(t_table *table);
 void	display_gameover(t_table *table);

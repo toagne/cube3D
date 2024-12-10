@@ -146,6 +146,8 @@ void ft_mouse(void *param)
 	t_table		*table;
 	table = (t_table *)param;
 	mlx_get_mouse_pos(table->mlx_start, &table->x_mouse, &table->y_mouse);
+	if (table->controls_on)
+		return ;
 	if (table->main_menu_on == 0)
 	{
 		move_visual_with_mouse(table);
@@ -192,6 +194,7 @@ void ft_mouse(void *param)
 		if (mlx_is_mouse_down(table->mlx_start, MLX_MOUSE_BUTTON_LEFT))
 		{
 			display_controls(table);
+			undisplay_main_menu(table);
 		}
 	}
 	else
