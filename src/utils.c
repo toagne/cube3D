@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:41:29 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/07 01:08:01 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/10 13:06:22 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	get_monitor_size(int *width, int *height)
 	temp = mlx_init(1, 1, "", false);
 	if (!temp)
 	{
-		;//error
+		exit(EXIT_FAILURE);//error
 	}
 	mlx_get_monitor_size(0, &w, &h);
 	mlx_terminate(temp);
@@ -39,24 +39,6 @@ float	deg_to_rad(float deg)
 {
 	return ((float)deg / 180 * PI);
 }
-
-void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color)
-{
-	const double step = 0.01;
-	double angle;
-	int x;
-	int y;
-
-	angle = 0;
-	while (angle <= 2 * PI)
-	{
-		x = x_center + (int)(radius * cos(angle));
-		y = y_center + (int)(radius * sin(angle));
-		mlx_put_pixel(image, x, y, color);
-		angle += step;
-	}
-}
-// draw circle should not be used
 
 int	my_rand(t_table *table)
 {
@@ -70,14 +52,6 @@ int	my_rand(t_table *table)
 	table->lcg_seed = (lcg_a * table->lcg_seed + lcg_c) % lcg_m;
 	return (table->lcg_seed);
 }
-
-/* int check_distance(t_table *table, int x, int y, int distance) 
-{
-	if (abs(table->player_col - x) >= distance || abs(table->player_row - y) >= distance)
-		return (1);
-	return (0);
-}
- */
 
 void	get_random_win_spot(t_table *table)
 {
@@ -94,10 +68,10 @@ void	get_random_win_spot(t_table *table)
 			{
 				if (abs(x_tile - table->player_col) > (int)table->columns / 2 && abs(y_tile - table->player_row) > (int)table->rows / 2)
 				{
-                if ((y_tile + 1 < (int)table->rows && table->map[y_tile + 1][x_tile] == '0') ||
-                    (y_tile - 1 >= 0 && table->map[y_tile - 1][x_tile] == '0') ||
-                    (x_tile + 1 < (int)table->columns && table->map[y_tile][x_tile + 1] == '0') ||
-                    (x_tile - 1 >= 0 && table->map[y_tile][x_tile - 1] == '0'))
+				if ((y_tile + 1 < (int)table->rows && table->map[y_tile + 1][x_tile] == '0') ||
+					(y_tile - 1 >= 0 && table->map[y_tile - 1][x_tile] == '0') ||
+					(x_tile + 1 < (int)table->columns && table->map[y_tile][x_tile + 1] == '0') ||
+					(x_tile - 1 >= 0 && table->map[y_tile][x_tile - 1] == '0'))
 					{
 						table->map[y_tile][x_tile] = '4';
 						return ;

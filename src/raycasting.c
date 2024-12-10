@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/09 10:57:42 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:01:57 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	draw_v_lines(t_table *table)
 	i = table->ray.x_start;
 	while (i <= table->ray.x_end)
 	{
-		draw_line(table->mlx_3D, i, 0, i, table->ray.start_wall, get_rgba(table->c_color[0], table->c_color[1], table->c_color[2], 255), table, 1);
-		draw_line(table->mlx_3D, i, table->ray.end_wall, i, table->height - 1, get_rgba(table->f_color[0], table->f_color[1], table->f_color[2], 255), table, 1);
+		draw_line(table->mlx_raycast, i, 0, i, table->ray.start_wall, get_rgba(table->c_color[0], table->c_color[1], table->c_color[2], 255), table, 1);
+		draw_line(table->mlx_raycast, i, table->ray.end_wall, i, table->height - 1, get_rgba(table->f_color[0], table->f_color[1], table->f_color[2], 255), table, 1);
 		j = table->ray.start_wall;
 		table->ray.ty = table->ray.tx_v_offset * table->ray.tx_v_step;
 		while (j <= table->ray.end_wall)
@@ -96,9 +96,6 @@ void	draw_raycasting(t_table *table)
 		check_vertical_lines(table, angle);
 		check_horizontal_lines(table, angle);
 		chose_shortest_ray(table);
-		// following line not needed
-		// draw_line(table->mlx_2D, table->player_x / 4, table->player_y / 4, table->ray.f_x / 4, table->ray.f_y / 4, 0xFFFF00FF, table, 0);
-		convert_rays_for_minimap(table, angle, ray_angle);
 		select_texture(table, &table->ray.texture);
 		get_wall_dimensions(table, ray_angle);
 		get_v_lines_for_each_ray(table, r, table->n_of_rays);

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/09 17:48:13 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:01:17 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	draw_sprite(t_table *table, t_enemy sp, int x)
 	while (++y < sp.y_end)
 	{
 		tex_y = (y - sp.y_start) * (table->sprite_tx.height - 1)
-			/ sp.screen_size;
+			/ sp.screen_size + sp.tx_start_y;
 		if (table->sprite_tx.colors[tex_y][tex_x] != 0x00000000)
 		{
 			if (table->sprite_tx.colors[tex_y][tex_x] != table->w_colors[y][x])
@@ -69,7 +69,6 @@ void	render_sprite(t_table *table, int i)
 {
 	float	angle_diff;
 
-	// draw_dot(table, table->enemies[i].x / 4, table->enemies[i].y / 4, 2);
 	table->enemies[i].angle = atan2(table->enemies[i].dy,
 			table->enemies[i].dx) * 180 / PI;
 	if (table->enemies[i].angle < 0)
@@ -138,13 +137,13 @@ void	draw_sprites(t_table *table)
 	{
 		x = -1;
 		while (++x < table->width)
-			mlx_put_pixel(table->mlx_3D, x, y, table->w_colors[y][x]);
+			mlx_put_pixel(table->mlx_raycast, x, y, table->w_colors[y][x]);
 	}
 	lim_1 = table->height / 100;
 	lim_2 = lim_1 / 2;
-	draw_line(table->mlx_3D, table->width / 2 - lim_1, table->height / 2, table->width / 2 - lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_3D, table->width / 2, table->height / 2 - lim_1, table->width / 2, table->height / 2 - lim_2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_3D, table->width / 2 + lim_1, table->height / 2, table->width / 2 + lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_3D, table->width / 2, table->height / 2 + lim_1, table->width / 2, table->height / 2 + lim_2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_3D, table->width / 2, table->height / 2, table->width / 2, table->height / 2, 0xFFFFFFFF, table, 0);
+	draw_line(table->mlx_raycast, table->width / 2 - lim_1, table->height / 2, table->width / 2 - lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
+	draw_line(table->mlx_raycast, table->width / 2, table->height / 2 - lim_1, table->width / 2, table->height / 2 - lim_2, 0xFFFFFFFF, table, 0);
+	draw_line(table->mlx_raycast, table->width / 2 + lim_1, table->height / 2, table->width / 2 + lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
+	draw_line(table->mlx_raycast, table->width / 2, table->height / 2 + lim_1, table->width / 2, table->height / 2 + lim_2, 0xFFFFFFFF, table, 0);
+	draw_line(table->mlx_raycast, table->width / 2, table->height / 2, table->width / 2, table->height / 2, 0xFFFFFFFF, table, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/09 10:51:03 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:12:02 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	init_texture_and_images(t_table *t)
 	convert_tx(&t->win_texture, &t->win_texture.colors, "pngs/win.png");
 	t->right_hand = load_image(t->mlx_start, "pngs/rigth_hand.png");
 	t->left_hand = load_image(t->mlx_start, "pngs/left_hand.png");
-	t->mlx_2D = mlx_new_image(t->mlx_start, t->width, t->height);
-	t->mlx_3D = mlx_new_image(t->mlx_start, t->width, t->height);
+	t->mlx_minimap = mlx_new_image(t->mlx_start, t->width, t->height);
+	t->mlx_raycast = mlx_new_image(t->mlx_start, t->width, t->height);
 	t->ball_image = mlx_new_image(t->mlx_start, t->width, t->height);
-	if (!t->mlx_2D || !t->mlx_3D || !t->ball_image)
+	if (!t->mlx_minimap || !t->mlx_raycast || !t->ball_image)
 	{
 		exit (EXIT_FAILURE);//error
 	}

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/09 10:39:46 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/10 12:52:58 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	main(int argc, char **argv)
 	init_gameover(&table);
 	init_gamewon(&table);
 	init_texture_and_images(&table);
-	mlx_image_to_window(table.mlx_start, table.mlx_3D, 0, 0);
-	mlx_image_to_window(table.mlx_start, table.mlx_2D, 0, 0);
+	mlx_image_to_window(table.mlx_start, table.mlx_raycast, 0, 0);
+	mlx_image_to_window(table.mlx_start, table.mlx_minimap, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.ball_image, 0, 0);
 	insert_player_texture(&table);
 	mlx_key_hook(table.mlx_start, &ft_keyboard, &table);

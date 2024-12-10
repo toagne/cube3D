@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:47:36 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/09 17:43:47 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:18:24 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	check_sprite_is_visible(t_table *table, t_enemy sp)
 void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp)
 {
 	float	sprite_center_screen;
+	float	v_offset;
 
 	sprite_center_screen = (angle_diff + 30) * table->width / 60;
 	sp->screen_size = T_SIZE * table->height / sp->dist;
@@ -82,6 +83,7 @@ void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp)
 	sp->y_start = table->height / 2 - sp->screen_size / 2;
 	sp->y_end = table->height / 2 + sp->screen_size / 2;
 	sp->tx_start_x = 0;
+	v_offset = 0;
 	if (sp->x_start < 0)
 	{
 		sp->tx_start_x = -sp->x_start * (table->sprite_tx.width / 11)
@@ -91,7 +93,15 @@ void	convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp)
 	if (sp->x_end >= table->width)
 		sp->x_end = table->width - 1;
 	if (sp->y_start < 0)
+	{
+		v_offset = -sp->y_start;
 		sp->y_start = 0;
+	}
 	if (sp->y_end >= table->height)
 		sp->y_end = table->height - 1;
+	if (v_offset > 0)
+		sp->tx_start_y = v_offset * (table->sprite_tx.height - 1)
+			/ sp->screen_size;
+	else
+		sp->tx_start_y = 0;
 }

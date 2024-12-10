@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_doors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:34:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/07 19:09:29 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/10 12:49:31 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	flood_fill(int h, int w, char labeled_map[h][w], t_door_helper door)
 {
-	if (door.x < 0 || door.y < 0 || door.x >= w || door.y >= h || labeled_map[door.y][door.x] != '0')
+	if (door.x < 0 || door.y < 0 || door.x >= w || door.y >= h
+		|| labeled_map[door.y][door.x] != '0')
 		return ;
 	labeled_map[door.y][door.x] = door.label + '0';
 	door.x += 1;
@@ -45,7 +46,8 @@ void	place_doors(t_table *table, int door_index, t_door_helper *door)
 		j = -1;
 		while (++j < i)
 		{
-			if ((door[j].room_1 == room_1 && door[j].room_2 == room_2) || (door[j].room_1 == room_2 && door[j].room_2 == room_1))
+			if ((door[j].room_1 == room_1 && door[j].room_2 == room_2)
+				|| (door[j].room_1 == room_2 && door[j].room_2 == room_1))
 			{
 				door_exists = 1;
 				break ;
@@ -79,12 +81,12 @@ void	label_map(int h, int w, char labeled_map[h][w], t_door_helper *helper)
 	}
 }
 
-void	find_walls_separating_rooms(t_table *table, int h, int w, char labeled_map[h][w])
+void	walls_separating_rooms(t_table *t, int h, int w, char labeled_map[h][w])
 {
 	t_door_helper	temp_door[h * w];
 	t_door_helper	helper;
 
-	helper.door_index = 0;
+	helper.door_index = -1;
 	helper.y = 0;
 	while (++helper.y < h - 1)
 	{
@@ -94,18 +96,18 @@ void	find_walls_separating_rooms(t_table *table, int h, int w, char labeled_map[
 			if (labeled_map[helper.y][helper.x] == '1')
 			{
 				label_map(h, w, labeled_map, &helper);
-				if (helper.room_1 != '0' && helper.room_2 != '0' && helper.room_1 != helper.room_2)
+				if (helper.room_1 != '0' && helper.room_2 != '0'
+					&& helper.room_1 != helper.room_2)
 				{
-					temp_door[helper.door_index].x = helper.x;
+					temp_door[++helper.door_index].x = helper.x;
 					temp_door[helper.door_index].y = helper.y;
 					temp_door[helper.door_index].room_1 = helper.room_1;
 					temp_door[helper.door_index].room_2 = helper.room_2;
-					helper.door_index++;
 				}
 			}
 		}
 	}
-	place_doors(table, helper.door_index, temp_door);
+	place_doors(t, helper.door_index, temp_door);
 }
 
 void	add_doors(t_table *table)
@@ -134,5 +136,5 @@ void	add_doors(t_table *table)
 			}
 		}
 	}
-	find_walls_separating_rooms(table, table->rows, table->columns, labeled_map);
+	walls_separating_rooms(table, table->rows, table->columns, labeled_map);
 }

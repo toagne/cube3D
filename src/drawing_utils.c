@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:14:14 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/03 12:44:26 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/10 13:04:42 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1, uint32_t color,
 	}
 }
 
-void	draw_dot(t_table *table, int value_x, int value_y, int range)
+/* void	draw_dot(t_table *table, int value_x, int value_y, int range)
 {
 	int	x;
 	int	y;
@@ -70,6 +70,24 @@ void	draw_dot(t_table *table, int value_x, int value_y, int range)
 	{
 		x = value_x - range;
 		while (x++ < value_x + range)
-			mlx_put_pixel(table->mlx_2D, x, y, 0xFF0000FF);
+			mlx_put_pixel(table->mlx_minimap, x, y, 0xFF0000FF);
 	}
-}
+} */
+
+/* void	draw_circle(mlx_image_t *image, int x_center, int y_center, int radius, uint32_t color)
+{
+	const double step = 0.01;
+	double angle;
+	int x;
+	int y;
+
+	angle = 0;
+	while (angle <= 2 * PI)
+	{
+		x = x_center + (int)(radius * cos(angle));
+		y = y_center + (int)(radius * sin(angle));
+		mlx_put_pixel(image, x, y, color);
+		angle += step;
+	}
+} */
+// draw circle should not be used
