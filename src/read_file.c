@@ -212,16 +212,16 @@ int	verify_file_reading(t_table *table, int fd, char *line)
 
 int	open_file(const char *filename)
 {
-	int fd = open(filename, O_RDONLY);
+	int fd;
+ 
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		ft_error("File could not be opened");
-	return fd;
+	return (fd);
 }
 
-int	process_line(char *line, t_table *table, char **trimnl)
+int	prepare_line(char *line, char **trimnl)
 {
-	char	*temp;
-
 	if (is_only_newline(line))
 	{
 		free(line);
@@ -236,34 +236,53 @@ int	process_line(char *line, t_table *table, char **trimnl)
 	if (is_map_line(*trimnl))
 	{
 		free(line);
-		return (2); // signal to stop processing
+		return (2);
 	}
-	temp = ft_skipwhitespace(*trimnl);
+	return (3);
+}
+
+
+int	process_trimmed_line(char *line, char *trimnl, t_table *table)
+{
+	char	*temp;
+
+	temp = ft_skipwhitespace(trimnl);
 	if (check_element_ids(table, temp))
 	{
 		ft_error("Set element texture failed");
 		free(line);
-		free(*trimnl);
+		free(trimnl);
 		return (1);
 	}
 	free(line);
-	free(*trimnl);
+	free(trimnl);
 	return (0);
+}
+
+int	process_line(char *line, t_table *table, char **trimnl)
+{
+	int result;
+
+	result = prepare_line(line, trimnl);
+	if (result != 3)
+		return (result);
+	return (process_trimmed_line(line, *trimnl, table));
 }
 
 int	process_file_lines(int fd, t_table *table)
 {
-	char	*line = get_next_line(fd);
+	char	*line;
 	char	*trimnl;
 	int		result;
 
+	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		result = process_line(line, table, &trimnl);
-		if (result == 1) // Error occurred
-			return 1;
-		if (result == 2) // Stop processing (map line found)
-			break;
+		if (result == 1)
+			return (1);
+		if (result == 2)
+			break ;
 		line = get_next_line(fd);
 	}
 
@@ -285,52 +304,3 @@ int	read_file(t_table *table)
 	return (result);
 }
 
-
-/* int	read_file(t_table *table)
-{
-	int		fd;
-	char	*line;
-	char	*trimnl;
-	char	*temp;
-
-	fd = open(table->filename, O_RDONLY);
-	if (fd == -1)
-	{
-		ft_error("File could not be opened");
-		return (1);
-	}
-	line = get_next_line(fd);
-	while (line != NULL)
-	{
-		if (is_only_newline(line))
-		{
-			free(line);
-			line = get_next_line(fd);
-			continue;
-		}
-		trimnl = ft_strtrim(line, "\n");
-		if (!trimnl)
-		{
-			free(line);
-			return (1);
-		}
-		if (is_map_line(trimnl))
-		{
-			free(line);
-			break;
-		}
-		temp = ft_skipwhitespace(trimnl);
-		if (check_element_ids(table, temp))
-		{ 
-			ft_error("Set element texture failed");
-			break;
-		}
-		free(line);
-		free(trimnl);
-		line = get_next_line(fd);
-	}
-	if (!verify_file_reading(table, fd, trimnl))
-		return (0);
-	close(fd);
-	return (1);
-} */
