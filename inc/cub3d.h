@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/10 17:27:00 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/11 17:00:56 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,51 @@
 # define PI 3.14159265358979323846
 # define T_SIZE 64
 # define N_ENEMIES 10
+
+typedef struct s_fireball
+{
+	int		base_x;
+	int		base_y;
+	int		frame_width;
+	int		frame_height;
+	float	step_w;
+	float	step_h;
+	int		y_offset;
+	int		x_offset;
+}	t_fireball;
+
+typedef struct s_line
+{
+	int			dx;
+	int			dy;
+	int			sx;
+	int			sy;
+	int			err;
+	int			e2;
+	int			x0;
+	int			x1;
+	int			y0;
+	int			y1;
+	uint32_t	color;
+}	t_line;
+
+typedef struct s_collision
+{
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+	int	r;
+	int	wall_x;
+	int	wall_y;
+	int	mpx;
+	int	mpy;
+	int	check_tile_x;
+	int	check_tile_y;
+	int	collision_detected;
+	int	sp_tile_x;
+	int	sp_tile_y;
+}	t_collision;
 
 typedef struct s_minimap
 {
@@ -175,6 +220,9 @@ typedef struct s_table
 	int				gameover_on;
 	int				gamewon_on;
 	float 			d_t_in_s;
+	float			tile_step_x;
+	float			tile_step_y;
+	t_fireball		fireball;
 }	t_table;
 
 // init.c
@@ -184,9 +232,9 @@ void			init_texture_and_images(t_table *table);
 
 // keyboard.c
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
-void			move_right_left(t_table *table, float *new_x, float *new_y, int *render_flag);
-void			move_up_down(t_table *table, float *new_x, float *new_y, int *render_flag);
-void			move_visual(t_table *table, int *render_flag);
+void			move_right_left(t_table *table, t_collision *p_coll);
+void			move_up_down(t_table *table, t_collision *p_coll);
+void			move_visual(t_table *table);
 
 void			ft_hook(void *param);
 void			ft_enemy(void *param);
@@ -195,7 +243,7 @@ void			set_image_instance_pos(mlx_instance_t *instance, int x, int y);
 
 // player_texture.
 int				insert_player_texture(t_table *table);
-int				animate_attack(t_table *table);
+void			animate_attack(t_table *table, t_fireball *f);
 int				animate_enemy(t_table *table);
 
 void			draw_raycasting(t_table *table);
@@ -218,6 +266,7 @@ unsigned int	get_rgba(int r, int g, int b, int a);
 void			get_monitor_size(int *width, int *height);
 float			deg_to_rad(float deg);
 long			get_time(char type);
+int				my_rand(t_table *table);
 
 void			draw_minimap(t_table *table);
 void			convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
@@ -247,13 +296,12 @@ void			draw_circle(mlx_image_t *image, int x_center, int y_center,
 					int radius, uint32_t color);
 
 void			init_enemies(t_table *table);
-int				insert_fireball(t_table *table);
+void				insert_fireball(t_table *table);
 
 void			draw_sprites(t_table *table);
 
 // void			draw_dot(t_table *table, int value_x, int value_y, int range);
-void			draw_line(mlx_image_t *img, int x0, int y0, int x1, int y1,
-					uint32_t color, t_table *table, int type);
+void			draw_line(t_line *line, t_table *table, int type, mlx_image_t *img);
 
 void			check_vertical_lines(t_table *table, float angle);
 void			check_horizontal_lines(t_table *table, float angle);
@@ -262,16 +310,19 @@ void			chose_shortest_ray(t_table *table);
 void			select_texture(t_table *table, t_texture *tx);
 void			get_coordinates_in_texture(t_table *table);
 
-void			convert_sprite_sizes(t_table *table, float angle_diff,
-					t_enemy *sp);
-int				check_sprite_is_visible(t_table *table, t_enemy sp);
+void			convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp);
+void			order_sprites(t_enemy *sp);
+void			set_treshold_for_movement(t_table *table, float *move_x, float *move_y, int i);
+void			check_collisions(t_table *table, t_enemy *sp, t_collision *s_coll);
 
 void			add_doors(t_table *table);
 void			get_random_win_spot(t_table *table);
 
 // collisions.c
-int				wall_collision_w_circular_bumper(t_table *table, float new_x, float new_y, float boh_x, float boh_y, int radius);
+int				wall_coll_w_circular_bumper(t_table *table, float new_x, float new_y, t_collision *coll_data);
 
-// actions
-void			actions(t_table *table);
+// kill_sprite.c
+void			kill_sprite(t_table *table);
+void			draw_pointer(t_table *table);
+
 #endif

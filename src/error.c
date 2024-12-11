@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 14:11:51 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/14 14:12:20 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/11 16:40:54 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../inc/cub3d.h"
 
-void    ft_error(char *s1)
+#include "cub3d.h"
+
+void	ft_error(char *s1)
 {
 	ft_putstr_fd("Error\n", 1);
 	ft_putstr_fd(s1, 1);

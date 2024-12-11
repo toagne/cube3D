@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:30 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/10 12:53:25 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:58:25 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	draw_map(t_table *table, t_minimap minimap, float scale)
 	int			x;
 	int			tile_x;
 	int			tile_y;
-	uint32_t	color;
 
 	y = -1;
 	while (++y < minimap.size)
@@ -55,38 +54,41 @@ void	draw_map(t_table *table, t_minimap minimap, float scale)
 				if (table->map[tile_y / T_SIZE][tile_x / T_SIZE] == '1'
 					|| table->map[tile_y / T_SIZE][tile_x / T_SIZE] == '2'
 					|| table->map[tile_y / T_SIZE][tile_x / T_SIZE] == '4')
-					color = 0xFFFFFFFF;
+					mlx_put_pixel(table->mlx_minimap, x, y, 0xFFFFFFFF);
 				else
-					color = 0x000000FF;
-				mlx_put_pixel(table->mlx_minimap, x, y, color);
+					mlx_put_pixel(table->mlx_minimap, x, y, 0x000000FF);
 			}
 		}
 	}
 }
 
-void	draw_player_in_map(t_table *table, t_minimap *minimap,
+void	draw_player_in_map(t_table *t, t_minimap *minimap,
 	float scale, int dot_dim)
 {
-	int	x;
-	int	y;
-	int	delta_x_scaled;
-	int	delta_y_scaled;
+	int		x;
+	int		y;
+	int		delta_x_scaled;
+	int		delta_y_scaled;
+	t_line	line;
 
-	minimap->player_x = (table->player_x - minimap->x0) * scale;
-	minimap->player_y = (table->player_y - minimap->y0) * scale;
+	minimap->player_x = (t->player_x - minimap->x0) * scale;
+	minimap->player_y = (t->player_y - minimap->y0) * scale;
 	y = minimap->player_y - dot_dim - 1;
 	while (++y <= minimap->player_y + dot_dim)
 	{
 		x = minimap->player_x - dot_dim - 1;
 		while (++x <= minimap->player_x + dot_dim)
 			if (y >= 0 && y < minimap->size && x >= 0 && x < minimap->size)
-				mlx_put_pixel(table->mlx_minimap, x, y, 0xFFFF00FF);
+				mlx_put_pixel(t->mlx_minimap, x, y, 0xFFFF00FF);
 	}
-	delta_x_scaled = table->player_delta_x * scale * table->height / 40;
-	delta_y_scaled = table->player_delta_y * scale * table->height / 40;
-	draw_line(table->mlx_minimap, minimap->player_x, minimap->player_y,
-		minimap->player_x + delta_x_scaled,
-		minimap->player_y + delta_y_scaled, 0xFFFF00FF, table, 0);
+	delta_x_scaled = t->player_delta_x * scale * t->height / 40;
+	delta_y_scaled = t->player_delta_y * scale * t->height / 40;
+	line.x0 = minimap->player_x;
+	line.y0 = minimap->player_y;
+	line.x1 = minimap->player_x + delta_x_scaled;
+	line.y1 = minimap->player_y + delta_y_scaled;
+	line.color = 0xFFFF00FF;
+	draw_line(&line, t, 0, t->mlx_minimap);
 }
 
 void	draw_sprites_in_map(t_table *table, t_minimap minimap,
@@ -132,129 +134,3 @@ void	draw_minimap(t_table *table)
 	draw_player_in_map(table, &minimap, scale, dot_dim);
 	draw_sprites_in_map(table, minimap, scale, dot_dim);
 }
-
-/*void	draw_background_not_needed(t_table *table)
-{
-	size_t	x;
-	size_t	y;
-
-	y = -1;
-	while (++y < T_SIZE * table->rows / 4)
-	{
-		x = -1;
-		while (++x < T_SIZE * table->columns / 4)
-			mlx_put_pixel(table->mlx_2D, x, y, 0xFF0000FF);
-	}
-}
-
-void	draw_tile(t_table *table, int col, int row)
-{
-	int			x;
-	int			y;
-	int			i;
-	int			j;
-	uint32_t	color;
-
-	x = col * T_SIZE / 4;
-	y = row * T_SIZE / 4;
-	if (table->map[row][col] == '1' || table->map[row][col] == '2' || table->map[row][col] == '4')
-		color = 0xFFFFFFFF;
-	else
-		color = 0x000000FF;
-	i = -1;
-	while (++i < T_SIZE / 4 - 1)
-	{
-		j = -1;
-		while (++j < T_SIZE / 4 - 1)
-			mlx_put_pixel(table->mlx_2D, x + j, y + i, color);
-	}
-}
-
-void	draw_player(t_table *table)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
-	y = table->player_y / 4 - 5;
-	while (y++ < table->player_y / 4 + 5)
-	{
-		x = table->player_x / 4 - 5;
-		while (x++ < table->player_x / 4 + 5)
-			mlx_put_pixel(table->mlx_2D, x, y, 0xFFFF00FF);
-	}
-}
-
-void	draw_minimap(t_table *table)
-{
-	size_t	row;
-	size_t	col;
-
-	draw_background_not_needed(table);
-	row = 0;
-	while (row < table->rows)
-	 {
-	 	col = 0;
-	 	while (col < table->columns)
-	 	{
-	 		draw_tile(table, col, row);
-	 		++col;
-		}
-		++row;
-	}
-	draw_player(table);
-	float	scale = (float)table->width / 5000;
-	draw_real_minimap(table, scale);
-}*/
-/*void	convert_rays_for_minimap(t_table *table, float angle, float ray_angle)
-{
-	int minimap_size = fmin(table->width / 4, table->height / 4);
-	// printf("minimap size = %d\n", minimap_size);
-	int vpx0 = (table->player_x - (minimap_size / 2));
-	int vpy0 = (table->player_y - (minimap_size / 2));
-	int vpx1 = vpx0 + minimap_size;
-	int vpy1 = vpy0 + minimap_size;
-	// printf("fx = %f	fy = %f\n", fx, fy);
-	// printf("vpx0 = %d	vpx1 = %d\n", vpx0, vpx1);
-	// printf("vpy0 = %d	vpy1 = %d\n", vpy0, vpy1);
-	int rx1 = table->ray.f_x;
-	int ry1 = table->ray.f_y;
-	if (vpx0 > table->ray.f_x && (vpx0 - table->ray.f_x) > (vpy0 - table->ray.f_y) && (vpx0 - table->ray.f_x) > (table->ray.f_y - vpy1))
-	{
-		rx1 = vpx0;
-		ry1 = -(table->player_x - rx1) * tan(angle) + table->player_y;
-	}
-	if (vpx1 < table->ray.f_x && (table->ray.f_x - vpx1) > (table->ray.f_y - vpy1) && (table->ray.f_x - vpx1) > (vpy0 - table->ray.f_y))
-	{
-		rx1 = vpx1;
-		if (ray_angle == 0 || ray_angle == 360)
-			ry1 = table->player_y;
-		else
-			ry1 = -(table->player_x - rx1) * tan(angle) + table->player_y;
-	}
-	if (vpy0 > table->ray.f_y && (vpy0 - table->ray.f_y) > (vpx0 - table->ray.f_x) && (vpy0 - table->ray.f_y) > (table->ray.f_x - vpx1))
-	{
-		ry1 = vpy0;
-		if (ray_angle == 270)
-			rx1 = table->player_x;
-		else
-			rx1 = -(table->player_y - ry1) / tan(angle) + table->player_x;
-	}
-	if (vpy1 < table->ray.f_y && (table->ray.f_y - vpy1) > (table->ray.f_x - vpx1) && (table->ray.f_y - vpy1) > (vpx0 - table->ray.f_x))
-	{
-		ry1 = vpy1;
-		rx1 = -(table->player_y - ry1) / tan(angle) + table->player_x;
-	}
-	rx1 -= vpx0;
-	ry1 -= vpy0;
-	if (rx1 == minimap_size)
-		rx1 -= 1;
-	if (ry1 == minimap_size)
-		ry1 -= 1;	
-	// printf("player x%f	player y%f\n", table->player_x, table->player_y);
-	// printf("rx1 = %d	ry1 = %d\n", rx1, ry1);
-	// printf("angle = %f\n", ray_angle);
-	
-	// draw_line(table->mlx_2D, table->player_x - vpx0, table->player_y - vpy0, rx1, ry1, 0xFFFF00FF, table, 0);
-}*/

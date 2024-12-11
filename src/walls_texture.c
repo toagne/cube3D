@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:30:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/10 15:14:22 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/11 12:48:46 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	select_texture(t_table *table, t_texture *tx)
 
 	tile_x = (int)(table->ray.f_x / T_SIZE) * T_SIZE;
 	tile_y = (int)(table->ray.f_y / T_SIZE) * T_SIZE;
- 	if (table->map[tile_y / T_SIZE][tile_x / T_SIZE] == '2')
+	if (table->map[tile_y / T_SIZE][tile_x / T_SIZE] == '2')
 	{
 		tx->height = table->door_texture.height;
 		tx->width = table->door_texture.width;

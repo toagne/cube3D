@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/10 15:01:17 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:55:16 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,60 +78,15 @@ void	render_sprite(t_table *table, int i)
 		angle_diff -= 360;
 	if (angle_diff < -180)
 		angle_diff += 360;
-	// if (check_sprite_is_visible(table, table->enemies[i]))
-	// {
 	convert_sprite_sizes(table, angle_diff, &table->enemies[i]);
 	select_texture_part_size_and_draw(table, table->enemies[i]);
-	// }
 }
 
-void	order_sprites(t_table *table, t_enemy *sp)
+void	real_drawing(t_table *table)
 {
-	int		i;
-	int		j;
-	t_enemy	temp;
-
-	i = -1;
-	while (++i < N_ENEMIES)
-	{
-		sp[i].dx = sp[i].x - table->player_x;
-		sp[i].dy = sp[i].y - table->player_y;
-		sp[i].dist = sqrt((sp[i].dx * sp[i].dx) + (sp[i].dy * sp[i].dy));
-		if (sp[i].dist < 30)
-		{
-			init_dynamic_data(table);
-			display_gameover(table);
-		}
-	}
-	i = -1;
-	while (++i < N_ENEMIES - 1)
-	{
-		j = -1;
-		while (++j < N_ENEMIES - i - 1)
-		{
-			if (sp[j].dist < sp[j + 1].dist)
-			{
-				temp = sp[j];
-				sp[j] = sp[j + 1];
-				sp[j + 1] = temp;
-			}
-		}
-	}
-}
-
-void	draw_sprites(t_table *table)
-{
-	int	i;
 	int	y;
 	int	x;
-	int	lim_1;
-	int	lim_2;
 
-	order_sprites(table, table->enemies);
-	i = -1;
-	while (++i < N_ENEMIES)
-		if (table->enemies[i].x != 0 && table->enemies[i].y != 0 && !table->enemies[i].dead)
-			render_sprite(table, i);
 	y = -1;
 	while (++y < table->height)
 	{
@@ -139,11 +94,32 @@ void	draw_sprites(t_table *table)
 		while (++x < table->width)
 			mlx_put_pixel(table->mlx_raycast, x, y, table->w_colors[y][x]);
 	}
-	lim_1 = table->height / 100;
-	lim_2 = lim_1 / 2;
-	draw_line(table->mlx_raycast, table->width / 2 - lim_1, table->height / 2, table->width / 2 - lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_raycast, table->width / 2, table->height / 2 - lim_1, table->width / 2, table->height / 2 - lim_2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_raycast, table->width / 2 + lim_1, table->height / 2, table->width / 2 + lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_raycast, table->width / 2, table->height / 2 + lim_1, table->width / 2, table->height / 2 + lim_2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_raycast, table->width / 2, table->height / 2, table->width / 2, table->height / 2, 0xFFFFFFFF, table, 0);
+	table->left_hand->instances[0].enabled = true;
+	table->right_hand->instances[0].enabled = true;
+	table->ball_image->instances[0].enabled = true;
+}
+
+void	draw_sprites(t_table *t)
+{
+	int	i;
+
+	i = -1;
+	while (++i < N_ENEMIES)
+	{
+		t->enemies[i].dx = t->enemies[i].x - t->player_x;
+		t->enemies[i].dy = t->enemies[i].y - t->player_y;
+		t->enemies[i].dist = sqrt((t->enemies[i].dx * t->enemies[i].dx)
+				+ (t->enemies[i].dy * t->enemies[i].dy));
+		if (t->enemies[i].dist < 30)
+		{
+			init_dynamic_data(t);
+			display_gameover(t);
+		}
+	}
+	order_sprites(t->enemies);
+	i = -1;
+	while (++i < N_ENEMIES)
+		if (t->enemies[i].x != 0 && t->enemies[i].y != 0 && !t->enemies[i].dead)
+			render_sprite(t, i);
+	real_drawing(t);
 }
