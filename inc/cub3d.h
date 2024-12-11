@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 17:00:56 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:58:52 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define PI 3.14159265358979323846
 # define T_SIZE 64
 # define N_ENEMIES 10
+# define MAX_ROWS 100
+# define MAX_COLUMNS 100
 
 typedef struct s_fireball
 {
@@ -155,7 +157,7 @@ typedef struct s_table
 	mlx_t			*mlx_start;
 	mlx_image_t		*mlx_minimap;
 	mlx_image_t		*mlx_raycast;
-	int				duplicate_id;	/// checking for duplicate identifiers in the .cub file
+	int				duplicate_id;
 	int				frame_counter;
 	int				is_attacking;
 	int				enemy_attack;
@@ -219,7 +221,7 @@ typedef struct s_table
 	mlx_image_t		*gamewonimg;
 	int				gameover_on;
 	int				gamewon_on;
-	float 			d_t_in_s;
+	float			d_t_in_s;
 	float			tile_step_x;
 	float			tile_step_y;
 	t_fireball		fireball;
@@ -269,7 +271,6 @@ long			get_time(char type);
 int				my_rand(t_table *table);
 
 void			draw_minimap(t_table *table);
-void			convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
 
 // read_file.c
 int				read_file(t_table *table);
@@ -292,16 +293,13 @@ void			run_gamestate_img(t_table *table, mlx_image_t *img);
 
 void			ft_hook(void *param);
 
-void			draw_circle(mlx_image_t *image, int x_center, int y_center,
-					int radius, uint32_t color);
-
 void			init_enemies(t_table *table);
-void				insert_fireball(t_table *table);
+void			insert_fireball(t_table *table);
 
 void			draw_sprites(t_table *table);
 
-// void			draw_dot(t_table *table, int value_x, int value_y, int range);
-void			draw_line(t_line *line, t_table *table, int type, mlx_image_t *img);
+void			draw_line(t_line *line, t_table *table,
+					int type, mlx_image_t *img);
 
 void			check_vertical_lines(t_table *table, float angle);
 void			check_horizontal_lines(t_table *table, float angle);
@@ -310,16 +308,20 @@ void			chose_shortest_ray(t_table *table);
 void			select_texture(t_table *table, t_texture *tx);
 void			get_coordinates_in_texture(t_table *table);
 
-void			convert_sprite_sizes(t_table *table, float angle_diff, t_enemy *sp);
+void			convert_sprite_sizes(t_table *table, float angle_diff,
+					t_enemy *sp);
 void			order_sprites(t_enemy *sp);
-void			set_treshold_for_movement(t_table *table, float *move_x, float *move_y, int i);
-void			check_collisions(t_table *table, t_enemy *sp, t_collision *s_coll);
+void			set_treshold_for_movement(t_table *table, float *move_x,
+					float *move_y, int i);
+void			check_collisions(t_table *table, t_enemy *sp,
+					t_collision *s_coll);
 
 void			add_doors(t_table *table);
 void			get_random_win_spot(t_table *table);
 
 // collisions.c
-int				wall_coll_w_circular_bumper(t_table *table, float new_x, float new_y, t_collision *coll_data);
+int				wall_coll_w_circular_bumper(t_table *table, float new_x,
+					float new_y, t_collision *coll_data);
 
 // kill_sprite.c
 void			kill_sprite(t_table *table);
