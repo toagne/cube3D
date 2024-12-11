@@ -196,11 +196,23 @@ void			draw_raycasting(t_table *table);
 // read_map.c
 int				read_map(t_table *table, int fd, char *line);
 
+//parse_rgb.c
+int				parse_rgb(t_table *table, char *color, char c);
+
+//parse_element_identifier.c
+int				check_element_ids(t_table *table, char *line);
+
+// read_map_utils.c
+int				fill_ones_to_map(char ***map);
+
 // error.c
 void    		ft_error(char *s1);
 
 // validate_map.c
 int				validate_map(t_table *table);
+
+// validate_map_utils.c
+int validate_map_chars_and_ext(t_table *table);
 
 // load_images.c
 mlx_image_t 	*load_image(mlx_t *mlx, char *str);
