@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
+#    By: giuls <giuls@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/12/10 13:15:26 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/12/10 17:23:25 by giuls            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC             = $(SRC_DIR)/main.c $(SRC_DIR)/init.c $(SRC_DIR)/keyboard.c $(SR
 					$(SRC_DIR)/sprites.c $(SRC_DIR)/drawing_utils.c $(SRC_DIR)/walls_check.c \
 					$(SRC_DIR)/walls_texture.c $(SRC_DIR)/sprites_utils.c $(SRC_DIR)/mainmenu.c \
 					$(SRC_DIR)/create_doors.c $(SRC_DIR)/game_state_images.c $(SRC_DIR)/mouse.c \
-					$(SRC_DIR)/movement.c $(SRC_DIR)/collisions.c
+					$(SRC_DIR)/movement.c $(SRC_DIR)/collisions.c $(SRC_DIR)/actions.c 
 OBJ_DIR         = obj
 OBJ             = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 MLX42_LIB       = $(MLX42_DIR)/build/libmlx42.a

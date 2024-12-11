@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/10 13:54:57 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:27:00 by giuls            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,4 +272,6 @@ void			get_random_win_spot(t_table *table);
 // collisions.c
 int				wall_collision_w_circular_bumper(t_table *table, float new_x, float new_y, float boh_x, float boh_y, int radius);
 
+// actions
+void			actions(t_table *table);
 #endif
