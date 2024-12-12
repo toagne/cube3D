@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 10:34:15 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 13:20:51 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 19:46:02 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*fill_ones(int len, char *line)
 {
 	char	*newline;
 	int		src_len;
-	int		i;
+	// int		i;
 
 	newline = malloc((len + 1) * sizeof(char));
 	if (!newline)
@@ -48,14 +48,27 @@ static char	*fill_ones(int len, char *line)
 		src_len++;
 	}
 	newline[len] = '\0';
-	i = 0;
+/* 	i = 0;
 	while (i < len)
 	{
 		if (newline[i] == ' ')
 			newline[i] = '1';
 		++i;
-	}
+	} */
 	return (newline);
+}
+
+static void fill_ones_middle(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == ' ')
+			line[i] = '1';
+		++i;
+	}
 }
 
 int	fill_ones_to_map(char ***map)
@@ -78,6 +91,7 @@ int	fill_ones_to_map(char ***map)
 			free((*map)[i]);
 			(*map)[i] = temp;
 		}
+		fill_ones_middle((*map)[i]);
 		++i;
 	}
 	return (0);
