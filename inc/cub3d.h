@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 09:50:49 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:20:16 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,10 @@ typedef struct s_button
 	mlx_image_t	*colored;
 	mlx_image_t	*white;
 	int			status;
+	int			width;
+	int			height;
+	int			x;
+	int			y;
 }	t_button;
 
 typedef struct s_table
@@ -185,8 +189,6 @@ typedef struct s_table
 	char			*so_path_texture;
 	char			*es_path_texture;
 	char			*ws_path_texture;
-	char			*p_path_texture;
-	mlx_image_t		*p_img[30];
 	mlx_image_t		*left_hand;
 	mlx_image_t		*right_hand;
 	t_texture		no_texture;
@@ -198,8 +200,6 @@ typedef struct s_table
 	t_texture		win_texture;
 	mlx_image_t		*ball_image;
 	t_enemy			enemies[N_ENEMIES];
-	mlx_texture_t	*enemy_texture;
-	uint32_t		**enemy_texture_colors;
 	long			lcg_seed;
 	t_ray			ray;
 	int				n_of_rays;
@@ -209,6 +209,7 @@ typedef struct s_table
 	int32_t			y_mouse;
 	t_button		play_button;
 	t_button		exit_button;
+	t_button		controls_button;
 	mlx_image_t		*bg_img;
 	long			last_time;
 	uint32_t		**w_colors;
@@ -219,18 +220,20 @@ typedef struct s_table
 	long			menudelaytime;
 	mlx_image_t		*gameoverimg;
 	mlx_image_t		*gamewonimg;
+	mlx_image_t		*controlsimg;
 	int				gameover_on;
 	int				gamewon_on;
 	float			d_t_in_s;
 	float			tile_step_x;
 	float			tile_step_y;
 	t_fireball		fireball;
+	int				controls_on;
 }	t_table;
 
 // init.c
-int				init_static_data(t_table *table, char **argv);
+int				init_static_data(t_table *table);
 void			init_dynamic_data(t_table *table);
-void			init_mlx_images_and_textures(t_table *t);
+int				init_mlx_images_and_textures(t_table *t);
 
 // keyboard.c
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
@@ -253,43 +256,70 @@ void			draw_raycasting(t_table *table);
 // read_map.c
 int				read_map(t_table *table, int fd, char *line);
 
+//parse_rgb.c
+int				parse_rgb(t_table *table, char *color, char c);
+
+//parse_element_identifier.c
+int				check_element_ids(t_table *table, char *line);
+
+// read_map_utils.c
+int				fill_ones_to_map(char ***map);
+
 // error.c
 void			ft_error(char *s1);
 
 // validate_map.c
 int				validate_map(t_table *table);
 
+// validate_map_utils.c
+int				validate_map_chars_and_ext(t_table *table);
+
 // load_images.c
 mlx_image_t		*load_image(mlx_t *mlx, char *str);
 mlx_texture_t	*load_texture(char *str);
-void			convert_tx(t_texture *tx, uint32_t ***tx_colors, char *str);
+void			convert_tx(t_table *t, t_texture *tx,
+					uint32_t ***tx_colors, char *str);
 
 unsigned int	get_rgba(int r, int g, int b, int a);
-void			get_monitor_size(int *width, int *height);
+int				get_monitor_size(int *width, int *height);
 float			deg_to_rad(float deg);
-long			get_time(char type);
+long			get_time(t_table *table, char type);
 int				my_rand(t_table *table);
 
 void			draw_minimap(t_table *table);
 
+//process_line.c
+int				process_line(char *line, t_table *table, char **trimnl);
+
 // read_file.c
 int				read_file(t_table *table);
 
+// read_file_utils.c
+int				open_file(const char *filename);
+int				is_map_line(char *line);
+int				is_only_newline(char *line);
+
 // free.c
-void			free_map(char **map, size_t i);
+void			free_map(char ***map, size_t i);
 void			free_table(char ***table);
+void			free_all(t_table *table);
+
+// init_game_state_images.c
+int				init_controls(t_table *table);
+int				init_gamewon(t_table *table);
+int				init_gameover(t_table *table);
 
 // main_menu
-void			init_main_menu(t_table *table);
+int				init_main_menu(t_table *table);
 void			animate_button(t_button *button);
 void			ft_mouse(void *param);
 void			display_main_menu(t_table *table);
 void			undisplay_main_menu(t_table *table);
 void			display_gameover(t_table *table);
 void			display_gamewon(t_table *table);
-void			init_gameover(t_table *table);
-void			init_gamewon(t_table *table);
-void			run_gamestate_img(t_table *table, mlx_image_t *img);
+void			run_gamestate_img(t_table *table, mlx_image_t *img, int delay);
+void			display_controls(t_table *table);
+int				init_buttons(t_table *table);
 
 void			ft_hook(void *param);
 

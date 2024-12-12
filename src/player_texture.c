@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:15:57 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/11 16:21:48 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:19:50 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,16 @@ int	insert_player_texture(t_table *table)
 	hand_w = table->width / 10;
 	hand_h = table->height / 6;
 	insert_fireball(table);
-	mlx_resize_image(table->left_hand, hand_w, hand_h);
-	mlx_resize_image(table->right_hand, hand_w, hand_h);
-	mlx_image_to_window(table->mlx_start, table->left_hand,
-		table->width / 2 - hand_w, table->height - hand_h);
-	mlx_image_to_window(table->mlx_start, table->right_hand,
-		table->width / 2, table->height - hand_h);
+	if (!mlx_resize_image(table->left_hand, hand_w, hand_h))
+		return (1);
+	if (!mlx_resize_image(table->right_hand, hand_w, hand_h))
+		return (1);
+	if (mlx_image_to_window(table->mlx_start, table->left_hand,
+			table->width / 2 - hand_w, table->height - hand_h) == -1)
+		return (1);
+	if (mlx_image_to_window(table->mlx_start, table->right_hand,
+			table->width / 2, table->height - hand_h) == -1)
+		return (1);
 	table->left_hand->instances[0].enabled = false;
 	table->right_hand->instances[0].enabled = false;
 	table->ball_image->instances[0].enabled = false;

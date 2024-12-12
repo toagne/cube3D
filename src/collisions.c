@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:15:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 11:35:57 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:40:07 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	circle_rectangle_collision(float circle_x, float circle_y,
 	return ((dx * dx + dy * dy) < (coll_data->r * coll_data->r));
 }
 
-void	boh(t_table *t, float new_x, float new_y, t_collision *coll_data)
+void	real_collision(t_table *t, float new_x, float new_y,
+	t_collision *coll_data)
 {
 	int	t_x;
 	int	t_y;
@@ -58,7 +59,8 @@ void	boh(t_table *t, float new_x, float new_y, t_collision *coll_data)
 	}
 }
 
-void	boh_1(t_table *table, float new_x, float new_y, t_collision *coll_data)
+void	close_door(t_table *table, float new_x, float new_y,
+	t_collision *coll_data)
 {
 	float	dx;
 	float	dy;
@@ -107,7 +109,7 @@ void	door_closing(t_table *t, float new_x, float new_y, t_collision *c_data)
 				c_data->wall_x = c_data->check_tile_x * T_SIZE + T_SIZE / 2;
 				c_data->wall_y = c_data->check_tile_y * T_SIZE + T_SIZE / 2;
 				if (t->map[c_data->check_tile_y][c_data->check_tile_x] == '3')
-					boh_1(t, new_x, new_y, c_data);
+					close_door(t, new_x, new_y, c_data);
 			}
 		}
 	}
@@ -130,7 +132,7 @@ int	wall_coll_w_circular_bumper(t_table *table, float new_x,
 		{
 			coll_data->check_tile_x = coll_data->mpx + x;
 			coll_data->check_tile_y = coll_data->mpy + y;
-			boh(table, new_x, new_y, coll_data);
+			real_collision(table, new_x, new_y, coll_data);
 		}
 	}
 	door_closing(table, new_x, new_y, coll_data);

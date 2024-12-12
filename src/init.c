@@ -6,63 +6,57 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 10:49:39 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:40:49 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	init_mlx_images_and_textures(t_table *t)
+int	init_mlx_images_and_textures(t_table *t)
 {
 	t->mlx_start = mlx_init(t->width, t->height, "cub3D", false);
 	if (!t->mlx_start)
-	{
-		printf("mlx_init failed\n");
-		exit(EXIT_FAILURE);
-	}
+		return (1);
 	t->mlx_minimap = mlx_new_image(t->mlx_start, t->width, t->height);
 	t->mlx_raycast = mlx_new_image(t->mlx_start, t->width, t->height);
 	t->ball_image = mlx_new_image(t->mlx_start, t->width, t->height);
-	if (!t->mlx_minimap || !t->mlx_raycast || !t->ball_image)
-	{
-		printf("mlx_new_image failed\n");
-		exit (EXIT_FAILURE);
-	}
-	convert_tx(&t->no_texture, &t->no_texture.colors, "pngs/texture_no.png");
-	convert_tx(&t->so_texture, &t->so_texture.colors, "pngs/texture_so.png");
-	convert_tx(&t->es_texture, &t->es_texture.colors, "pngs/texture_es.png");
-	convert_tx(&t->ws_texture, &t->ws_texture.colors, "pngs/texture_ws.png");
-	convert_tx(&t->sprite_tx, &t->sprite_tx.colors, "pngs/sprite.png");
-	convert_tx(&t->ball_texture, &t->ball_texture.colors, "pngs/ballsheet.png");
-	convert_tx(&t->door_texture, &t->door_texture.colors, "pngs/door_0.png");
-	convert_tx(&t->win_texture, &t->win_texture.colors, "pngs/win.png");
 	t->right_hand = load_image(t->mlx_start, "pngs/rigth_hand.png");
 	t->left_hand = load_image(t->mlx_start, "pngs/left_hand.png");
-	// we should check also all the functions above - convert_tx and load_image
+	if (!t->mlx_minimap || !t->mlx_raycast || !t->ball_image
+		|| !t->right_hand || !t->left_hand)
+		return (1);
+	convert_tx(t, &t->no_texture, &t->no_texture.colors, t->no_path_texture);
+	convert_tx(t, &t->so_texture, &t->so_texture.colors, t->so_path_texture);
+	convert_tx(t, &t->es_texture, &t->es_texture.colors, t->es_path_texture);
+	convert_tx(t, &t->ws_texture, &t->ws_texture.colors, t->ws_path_texture);
+	convert_tx(t, &t->sprite_tx, &t->sprite_tx.colors, "pngs/sprite.png");
+	convert_tx(t, &t->ball_texture, &t->ball_texture.colors,
+		"pngs/ballsheet.png");
+	convert_tx(t, &t->door_texture, &t->door_texture.colors, "pngs/door_0.png");
+	convert_tx(t, &t->win_texture, &t->win_texture.colors, "pngs/win.png");
+	return (0);
 }
 
 static int	alloc_window_colors(t_table *t)
 {
 	int	i;
 
-	t->w_colors = (uint32_t **)ft_calloc((t->height), sizeof(uint32_t *));
+	t->w_colors = (uint32_t **)ft_calloc((t->height + 1), sizeof(uint32_t *));
 	if (!t->w_colors)
 	{
-		// free textures and map
 		printf("Memory allocation failed for rows\n");
 		return (1);
 	}
 	i = -1;
 	while (++i < t->height)
 	{
-		t->w_colors[i] = (uint32_t *)ft_calloc((t->width), sizeof(uint32_t));
+		t->w_colors[i] = ft_calloc((t->width + 1), sizeof(uint32_t));
 		if (!t->w_colors[i])
 		{
 			while (--i >= 0)
 				free(t->w_colors[i]);
 			free(t->w_colors);
 			t->w_colors = NULL;
-			// free textures and map
 			printf("Memory allocation failed for columns\n");
 			return (1);
 		}
@@ -70,18 +64,24 @@ static int	alloc_window_colors(t_table *t)
 	return (0);
 }
 
-int	init_static_data(t_table *t, char **argv)
+int	init_static_data(t_table *t)
 {
-	get_monitor_size(&t->width, &t->height);
-	init_mlx_images_and_textures(t);
+	if (get_monitor_size(&t->width, &t->height))
+		return (1);
+	if (init_mlx_images_and_textures(t))
+	{
+		printf("mlx_init or mlx_new_image failed\n");
+		return (1);
+	}
 	t->player_delta_x = cos((float)t->player_angle / 180 * PI);
 	t->player_delta_y = sin((float)t->player_angle / 180 * PI);
 	t->player_delta_x_ad = cos((float)(t->player_angle + 90) / 180 * PI);
 	t->player_delta_y_ad = sin((float)(t->player_angle + 90) / 180 * PI);
-	t->lcg_seed = get_time('s');
+	t->lcg_seed = get_time(t, 's');
 	t->n_of_rays = t->width / 2;
-	t->last_time = get_time('u');
+	t->last_time = get_time(t, 'u');
 	t->enemy_attack = 0;
+	t->duplicate_id = 0;
 	if (alloc_window_colors(t) == 1)
 		return (1);
 	return (0);
@@ -119,7 +119,6 @@ void	init_dynamic_data(t_table *table)
 	init_enemies(table);
 	table->mouse_last_x = table->width / 2;
 	table->mouse_last_y = table->height / 2;
-	table->duplicate_id = 0;
 	mlx_set_mouse_pos(table->mlx_start, table->width / 2, table->height / 2);
 	table->kill = 0;
 	table->sprite_frames = 0;

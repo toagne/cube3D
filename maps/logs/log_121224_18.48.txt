@@ -1,0 +1,112 @@
+Running test for valid/map1.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for valid/map2.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for valid/map3.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for valid/map4.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for valid/no_zero1.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for valid/no_zero2.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for valid/no_zero3.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for valid/no_zero4.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for valid/map_simple1.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for valid/map_simple2.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for valid/map_simple3.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for valid/map_simple4.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+

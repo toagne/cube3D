@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:37:42 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/05 18:11:35 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:46:36 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	read_lines(int fd, char ***map, t_table *table, char *line)
 	char	*trimmed;
 
 	ln = 1;
-	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		line = get_next_line(fd);
@@ -27,7 +26,8 @@ static int	read_lines(int fd, char ***map, t_table *table, char *line)
 			trimmed = ft_strtrim(line, "\n");
 		if (!*map || !trimmed)
 		{
-			free_map(*map, ln);
+			free_map(map, ln);
+			free(trimmed);
 			free(line);
 			return (0);
 		}
@@ -41,7 +41,7 @@ static int	read_lines(int fd, char ***map, t_table *table, char *line)
 	return (1);
 }
 
-char	check_player_dir(char dir)
+static char	check_player_dir(char dir)
 {
 	if (dir == 'N')
 		return ('N');
@@ -54,7 +54,7 @@ char	check_player_dir(char dir)
 	return ('\0');
 }
 
-void set_player_position(t_table *table)
+void	set_player_position(t_table *table)
 {
 	size_t	player_pos_x;
 	size_t	player_pos_y;
@@ -82,99 +82,27 @@ void set_player_position(t_table *table)
 	table->player_y = (float)table->player_row * T_SIZE + T_SIZE / 2;
 }
 
-int	find_length_of_longest_line(char **map)
-{
-	int	i;
-	int	len;
-	int	current_len;
-
-	i = 0;
-	current_len = 0;
-	len = 0;
-	if (!map || !*map)
-		return (-1);
-	while (map[i])
-	{
-		current_len = ft_strlen(map[i]);
-		if (current_len > len)
-			len = current_len;
-		++i;
-	}
-	return (len);
-}
-
-char	*fill_ones(int len, char *line)
-{
-	char	*newline;
-	int		src_len;
-	int		i;
-
-	newline = malloc((len + 1) * sizeof(char));
-	if (!newline)
-		return (NULL);
-	ft_strlcpy(newline, line, len + 1);
-	src_len = ft_strlen(line);
-	while (src_len < len)
-	{
-		newline[src_len] = '1';
-		src_len++;
-	}
-	newline[len] = '\0';
-	i = 0;
-	while (i < len)
-	{
-		if (newline[i] == ' ')
-			newline[i] = '1';
-		++i;
-	}
-	return (newline);
-}
-
-int fill_ones_to_map(char ***map)
-{
-	size_t	i;
-	size_t	len;
-	char *temp;
-
-	i = 0;
-	len = find_length_of_longest_line(*map);
-	while ((*map)[i])
-	{
-		if (ft_strlen((*map)[i]) != len)
-		{
-			temp = fill_ones(len, (*map)[i]);
-			if (!temp)
-				return (1);
-			free((*map)[i]);
-			(*map)[i] = temp;
-		}
-		++i;
-	}
-	return (0);
-}
-
 int	read_map(t_table *table, int fd, char *line)
 {
 	char	**map;
 
-	map = malloc(1 * sizeof(char *));
+	map = ft_calloc(1, sizeof(char *));
 	if (!map)
-	{
-		close(fd);
 		return (1);
-	}
 	map[0] = line;
 	if (!read_lines(fd, &map, table, line))
-	{
-		close(fd);
 		return (1);
-	}
 	if (fill_ones_to_map(&map))
 	{
 		free_table(&map);
-		return (0);
+		return (1);
 	}
 	table->columns = ft_strlen(map[0]);
+	if (table->columns > MAX_COLUMNS || table->rows > MAX_ROWS)
+	{
+		printf("limit for max n of rows or columns reached\n");
+		return (1);
+	}
 	table->map = map;
 	set_player_position(table);
 	return (0);

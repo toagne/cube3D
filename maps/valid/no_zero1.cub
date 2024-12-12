@@ -1,0 +1,11 @@
+NO ./pngs/texture_no.png
+SO ./pngs/texture_so.png
+WE ./pngs/texture_es.png
+EA ./pngs/texture_ws.png
+
+C 225,30,0
+F 220,100,0
+
+111
+1N1
+111

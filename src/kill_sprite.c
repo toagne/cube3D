@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:22:40 by giuls             #+#    #+#             */
-/*   Updated: 2024/12/11 14:16:35 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:53:45 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ void	kill_sprite(t_table *table)
 	{
 		if (table->enemies[i].dead)
 			continue ;
+		if (table->enemies[i].x == 0 && table->enemies[i].y == 0)
+			table->enemies[i].dead = 1;
 		get_killing_zone(table, &closest_ray, &closest_enemy_index, i);
 	}
 	if (closest_enemy_index != -1)

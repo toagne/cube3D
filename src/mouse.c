@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:10:53 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 17:41:12 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:27:30 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	click_exit_button(t_table *t)
 		animate_button(&t->exit_button);
 		if (mlx_is_mouse_down(t->mlx_start, MLX_MOUSE_BUTTON_LEFT))
 		{
+			free_all(t);
 			mlx_terminate(t->mlx_start);
 			exit (EXIT_SUCCESS);
 		}
@@ -84,12 +85,36 @@ void	click_exit_button(t_table *t)
 	}
 }
 
+void	click_controls_button(t_table *t)
+{
+	if (t->x_mouse > t->controls_button.white->instances[0].x
+		&& t->x_mouse < t->controls_button.white->instances[0].x + t->width / 6
+		&& t->y_mouse > t->controls_button.white->instances[0].y && t->y_mouse
+		< t->controls_button.white->instances[0].y + t->height / 6)
+	{
+		t->controls_button.status = 0;
+		animate_button(&t->controls_button);
+		if (mlx_is_mouse_down(t->mlx_start, MLX_MOUSE_BUTTON_LEFT))
+		{
+			display_controls(t);
+			undisplay_main_menu(t);
+		}
+	}
+	else
+	{
+		t->controls_button.status = 1;
+		animate_button(&t->controls_button);
+	}
+}
+
 void	ft_mouse(void *param)
 {
 	t_table	*table;
 
 	table = (t_table *)param;
 	mlx_get_mouse_pos(table->mlx_start, &table->x_mouse, &table->y_mouse);
+	if (table->controls_on)
+		return ;
 	if (table->main_menu_on == 0)
 	{
 		move_visual_with_mouse(table);
@@ -97,5 +122,6 @@ void	ft_mouse(void *param)
 	}
 	if (click_play_button(table))
 		return ;
+	click_controls_button(table);
 	click_exit_button(table);
 }

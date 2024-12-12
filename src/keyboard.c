@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:38:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 15:06:00 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:25:28 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,9 @@ void	ft_keyboard(mlx_key_data_t keydata, void *param)
 	table = (t_table *)param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
+		free_all(table);
 		mlx_terminate(table->mlx_start);
-		exit (EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	}
 	if (table->main_menu_on)
 		return ;

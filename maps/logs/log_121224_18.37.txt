@@ -1,0 +1,461 @@
+Running test for error_maps/extra_RGB1.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+
+Running test for error_maps/extra_RGB2.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+
+Running test for error_maps/extra_RGB3.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/extra_RGB4.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/extra_RGB5.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/extra_RGB6.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/extra_RGB7.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/extra_sprite1.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+
+Running test for error_maps/extra_sprite2.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+
+Running test for error_maps/extra_sprite3.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+
+Running test for error_maps/extra_sprite4.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+
+Running test for error_maps/wrongmap1.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrongmap2.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrongmap3.cub...
+###########################################################################
+Error
+Map has invalid characters
+
+
+Running test for error_maps/wrongmap4.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrongmap5.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/missing_RGB1.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+
+Running test for error_maps/missing_RGB2.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+
+Running test for error_maps/missing_RGB3.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+
+Running test for error_maps/wrong_RGB1.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+
+
+Running test for error_maps/wrong_RGB2.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+
+
+Running test for error_maps/wrong_RGB3.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+
+
+Running test for error_maps/wrong_RGB4.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/wrong_RGB5.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/wrong_RGB6.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+
+
+Running test for error_maps/wrong_RGB7.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+
+
+Running test for error_maps/wrong_RGB8.cub...
+###########################################################################
+Error
+File could not be opened
+
+
+Running test for error_maps/wrong_RGB9.cub...
+###########################################################################
+Error
+File could not be opened
+
+
+Running test for error_maps/no_permission1.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/no_permission2.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/no_permission3.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/no_permission4.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/extra_player1.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player2.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player3.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player4.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player5.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player6.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player7.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player8.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/not_walled1.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+
+
+Running test for error_maps/not_walled2.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+
+
+Running test for error_maps/not_walled3.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/not_walled4.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/not_walled5.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/island1.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for error_maps/island2.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for error_maps/wrong_name.cbu...
+###########################################################################
+Error
+Invalid file name or extension
+
+
+Running test for error_maps/file.cbuwrong...
+###########################################################################
+Error
+Invalid element identifiers
+
+
+Running test for error_maps/dir_test.cub...
+###########################################################################
+Error
+File could not be opened
+
+
+Running test for error_maps/gap1.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for error_maps/wrong_sprite1.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite2.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite3.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite4.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite5.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite6.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite7.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+
+Running test for error_maps/wrong_sprite8.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite9.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite10.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+
+Running test for error_maps/wrong_sprite11.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite12.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/wrong_sprite13.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/wrong_sprite14.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed
+Invalid floor or ceiling color 
+
+
+Running test for error_maps/wrong_place1.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+
+Running test for error_maps/wrong_place2.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+

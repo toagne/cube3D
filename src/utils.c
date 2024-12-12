@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:41:29 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 10:49:13 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:57:13 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 
 unsigned int	get_rgba(int r, int g, int b, int a)
 {
-	return ((r << 24) | (g << 16) | (b << 8) | (a));
+	return (((unsigned int)(r) << 24)
+	| ((unsigned int)(g) << 16)
+	| ((unsigned int)(b) << 8)
+	| (unsigned int)(a));
 }
 
-void	get_monitor_size(int *width, int *height)
+int	get_monitor_size(int *width, int *height)
 {
 	mlx_t	*temp;
 	int32_t	w;
@@ -28,13 +31,13 @@ void	get_monitor_size(int *width, int *height)
 	if (!temp)
 	{
 		printf("mlx_init failed\n");
-		// free map
-		exit(EXIT_FAILURE);
+		return (1);
 	}
 	mlx_get_monitor_size(0, &w, &h);
 	mlx_terminate(temp);
 	*width = w / 1.5;
 	*height = h / 1.5;
+	return (0);
 }
 
 float	deg_to_rad(float deg)
@@ -55,15 +58,17 @@ int	my_rand(t_table *table)
 	return (table->lcg_seed);
 }
 
-long	get_time(char type)
+long	get_time(t_table *table, char type)
 {
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) == -1)
 	{
 		printf("gettimeofday failed\n");
-		// free
-		exit (EXIT_FAILURE);
+		free_all(table);
+		if (table->mlx_start)
+			mlx_terminate(table->mlx_start);
+		exit(EXIT_FAILURE);
 	}
 	if (type == 's')
 		return (tv.tv_sec + tv.tv_usec / 1000000);

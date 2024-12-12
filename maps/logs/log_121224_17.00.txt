@@ -1,0 +1,1032 @@
+Running test for error_maps/extra_RGB1.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+=================================================================
+==285990==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x77b7bac29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 12 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52e7a1 in ft_calloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e7a1)
+    #2 0x5284e6 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x5284e6)
+    #3 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #4 0x529272 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529272)
+    #5 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #6 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #7 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #8 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #9 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #10 0x77b7bac29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 46 byte(s) leaked in 2 allocation(s).
+
+
+Running test for error_maps/extra_RGB2.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+=================================================================
+==286003==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x7492c5c29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 12 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52e7a1 in ft_calloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e7a1)
+    #2 0x5284e6 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x5284e6)
+    #3 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #4 0x529246 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529246)
+    #5 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #6 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #7 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #8 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #9 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #10 0x7492c5c29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 46 byte(s) leaked in 2 allocation(s).
+
+
+Running test for error_maps/extra_RGB3.cub...
+###########################################################################
+=================================================================
+==286014==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000005fc at pc 0x000000528c23 bp 0x7fffb341b990 sp 0x7fffb341b988
+WRITE of size 4 at 0x6020000005fc thread T0
+    #0 0x528c22 in convert_arr_to_int (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22)
+    #1 0x528553 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528553)
+    #2 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #3 0x529246 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529246)
+    #4 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #5 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #6 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #7 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #8 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #9 0x723f69229d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x723f69229e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x41f5e4 in _start (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x41f5e4)
+
+0x6020000005fc is located 0 bytes to the right of 12-byte region [0x6020000005f0,0x6020000005fc)
+allocated by thread T0 here:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52e7a1 in ft_calloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e7a1)
+    #2 0x5284e6 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x5284e6)
+    #3 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #4 0x529246 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529246)
+    #5 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #6 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #7 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #8 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #9 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #10 0x723f69229d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22) in convert_arr_to_int
+Shadow bytes around the buggy address:
+  0x0c047fff8060: fa fa fd fa fa fa fd fa fa fa fd fd fa fa fd fd
+  0x0c047fff8070: fa fa fd fd fa fa fd fa fa fa fd fd fa fa fd fd
+  0x0c047fff8080: fa fa fd fd fa fa fd fa fa fa fd fa fa fa fd fa
+  0x0c047fff8090: fa fa 00 04 fa fa fd fa fa fa fd fa fa fa fd fd
+  0x0c047fff80a0: fa fa fd fd fa fa 01 fa fa fa 04 fa fa fa 04 fa
+=>0x0c047fff80b0: fa fa 00 01 fa fa 04 fa fa fa 02 fa fa fa 00[04]
+  0x0c047fff80c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==286014==ABORTING
+
+
+Running test for error_maps/extra_RGB4.cub...
+###########################################################################
+=================================================================
+==286024==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000061c at pc 0x000000528c23 bp 0x7ffedb609d10 sp 0x7ffedb609d08
+WRITE of size 4 at 0x60200000061c thread T0
+    #0 0x528c22 in convert_arr_to_int (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22)
+    #1 0x528553 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528553)
+    #2 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #3 0x529246 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529246)
+    #4 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #5 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #6 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #7 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #8 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #9 0x770cc7229d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x770cc7229e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x41f5e4 in _start (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x41f5e4)
+
+0x60200000061c is located 0 bytes to the right of 12-byte region [0x602000000610,0x60200000061c)
+allocated by thread T0 here:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52e7a1 in ft_calloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e7a1)
+    #2 0x5284e6 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x5284e6)
+    #3 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #4 0x529246 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529246)
+    #5 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #6 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #7 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #8 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #9 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #10 0x770cc7229d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22) in convert_arr_to_int
+Shadow bytes around the buggy address:
+  0x0c047fff8070: fa fa fd fd fa fa fd fa fa fa fd fd fa fa fd fd
+  0x0c047fff8080: fa fa fd fd fa fa fd fa fa fa fd fa fa fa fd fa
+  0x0c047fff8090: fa fa 00 04 fa fa fd fa fa fa fd fa fa fa fd fd
+  0x0c047fff80a0: fa fa fd fd fa fa 01 fa fa fa 04 fa fa fa 04 fa
+  0x0c047fff80b0: fa fa 02 fa fa fa 04 fa fa fa 04 fa fa fa 02 fa
+=>0x0c047fff80c0: fa fa 00[04]fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8110: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==286024==ABORTING
+
+
+Running test for error_maps/extra_RGB5.cub...
+###########################################################################
+=================================================================
+==286034==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000049c at pc 0x000000528c23 bp 0x7ffe40a158f0 sp 0x7ffe40a158e8
+WRITE of size 4 at 0x60200000049c thread T0
+    #0 0x528c22 in convert_arr_to_int (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22)
+    #1 0x528553 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528553)
+    #2 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #3 0x529272 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529272)
+    #4 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #5 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #6 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #7 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #8 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #9 0x74de94e29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x74de94e29e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x41f5e4 in _start (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x41f5e4)
+
+0x60200000049c is located 0 bytes to the right of 12-byte region [0x602000000490,0x60200000049c)
+allocated by thread T0 here:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52e7a1 in ft_calloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e7a1)
+    #2 0x5284e6 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x5284e6)
+    #3 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #4 0x529272 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529272)
+    #5 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #6 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #7 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #8 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #9 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #10 0x74de94e29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22) in convert_arr_to_int
+Shadow bytes around the buggy address:
+  0x0c047fff8040: fa fa fd fa fa fa fd fa fa fa fd fd fa fa fd fd
+  0x0c047fff8050: fa fa fd fd fa fa fd fa fa fa fd fa fa fa fd fa
+  0x0c047fff8060: fa fa fd fa fa fa fd fa fa fa fd fd fa fa fd fd
+  0x0c047fff8070: fa fa fd fd fa fa 03 fa fa fa 04 fa fa fa 03 fa
+  0x0c047fff8080: fa fa 02 fa fa fa 03 fa fa fa 02 fa fa fa 03 fa
+=>0x0c047fff8090: fa fa 00[04]fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==286034==ABORTING
+
+
+Running test for error_maps/extra_RGB6.cub...
+###########################################################################
+=================================================================
+==286044==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x6020000005fc at pc 0x000000528c23 bp 0x7ffc0ac65ef0 sp 0x7ffc0ac65ee8
+WRITE of size 4 at 0x6020000005fc thread T0
+    #0 0x528c22 in convert_arr_to_int (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22)
+    #1 0x528553 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528553)
+    #2 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #3 0x529246 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529246)
+    #4 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #5 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #6 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #7 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #8 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #9 0x7ec757e29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7ec757e29e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x41f5e4 in _start (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x41f5e4)
+
+0x6020000005fc is located 0 bytes to the right of 12-byte region [0x6020000005f0,0x6020000005fc)
+allocated by thread T0 here:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52e7a1 in ft_calloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e7a1)
+    #2 0x5284e6 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x5284e6)
+    #3 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #4 0x529246 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529246)
+    #5 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #6 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #7 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #8 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #9 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #10 0x7ec757e29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22) in convert_arr_to_int
+Shadow bytes around the buggy address:
+  0x0c047fff8060: fa fa fd fa fa fa fd fa fa fa fd fd fa fa fd fd
+  0x0c047fff8070: fa fa fd fd fa fa fd fa fa fa fd fd fa fa fd fd
+  0x0c047fff8080: fa fa fd fd fa fa fd fa fa fa fd fa fa fa fd fa
+  0x0c047fff8090: fa fa 00 04 fa fa fd fa fa fa fd fa fa fa fd fd
+  0x0c047fff80a0: fa fa fd fd fa fa 01 fa fa fa 04 fa fa fa 04 fa
+=>0x0c047fff80b0: fa fa 07 fa fa fa 03 fa fa fa 02 fa fa fa 00[04]
+  0x0c047fff80c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff8100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==286044==ABORTING
+
+
+Running test for error_maps/extra_RGB7.cub...
+###########################################################################
+=================================================================
+==286054==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000047c at pc 0x000000528c23 bp 0x7ffcf888a810 sp 0x7ffcf888a808
+WRITE of size 4 at 0x60200000047c thread T0
+    #0 0x528c22 in convert_arr_to_int (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22)
+    #1 0x528553 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528553)
+    #2 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #3 0x529272 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529272)
+    #4 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #5 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #6 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #7 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #8 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #9 0x7924ca629d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+    #10 0x7924ca629e3f in __libc_start_main csu/../csu/libc-start.c:392:3
+    #11 0x41f5e4 in _start (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x41f5e4)
+
+0x60200000047c is located 0 bytes to the right of 12-byte region [0x602000000470,0x60200000047c)
+allocated by thread T0 here:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52e7a1 in ft_calloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e7a1)
+    #2 0x5284e6 in parse_rgb (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x5284e6)
+    #3 0x52947f in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52947f)
+    #4 0x529272 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529272)
+    #5 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #6 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #7 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #8 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #9 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #10 0x7924ca629d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x528c22) in convert_arr_to_int
+Shadow bytes around the buggy address:
+  0x0c047fff8030: fa fa fd fd fa fa fd fd fa fa fd fd fa fa fd fa
+  0x0c047fff8040: fa fa fd fa fa fa fd fa fa fa fd fd fa fa fd fd
+  0x0c047fff8050: fa fa fd fd fa fa fd fa fa fa fd fa fa fa fd fa
+  0x0c047fff8060: fa fa fd fa fa fa fd fa fa fa fd fd fa fa fd fd
+  0x0c047fff8070: fa fa fd fd fa fa 02 fa fa fa 04 fa fa fa 03 fa
+=>0x0c047fff8080: fa fa 00 fa fa fa 04 fa fa fa 02 fa fa fa 00[04]
+  0x0c047fff8090: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c047fff80d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==286054==ABORTING
+
+
+Running test for error_maps/extra_sprite1.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+=================================================================
+==286064==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x739221e29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 29 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x529330 in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529330)
+    #3 0x52921a in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52921a)
+    #4 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #5 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #6 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #7 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #8 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #9 0x739221e29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 63 byte(s) leaked in 2 allocation(s).
+
+
+Running test for error_maps/extra_sprite2.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+=================================================================
+==286075==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x7a53cce29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 29 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x529330 in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529330)
+    #3 0x5291ee in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x5291ee)
+    #4 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #5 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #6 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #7 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #8 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #9 0x7a53cce29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 63 byte(s) leaked in 2 allocation(s).
+
+
+Running test for error_maps/extra_sprite3.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+=================================================================
+==286086==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x7ea166c29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 29 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x529330 in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529330)
+    #3 0x529196 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529196)
+    #4 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #5 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #6 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #7 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #8 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #9 0x7ea166c29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 63 byte(s) leaked in 2 allocation(s).
+
+
+Running test for error_maps/extra_sprite4.cub...
+###########################################################################
+Error
+duplicate ids in the file
+
+=================================================================
+==286097==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x7d1cf2e29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+Direct leak of 29 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x529330 in check_element_id (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x529330)
+    #3 0x5291c2 in check_element_ids (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x5291c2)
+    #4 0x52e11d in process_trimmed_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52e11d)
+    #5 0x52df10 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df10)
+    #6 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #7 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #8 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #9 0x7d1cf2e29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 63 byte(s) leaked in 2 allocation(s).
+
+
+Running test for error_maps/wrongmap1.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrongmap2.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrongmap3.cub...
+###########################################################################
+Error
+Map has invalid characters
+
+
+Running test for error_maps/wrongmap4.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrongmap5.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/missing_RGB1.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+=================================================================
+==286158==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x750c53829d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 34 byte(s) leaked in 1 allocation(s).
+
+
+Running test for error_maps/missing_RGB2.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+=================================================================
+==286169==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x7f080ac29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 34 byte(s) leaked in 1 allocation(s).
+
+
+Running test for error_maps/missing_RGB3.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+=================================================================
+==286180==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x725b23429d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 34 byte(s) leaked in 1 allocation(s).
+
+
+Running test for error_maps/wrong_RGB1.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_RGB2.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_RGB3.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_RGB4.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_RGB5.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_RGB6.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_RGB7.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_RGB8.cub...
+###########################################################################
+Error
+File could not be opened
+
+
+Running test for error_maps/wrong_RGB9.cub...
+###########################################################################
+Error
+File could not be opened
+
+
+Running test for error_maps/no_permission1.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/no_permission2.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/no_permission3.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/no_permission4.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/extra_player1.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player2.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player3.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player4.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player5.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player6.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player7.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/extra_player8.cub...
+###########################################################################
+Error
+Too few or too many players
+
+
+Running test for error_maps/not_walled1.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/not_walled2.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/not_walled3.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/not_walled4.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/not_walled5.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/island1.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for error_maps/island2.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for error_maps/wrong_name.cbu...
+###########################################################################
+Error
+Invalid file name or extension
+
+
+Running test for error_maps/file.cbuwrong...
+###########################################################################
+Error
+Invalid element identifiers
+
+
+Running test for error_maps/dir_test.cub...
+###########################################################################
+Error
+File could not be opened
+
+
+Running test for error_maps/gap1.cub...
+###########################################################################
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+MLX42: LodePNG: failed to open file for reading
+Error
+Load texture failed
+mlx_init or mlx_new_image failed
+
+
+Running test for error_maps/wrong_sprite1.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite2.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite3.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite4.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite5.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite6.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite7.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+=================================================================
+==286608==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 4 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x7756da029d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 4 byte(s) leaked in 1 allocation(s).
+
+
+Running test for error_maps/wrong_sprite8.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite9.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite10.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+=================================================================
+==286639==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 4 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x7b289aa29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 4 byte(s) leaked in 1 allocation(s).
+
+
+Running test for error_maps/wrong_sprite11.cub...
+###########################################################################
+Error
+Map has invalid characters at sides
+
+
+Running test for error_maps/wrong_sprite12.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_sprite13.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_sprite14.cub...
+###########################################################################
+Error
+Set element texture failed
+Error
+Memory allocation failed 
+
+
+
+Running test for error_maps/wrong_place1.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+=================================================================
+==286690==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x71ca45a29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 34 byte(s) leaked in 1 allocation(s).
+
+
+Running test for error_maps/wrong_place2.cub...
+###########################################################################
+Error
+Invalid element identifiers
+
+=================================================================
+==286701==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 34 byte(s) in 1 object(s) allocated from:
+    #0 0x49a4ad in malloc (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x49a4ad)
+    #1 0x52f09f in ft_strtrim (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52f09f)
+    #2 0x52df79 in prepare_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52df79)
+    #3 0x52de80 in process_line (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x52de80)
+    #4 0x4dbde7 in process_file_lines (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbde7)
+    #5 0x4dbfe3 in read_file (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4dbfe3)
+    #6 0x4cbee2 in main (/home/mpellegr/common_core/rank_04/cube3D/cub3D+0x4cbee2)
+    #7 0x730794e29d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
+
+SUMMARY: AddressSanitizer: 34 byte(s) leaked in 1 allocation(s).
+
+

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:13:30 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 09:38:18 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:19:12 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	get_time_each_frame(t_table *table)
 	long	current_time;
 	long	delta_time;
 
-	current_time = get_time('u');
+	current_time = get_time(table, 'u');
 	delta_time = current_time - table->last_time;
 	table->last_time = current_time;
 	table->d_t_in_s = (float)delta_time / 1000000;
@@ -84,9 +84,11 @@ void	ft_hook(void *param)
 	table = (t_table *)param;
 	get_time_each_frame(table);
 	if (table->gameover_on == 1)
-		run_gamestate_img(table, table->gameoverimg);
+		run_gamestate_img(table, table->gameoverimg, 3);
 	else if (table->gamewon_on == 1)
-		run_gamestate_img(table, table->gamewonimg);
+		run_gamestate_img(table, table->gamewonimg, 3);
+	else if (table->controls_on)
+		run_gamestate_img(table, table->controlsimg, 5);
 	if (table->main_menu_on || table->gameover_on || table->gamewon_on)
 		return ;
 	table->frame_counter += 1;

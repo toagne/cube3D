@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:32:35 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 17:19:00 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:56:23 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	get_random_win_spot(t_table *table)
 {
 	int	x_tile;
 	int	y_tile;
+	int	no_spot_found;
 
+	no_spot_found = 0;
 	y_tile = -1;
 	while (++y_tile < (int)table->rows)
 	{
@@ -41,10 +43,17 @@ void	get_random_win_spot(t_table *table)
 		while (++x_tile < (int)table->columns)
 		{
 			if (table->map[y_tile][x_tile] == '1')
+			{
 				if (is_pos_valid(table, x_tile, y_tile))
+				{
+					no_spot_found = 1;
 					return ;
+				}
+			}
 		}
 	}
+	if (no_spot_found == 0)
+		printf("Warning: map too small to place win spot\n");
 }
 
 int	is_position_valid(t_table *table, size_t x, size_t y)

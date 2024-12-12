@@ -4,7 +4,7 @@ WE ./pngs/texture_es.png
 EA ./pngs/texture_ws.png
 
 F 220,100,0
-C 225,30,0
+C       225,30,0
 
 1111111111
 1000000001
