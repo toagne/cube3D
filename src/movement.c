@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:13:30 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 16:18:17 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:38:18 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	get_time_each_frame(t_table *table)
 	long	current_time;
 	long	delta_time;
 
-	current_time = get_time('b');
+	current_time = get_time('u');
 	delta_time = current_time - table->last_time;
 	table->last_time = current_time;
 	table->d_t_in_s = (float)delta_time / 1000000;

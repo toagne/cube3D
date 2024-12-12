@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   game_state_images.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:01:20 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/05 15:01:22 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:38:08 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../inc/cub3d.h"
 
 void	display_gamewon(t_table *table)
 {
-	table->menudelaytime = get_time('a');
+	table->menudelaytime = get_time('s');
 	table->gamewonimg->instances[0].enabled = true;
 	mlx_set_instance_depth(&table->gamewonimg->instances[0], 13);
 	table->gamewon_on = 1;
@@ -37,7 +38,7 @@ void	init_gameover(t_table *table)
 
 void	display_gameover(t_table *table)
 {
-	table->menudelaytime = get_time('a');
+	table->menudelaytime = get_time('s');
 	table->gameoverimg->instances[0].enabled = true;
 	mlx_set_instance_depth(&table->gameoverimg->instances[0], 13);
 	table->gameover_on = 1;
@@ -45,7 +46,7 @@ void	display_gameover(t_table *table)
 
 void	run_gamestate_img(t_table *table, mlx_image_t * img)
 {
-	if (get_time('a') - table->menudelaytime > 3)
+	if (get_time('s') - table->menudelaytime > 3)
 	{
 		table->main_menu_on = 1;
 		img->instances[0].enabled = false;

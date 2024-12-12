@@ -1,0 +1,12 @@
+{
+    leak _dl_open
+    Memcheck:Leak
+    ...
+    fun:_dl_open
+}
+{
+    invalid read of size dl_open_worker
+    Memcheck:Addr8
+    ...
+    fun:dl_open_worker
+}

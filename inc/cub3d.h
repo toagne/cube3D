@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 17:58:52 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:50:49 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ typedef struct s_table
 // init.c
 int				init_static_data(t_table *table, char **argv);
 void			init_dynamic_data(t_table *table);
-void			init_texture_and_images(t_table *table);
+void			init_mlx_images_and_textures(t_table *t);
 
 // keyboard.c
 void			ft_keyboard(mlx_key_data_t keydata, void *param);

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:17:32 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/10 12:52:58 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 10:47:02 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,21 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		//write (2, "wrong input\n", 12);
+		printf("wrong number of arguments\n");
 		exit(EXIT_FAILURE);
 	}
-	if (init_static_data(&table, argv) == 1)
-		exit(EXIT_FAILURE);
+	ft_memset(&table, 0, sizeof(t_table));
+	table.filename = argv[1];
 	if (read_file(&table))
 		exit(EXIT_FAILURE);
-	table.mlx_start = mlx_init(table.width, table.height, "cub3D", false);
-	if (!table.mlx_start)
-	{
-		printf("mlx init failed\n");
-		exit(EXIT_FAILURE); // error
-	}
+	if (init_static_data(&table, argv) == 1)
+		exit(EXIT_FAILURE);
 	add_doors(&table);
 	get_random_win_spot(&table);
 	init_dynamic_data(&table);
 	init_main_menu(&table);
 	init_gameover(&table);
 	init_gamewon(&table);
-	init_texture_and_images(&table);
 	mlx_image_to_window(table.mlx_start, table.mlx_raycast, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.mlx_minimap, 0, 0);
 	mlx_image_to_window(table.mlx_start, table.ball_image, 0, 0);

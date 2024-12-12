@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:41:29 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 17:00:58 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 10:49:13 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	get_monitor_size(int *width, int *height)
 	temp = mlx_init(1, 1, "", false);
 	if (!temp)
 	{
-		// free
+		printf("mlx_init failed\n");
+		// free map
 		exit(EXIT_FAILURE);
 	}
 	mlx_get_monitor_size(0, &w, &h);
@@ -64,8 +65,7 @@ long	get_time(char type)
 		// free
 		exit (EXIT_FAILURE);
 	}
-	gettimeofday(&tv, NULL);
-	if (type == 'a')
+	if (type == 's')
 		return (tv.tv_sec + tv.tv_usec / 1000000);
 	else
 		return (tv.tv_sec * 1000000 + tv.tv_usec);
