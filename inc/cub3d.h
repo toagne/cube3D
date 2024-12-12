@@ -182,8 +182,6 @@ void			init_texture_and_images(t_table *table);
 
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			ft_hook(void* param);
-void			ft_enemy(void *param);
-void			update_enemy_positions(t_table *table);
 void			set_image_instance_pos(mlx_instance_t *instance, int x, int y);
 
 // player_texture.
@@ -227,12 +225,25 @@ long			get_time(char type);
 void			draw_minimap(t_table *table);
 void			convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
 
+//process_line.c
+int				process_line(char *line, t_table *table, char **trimnl);
+
 // read_file.c
 int				read_file(t_table *table);
+
+// read_file_utils.c
+int				open_file(const char *filename);
+int				is_map_line(char *line);
+int				is_only_newline(char *line);
 
 // free.c
 void			free_map(char **map, size_t i);
 void			free_table(char ***table);
+
+// init_game_state_images.c
+void	init_controls(t_table *table);
+void	init_gamewon(t_table *table);
+void	init_gameover(t_table *table);
  
 // main_menu
 int		init_main_menu(t_table *table);
@@ -247,6 +258,7 @@ void	init_gamewon(t_table *table);
 void	run_gamestate_img(t_table *table, mlx_image_t * img, int delay);
 void	init_controls(t_table *table);
 void	display_controls(t_table *table);
+int		init_buttons(t_table *table);
 
 void			ft_hook(void* param);
 

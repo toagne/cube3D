@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:32:58 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/28 14:03:24 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 10:32:04 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-mlx_texture_t *load_texture(char *str)
+mlx_texture_t	*load_texture(char *str)
 {
 	mlx_texture_t	*texture;
 
@@ -25,7 +25,7 @@ mlx_texture_t *load_texture(char *str)
 	return (texture);
 }
 
-mlx_image_t *load_image(mlx_t *mlx, char *str)
+mlx_image_t	*load_image(mlx_t *mlx, char *str)
 {
 	mlx_image_t		*img;
 	mlx_texture_t	*texture;
@@ -42,6 +42,7 @@ mlx_image_t *load_image(mlx_t *mlx, char *str)
 	}
 	return (img);
 }
+
 void	convert_texture(t_texture *my_tx, uint32_t ***tx_colors, char *str)
 {
 	uint32_t		i;

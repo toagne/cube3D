@@ -12,7 +12,7 @@
 
 #include "../inc/cub3d.h"
 
-static int validate_file_ext(char *file)
+static int	validate_file_ext(char *file)
 {
 	char	*ext;
 
@@ -44,7 +44,7 @@ static int	validate_map_char(char c)
 	return (0);
 }
 
-static int validate_map_chars(t_table *table)
+static int	validate_map_chars(t_table *table)
 {
 	size_t	col;
 	size_t	row;
@@ -73,7 +73,7 @@ static int validate_map_chars(t_table *table)
 	return (1);
 }
 
-int validate_map_chars_and_ext(t_table *table)
+int	validate_map_chars_and_ext(t_table *table)
 {
 	if (!validate_file_ext(table->filename))
 		return (0);

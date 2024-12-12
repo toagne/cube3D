@@ -6,7 +6,7 @@
 /*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 10:34:15 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/11 10:34:30 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/12 10:15:48 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ static char	*fill_ones(int len, char *line)
 	return (newline);
 }
 
-int fill_ones_to_map(char ***map)
+int	fill_ones_to_map(char ***map)
 {
 	size_t	i;
 	size_t	len;
-	char *temp;
+	char	*temp;
 
 	i = 0;
 	len = find_length_of_longest_line(*map);

@@ -6,13 +6,13 @@
 /*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 10:43:16 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/11 10:43:25 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/12 10:30:09 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-static void set_element_texture(char **texture_path, char *texture, int *dup_id)
+static void	set_ele_texture(char **texture_path, char *texture, int *dup_id)
 {
 	if (!(*texture_path))
 		*texture_path = texture;
@@ -23,27 +23,27 @@ static void set_element_texture(char **texture_path, char *texture, int *dup_id)
 static void	choose_element_and_set(t_table *table, char *str, char *texture)
 {
 	if (ft_strncmp(str, "NO ", 3) == 0)
-		set_element_texture(&table->no_path_texture, texture, &table->duplicate_id);
+		set_ele_texture(&table->no_path_texture, texture, &table->duplicate_id);
 	else if (ft_strncmp(str, "SO ", 3) == 0)
-		set_element_texture(&table->so_path_texture, texture, &table->duplicate_id);
+		set_ele_texture(&table->so_path_texture, texture, &table->duplicate_id);
 	else if (ft_strncmp(str, "WE ", 3) == 0)
-		set_element_texture(&table->ws_path_texture, texture, &table->duplicate_id);
+		set_ele_texture(&table->ws_path_texture, texture, &table->duplicate_id);
 	else if (ft_strncmp(str, "EA ", 3) == 0)
-		set_element_texture(&table->es_path_texture, texture, &table->duplicate_id);
+		set_ele_texture(&table->es_path_texture, texture, &table->duplicate_id);
 }
 
-static int  check_element_id(t_table *table, char *line, char *str)
+static int	check_element_id(t_table *table, char *line, char *str)
 {
 	char	*temp;
 	char	*temp1;
-	temp = NULL;
+
 	if (ft_strncmp(line, str, 3) == 0)
 	{
 		temp = ft_strtrim(line, str);
 		if (!temp)
 			return (1);
 		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
+		free(temp);
 		choose_element_and_set(table, str, temp1);
 		return (0);
 	}
@@ -53,7 +53,7 @@ static int  check_element_id(t_table *table, char *line, char *str)
 		if (!temp)
 			return (1);
 		temp1 = ft_strtrim(temp, " ");
-		free(temp); 
+		free(temp);
 		if (parse_rgb(table, temp1, str[0]))
 			return (1);
 		return (0);
@@ -61,7 +61,7 @@ static int  check_element_id(t_table *table, char *line, char *str)
 	return (1);
 }
 
-int check_element_ids(t_table *table, char *line)
+int	check_element_ids(t_table *table, char *line)
 {
 	if (!check_element_id(table, line, "NO "))
 		return (0);

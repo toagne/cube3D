@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:37:42 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/05 18:11:35 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/12 10:16:14 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	check_player_dir(char dir)
 	return ('\0');
 }
 
-void set_player_position(t_table *table)
+void	set_player_position(t_table *table)
 {
 	size_t	player_pos_x;
 	size_t	player_pos_y;

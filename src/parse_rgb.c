@@ -6,7 +6,7 @@
 /*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 10:39:51 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/11 10:40:25 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/12 10:28:37 by omartela         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static int	convert_arr_to_int(int *array, char **rgb_arr)
 
 int	parse_rgb(t_table *table, char *color, char c)
 {
-	char **rgb_arr;
-	int	*array;
+	char	**rgb_arr;
+	int		*array;
 
 	rgb_arr = ft_split(color, ',');
 	free(color);
