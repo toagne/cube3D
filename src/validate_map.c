@@ -11,7 +11,19 @@
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
-
+static int	check_sides(t_table *table, size_t row, size_t col)
+{
+	while (row < table->rows)
+	{
+		if (table->map[row][col] != '1')
+		{
+			ft_error("Map has invalid characters at sides");
+			return (0);
+		}
+		++row;
+	}
+	return (1);
+}
 static int	validate_walls_sides(t_table *table)
 {
 	size_t	col;
@@ -19,26 +31,12 @@ static int	validate_walls_sides(t_table *table)
 
 	row = 0;
 	col = 0;
-	while (row < table->rows)
-	{
-		if (table->map[row][col] != '1')
-		{
-			ft_error("Map has invalid characters at sides");
-			return (0);
-		}
-		++row;
-	}
+	if (!check_sides(table, row, col))
+		return (0);
 	row = 0;
 	col = table->columns - 1;
-	while (row < table->rows)
-	{
-		if (table->map[row][col] != '1')
-		{
-			ft_error("Map has invalid characters at sides");
-			return (0);
-		}
-		++row;
-	}
+	if (!check_sides(table, row, col))
+		return (0);
 	return (1);
 }
 
