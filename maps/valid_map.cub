@@ -1,7 +1,7 @@
 NO ./pngs/texture_no.png
-SO ./pngs/texture_so.png
-WE ./pngs/texture_es.png
-EA ./pngs/texture_ws.png
+SO ./pngs/GrayWalls.png
+WE ./pngs/DesolatedHut.png
+EA ./pngs/ColdDungeon.png
 
 F 250,100,0
 C 225,30,0

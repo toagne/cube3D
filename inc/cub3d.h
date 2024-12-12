@@ -93,6 +93,10 @@ typedef struct s_button
 	mlx_image_t *colored;
 	mlx_image_t *white;
 	int			status;
+	int			width;
+	int			height;
+	int			x;
+	int			y;
 } t_button;
 
 typedef struct s_table
@@ -154,6 +158,7 @@ typedef struct s_table
 	int32_t			y_mouse;
 	t_button		play_button;
 	t_button		exit_button;
+	t_button		controls_button;
 	mlx_image_t		*bg_img;
 	long			last_time;
 	uint32_t		**w_colors;
@@ -164,8 +169,10 @@ typedef struct s_table
 	long			menudelaytime;
 	mlx_image_t		*gameoverimg;
 	mlx_image_t		*gamewonimg;
+	mlx_image_t		*controlsimg;
 	int				gameover_on;
 	int				gamewon_on;
+	int				controls_on;
 }	t_table;
 
 // init.c
@@ -175,8 +182,6 @@ void			init_texture_and_images(t_table *table);
 
 void			ft_keyboard(mlx_key_data_t keydata, void *param);
 void			ft_hook(void* param);
-void			ft_enemy(void *param);
-void			update_enemy_positions(t_table *table);
 void			set_image_instance_pos(mlx_instance_t *instance, int x, int y);
 
 // player_texture.
@@ -189,11 +194,23 @@ void			draw_raycasting(t_table *table);
 // read_map.c
 int				read_map(t_table *table, int fd, char *line);
 
+//parse_rgb.c
+int				parse_rgb(t_table *table, char *color, char c);
+
+//parse_element_identifier.c
+int				check_element_ids(t_table *table, char *line);
+
+// read_map_utils.c
+int				fill_ones_to_map(char ***map);
+
 // error.c
 void    		ft_error(char *s1);
 
 // validate_map.c
 int				validate_map(t_table *table);
+
+// validate_map_utils.c
+int validate_map_chars_and_ext(t_table *table);
 
 // load_images.c
 mlx_image_t 	*load_image(mlx_t *mlx, char *str);
@@ -208,24 +225,40 @@ long			get_time(char type);
 void			draw_minimap(t_table *table);
 void			convert_rays_for_minimap(t_table *table, float angle, float ray_angle);
 
+//process_line.c
+int				process_line(char *line, t_table *table, char **trimnl);
+
 // read_file.c
 int				read_file(t_table *table);
+
+// read_file_utils.c
+int				open_file(const char *filename);
+int				is_map_line(char *line);
+int				is_only_newline(char *line);
 
 // free.c
 void			free_map(char **map, size_t i);
 void			free_table(char ***table);
+
+// init_game_state_images.c
+void	init_controls(t_table *table);
+void	init_gamewon(t_table *table);
+void	init_gameover(t_table *table);
  
 // main_menu
-void init_main_menu(t_table *table);
-void animate_button(t_button *button);
-void ft_mouse(void *param);
+int		init_main_menu(t_table *table);
+void	animate_button(t_button *button);
+void	ft_mouse(void *param);
 void	display_main_menu(t_table *table);
 void	undisplay_main_menu(t_table *table);
 void	display_gameover(t_table *table);
 void	display_gamewon(t_table *table);
 void	init_gameover(t_table *table);
 void	init_gamewon(t_table *table);
-void	run_gamestate_img(t_table *table, mlx_image_t * img);
+void	run_gamestate_img(t_table *table, mlx_image_t * img, int delay);
+void	init_controls(t_table *table);
+void	display_controls(t_table *table);
+int		init_buttons(t_table *table);
 
 void			ft_hook(void* param);
 
