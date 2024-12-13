@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 15:50:38 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 14:01:58 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:55:22 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static mlx_image_t	*init_background(t_table *table)
 {
 	mlx_image_t	*img;
 
-	img = load_image(table->mlx_start, "pngs/Background_0.png");
+	img = load_image(table->mlx_start, "pngs/Background_0.png", table);
 	if (!img)
 		return (NULL);
 	if (!mlx_resize_image(img, table->width, table->height))
@@ -76,12 +76,12 @@ int	init_main_menu(t_table *table)
 	table->bg_img = init_background(table);
 	if (!table->bg_img)
 	{
-		printf("Initializing background failed \n");
+		ft_error("Initializing background failed", table);
 		return (1);
 	}
 	if (init_buttons(table))
 	{
-		printf("Initializing button failed \n");
+		ft_error("Initializing button failed", table);
 		return (1);
 	}
 	return (0);

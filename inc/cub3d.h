@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:20:06 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 15:20:16 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:10:54 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,133 +228,143 @@ typedef struct s_table
 	float			tile_step_y;
 	t_fireball		fireball;
 	int				controls_on;
+	int				printf_flag;
 }	t_table;
 
-// init.c
-int				init_static_data(t_table *table);
-void			init_dynamic_data(t_table *table);
-int				init_mlx_images_and_textures(t_table *t);
+// collisions.c
+int				wall_coll_w_circular_bumper(t_table *table, float new_x,
+					float new_y, t_collision *coll_data);
 
-// keyboard.c
-void			ft_keyboard(mlx_key_data_t keydata, void *param);
-void			move_right_left(t_table *table, t_collision *p_coll);
-void			move_up_down(t_table *table, t_collision *p_coll);
-void			move_visual(t_table *table);
+// create_doors.c
+void			add_doors(t_table *table);
 
-void			ft_hook(void *param);
-void			ft_enemy(void *param);
-void			update_enemy_positions(t_table *table);
-void			set_image_instance_pos(mlx_instance_t *instance, int x, int y);
-
-// player_texture.
-int				insert_player_texture(t_table *table);
-void			animate_attack(t_table *table, t_fireball *f);
-int				animate_enemy(t_table *table);
-
-void			draw_raycasting(t_table *table);
-
-// read_map.c
-int				read_map(t_table *table, int fd, char *line);
-
-//parse_rgb.c
-int				parse_rgb(t_table *table, char *color, char c);
-
-//parse_element_identifier.c
-int				check_element_ids(t_table *table, char *line);
-
-// read_map_utils.c
-int				fill_ones_to_map(char ***map);
+// drawing_utils.c
+void			draw_line(t_line *line, t_table *table, int type,
+					mlx_image_t *img);
 
 // error.c
-void			ft_error(char *s1);
-
-// validate_map.c
-int				validate_map(t_table *table);
-
-// validate_map_utils.c
-int				validate_map_chars_and_ext(t_table *table);
-
-// load_images.c
-mlx_image_t		*load_image(mlx_t *mlx, char *str);
-mlx_texture_t	*load_texture(char *str);
-void			convert_tx(t_table *t, t_texture *tx,
-					uint32_t ***tx_colors, char *str);
-
-unsigned int	get_rgba(int r, int g, int b, int a);
-int				get_monitor_size(int *width, int *height);
-float			deg_to_rad(float deg);
-long			get_time(t_table *table, char type);
-int				my_rand(t_table *table);
-
-void			draw_minimap(t_table *table);
-
-//process_line.c
-int				process_line(char *line, t_table *table, char **trimnl);
-
-// read_file.c
-int				read_file(t_table *table);
-
-// read_file_utils.c
-int				open_file(const char *filename);
-int				is_map_line(char *line);
-int				is_only_newline(char *line);
+void			ft_error(char *s1, t_table *table);
 
 // free.c
-void			free_map(char ***map, size_t i);
-void			free_table(char ***table);
 void			free_all(t_table *table);
+void			free_table(char ***table);
+void			free_map(char ***map, size_t i);
+
+// game_state_images.c
+void			display_controls(t_table *table);
+void			display_gamewon(t_table *table);
+void			display_gameover(t_table *table);
+void			run_gamestate_img(t_table *table, mlx_image_t *img, int delay);
 
 // init_game_state_images.c
 int				init_controls(t_table *table);
 int				init_gamewon(t_table *table);
 int				init_gameover(t_table *table);
 
-// main_menu
-int				init_main_menu(t_table *table);
-void			animate_button(t_button *button);
-void			ft_mouse(void *param);
-void			display_main_menu(t_table *table);
-void			undisplay_main_menu(t_table *table);
-void			display_gameover(t_table *table);
-void			display_gamewon(t_table *table);
-void			run_gamestate_img(t_table *table, mlx_image_t *img, int delay);
-void			display_controls(t_table *table);
-int				init_buttons(t_table *table);
+// init.c
+int				init_static_data(t_table *table);
+void			init_dynamic_data(t_table *table);
 
-void			ft_hook(void *param);
-
-void			init_enemies(t_table *table);
-void			insert_fireball(t_table *table);
-
-void			draw_sprites(t_table *table);
-
-void			draw_line(t_line *line, t_table *table,
-					int type, mlx_image_t *img);
-
-void			check_vertical_lines(t_table *table, float angle);
-void			check_horizontal_lines(t_table *table, float angle);
-void			chose_shortest_ray(t_table *table);
-
-void			select_texture(t_table *table, t_texture *tx);
-void			get_coordinates_in_texture(t_table *table);
-
-void			convert_sprite_sizes(t_table *table, float angle_diff,
-					t_enemy *sp);
-void			order_sprites(t_enemy *sp);
-void			set_treshold_for_movement(t_table *table, float *move_x,
-					float *move_y, int i);
-void			check_collisions(t_table *table, t_enemy *sp,
-					t_collision *s_coll);
-
-void			add_doors(t_table *table);
-void			get_random_win_spot(t_table *table);
-
-// collisions.c
-int				wall_coll_w_circular_bumper(t_table *table, float new_x,
-					float new_y, t_collision *coll_data);
+// keyboard.c
+void			ft_keyboard(mlx_key_data_t keydata, void *param);
+void			move_right_left(t_table *t, t_collision *p_coll);
+void			move_up_down(t_table *t, t_collision *p_coll);
+void			move_visual(t_table *t);
 
 // kill_sprite.c
 void			kill_sprite(t_table *table);
 void			draw_pointer(t_table *table);
+
+// load_images.c
+void			convert_tx(t_table *t, t_texture *my_tx,
+					uint32_t ***tx_colors, char *str);
+mlx_image_t		*load_image(mlx_t *mlx, char *str, t_table *table);
+
+// mainmenu_utils.c
+int				init_buttons(t_table *table);
+
+// mainmenu.c
+int				init_main_menu(t_table *table);
+void			undisplay_main_menu(t_table *table);
+void			display_main_menu(t_table *table);
+void			animate_button(t_button *button);
+
+// minimap.c
+void			draw_minimap(t_table *table);
+
+// mouse.c
+void			ft_mouse(void *param);
+
+// movement.c
+void			ft_hook(void *param);
+
+// parse_element_identifier.c
+int				check_element_ids(t_table *table, char *line);
+
+// parse_rgb.c
+int				parse_rgb(t_table *table, char *color, char c);
+
+// player_texture.c
+int				insert_player_texture(t_table *table);
+void			animate_attack(t_table *t, t_fireball *f);
+void			insert_fireball(t_table *t);
+
+// process_lines.c
+int				process_line(char *line, t_table *table, char **trimnl);
+
+// raycasting.c
+void			draw_raycasting(t_table *table);
+
+// read_file_utils.c
+int				is_only_newline(char *line);
+int				is_map_line(char *line);
+int				open_file(const char *filename, t_table *table);
+
+// read_file.c
+int				read_file(t_table *table);
+
+// read_map_utils.c
+int				fill_ones_to_map(char ***map);
+
+// read_map.c
+int				read_map(t_table *table, int fd, char *line);
+
+// sprite_utils.c
+void			check_collisions(t_table *table, t_enemy *sp,
+					t_collision *s_coll);
+void			set_treshold_for_movement(t_table *table,
+					float *move_x, float *move_y, int i);
+void			order_sprites(t_enemy *sp);
+void			convert_sprite_sizes(t_table *table,
+					float angle_diff, t_enemy *sp);
+
+// sprites.c
+void			draw_sprites(t_table *t);
+
+// utils_1.c
+void			init_enemies(t_table *table);
+void			get_random_win_spot(t_table *table);
+
+// utils.c
+long			get_time(t_table *table, char type);
+int				my_rand(t_table *table);
+float			deg_to_rad(float deg);
+int				get_monitor_size(int *width, int *height, t_table *table);
+unsigned int	get_rgba(int r, int g, int b, int a);
+
+// validate_maps_utils.c
+int				validate_map_chars_and_ext(t_table *table);
+
+// validate_map.c
+int				validate_map(t_table *table);
+
+// walls_check.c
+void			check_vertical_lines(t_table *t, float angle);
+void			check_horizontal_lines(t_table *t, float angle);
+void			chose_shortest_ray(t_table *table);
+
+// walls_texture.c
+void			get_coordinates_in_texture(t_table *table);
+void			select_texture(t_table *table, t_texture *tx);
 
 #endif

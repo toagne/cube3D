@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 17:22:40 by giuls             #+#    #+#             */
-/*   Updated: 2024/12/12 15:53:45 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:48:32 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	draw_pointer(t_table *table)
 		table->height / 2, 0xFFFFFFFF);
 }
 
-float	calculate_angle_diff(t_table *table, float angle_to_enemy)
+static float	calculate_angle_diff(t_table *table, float angle_to_enemy)
 {
 	float	angle_diff;
 
@@ -53,7 +53,7 @@ float	calculate_angle_diff(t_table *table, float angle_to_enemy)
 	return (angle_diff);
 }
 
-float	calculate_angle_to_enemy(int dx, int dy)
+static float	calculate_angle_to_enemy(int dx, int dy)
 {
 	float	angle_to_enemy;
 
@@ -65,7 +65,7 @@ float	calculate_angle_to_enemy(int dx, int dy)
 	return (angle_to_enemy);
 }
 
-void	get_killing_zone(t_table *table, float *closest_ray,
+static void	get_killing_zone(t_table *table, float *closest_ray,
 	int *closest_enemy_index, int i)
 {
 	int		dx;

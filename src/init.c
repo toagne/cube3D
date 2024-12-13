@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 10:20:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 16:40:49 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:39:30 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	init_mlx_images_and_textures(t_table *t)
+static int	init_mlx_images_and_textures(t_table *t)
 {
 	t->mlx_start = mlx_init(t->width, t->height, "cub3D", false);
 	if (!t->mlx_start)
@@ -20,8 +20,8 @@ int	init_mlx_images_and_textures(t_table *t)
 	t->mlx_minimap = mlx_new_image(t->mlx_start, t->width, t->height);
 	t->mlx_raycast = mlx_new_image(t->mlx_start, t->width, t->height);
 	t->ball_image = mlx_new_image(t->mlx_start, t->width, t->height);
-	t->right_hand = load_image(t->mlx_start, "pngs/rigth_hand.png");
-	t->left_hand = load_image(t->mlx_start, "pngs/left_hand.png");
+	t->right_hand = load_image(t->mlx_start, "pngs/rigth_hand.png", t);
+	t->left_hand = load_image(t->mlx_start, "pngs/left_hand.png", t);
 	if (!t->mlx_minimap || !t->mlx_raycast || !t->ball_image
 		|| !t->right_hand || !t->left_hand)
 		return (1);
@@ -44,7 +44,7 @@ static int	alloc_window_colors(t_table *t)
 	t->w_colors = (uint32_t **)ft_calloc((t->height + 1), sizeof(uint32_t *));
 	if (!t->w_colors)
 	{
-		printf("Memory allocation failed for rows\n");
+		ft_error("Memory allocation failed for rows", t);
 		return (1);
 	}
 	i = -1;
@@ -57,7 +57,7 @@ static int	alloc_window_colors(t_table *t)
 				free(t->w_colors[i]);
 			free(t->w_colors);
 			t->w_colors = NULL;
-			printf("Memory allocation failed for columns\n");
+			ft_error("Memory allocation failed for columns", t);
 			return (1);
 		}
 	}
@@ -66,11 +66,11 @@ static int	alloc_window_colors(t_table *t)
 
 int	init_static_data(t_table *t)
 {
-	if (get_monitor_size(&t->width, &t->height))
+	if (get_monitor_size(&t->width, &t->height, t))
 		return (1);
 	if (init_mlx_images_and_textures(t))
 	{
-		printf("mlx_init or mlx_new_image failed\n");
+		ft_error("mlx_init or mlx_new_image failed", t);
 		return (1);
 	}
 	t->player_delta_x = cos((float)t->player_angle / 180 * PI);
@@ -82,6 +82,7 @@ int	init_static_data(t_table *t)
 	t->last_time = get_time(t, 'u');
 	t->enemy_attack = 0;
 	t->duplicate_id = 0;
+	t->printf_flag = 0;
 	if (alloc_window_colors(t) == 1)
 		return (1);
 	return (0);

@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 14:03:39 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:57:47 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	fix_fisheye(t_table *table, float ray_angle)
+static void	fix_fisheye(t_table *table, float ray_angle)
 {
 	int	camera_angle;
 
@@ -24,7 +24,7 @@ void	fix_fisheye(t_table *table, float ray_angle)
 	table->ray.f_v = table->ray.f_v * cos(deg_to_rad(camera_angle));
 }
 
-void	get_wall_dimensions(t_table *table, float ray_angle,
+static void	get_wall_dimensions(t_table *table, float ray_angle,
 	int r, int n_of_rays)
 {
 	fix_fisheye(table, ray_angle);
@@ -46,7 +46,7 @@ void	get_wall_dimensions(t_table *table, float ray_angle,
 	table->ray.x_end = (r + 1) * (table->width / n_of_rays) - 1;
 }
 
-void	draw_floor_and_ceiling(t_table *t, int i)
+static void	draw_floor_and_ceiling(t_table *t, int i)
 {
 	t_line	line;
 
@@ -64,7 +64,7 @@ void	draw_floor_and_ceiling(t_table *t, int i)
 	draw_line(&line, t, 1, t->mlx_raycast);
 }
 
-void	draw_v_lines(t_table *t)
+static void	draw_v_lines(t_table *t)
 {
 	int	i;
 	int	j;

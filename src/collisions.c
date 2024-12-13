@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:15:04 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 15:40:07 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:06:37 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	circle_rectangle_collision(float circle_x, float circle_y,
+static int	circle_rectangle_collision(float circle_x, float circle_y,
 	t_collision *coll_data)
 {
 	int	closest_x;
@@ -29,7 +29,7 @@ int	circle_rectangle_collision(float circle_x, float circle_y,
 	return ((dx * dx + dy * dy) < (coll_data->r * coll_data->r));
 }
 
-void	real_collision(t_table *t, float new_x, float new_y,
+static void	real_collision(t_table *t, float new_x, float new_y,
 	t_collision *coll_data)
 {
 	int	t_x;
@@ -59,7 +59,7 @@ void	real_collision(t_table *t, float new_x, float new_y,
 	}
 }
 
-void	close_door(t_table *table, float new_x, float new_y,
+static void	close_door(t_table *table, float new_x, float new_y,
 	t_collision *coll_data)
 {
 	float	dx;
@@ -88,7 +88,8 @@ void	close_door(t_table *table, float new_x, float new_y,
 		table->map[coll_data->check_tile_y][coll_data->check_tile_x] = '2';
 }
 
-void	door_closing(t_table *t, float new_x, float new_y, t_collision *c_data)
+static void	door_closing(t_table *t, float new_x, float new_y,
+	t_collision *c_data)
 {
 	int	x;
 	int	y;

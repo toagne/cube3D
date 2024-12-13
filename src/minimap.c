@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:30 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 13:58:25 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:52:38 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_map_limits(t_table *table, t_minimap *minimap, float scale)
+static void	check_map_limits(t_table *table, t_minimap *minimap, float scale)
 {
 	int	map_width_pixels;
 	int	map_height_pixels;
@@ -33,7 +33,7 @@ void	check_map_limits(t_table *table, t_minimap *minimap, float scale)
 		minimap->y0 = map_height_pixels - minimap->view_height;
 }
 
-void	draw_map(t_table *table, t_minimap minimap, float scale)
+static void	draw_map(t_table *table, t_minimap minimap, float scale)
 {
 	int			y;
 	int			x;
@@ -62,7 +62,7 @@ void	draw_map(t_table *table, t_minimap minimap, float scale)
 	}
 }
 
-void	draw_player_in_map(t_table *t, t_minimap *minimap,
+static void	draw_player_in_map(t_table *t, t_minimap *minimap,
 	float scale, int dot_dim)
 {
 	int		x;
@@ -91,7 +91,7 @@ void	draw_player_in_map(t_table *t, t_minimap *minimap,
 	draw_line(&line, t, 0, t->mlx_minimap);
 }
 
-void	draw_sprites_in_map(t_table *table, t_minimap minimap,
+static void	draw_sprites_in_map(t_table *table, t_minimap minimap,
 	float scale, int dot_dim)
 {
 	int	i;

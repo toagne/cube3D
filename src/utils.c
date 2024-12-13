@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 10:41:29 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 16:57:13 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 10:01:11 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ unsigned int	get_rgba(int r, int g, int b, int a)
 	| (unsigned int)(a));
 }
 
-int	get_monitor_size(int *width, int *height)
+int	get_monitor_size(int *width, int *height, t_table *table)
 {
 	mlx_t	*temp;
 	int32_t	w;
@@ -30,7 +30,7 @@ int	get_monitor_size(int *width, int *height)
 	temp = mlx_init(1, 1, "", false);
 	if (!temp)
 	{
-		printf("mlx_init failed\n");
+		ft_error("mlx_init failed", table);
 		return (1);
 	}
 	mlx_get_monitor_size(0, &w, &h);
@@ -64,10 +64,8 @@ long	get_time(t_table *table, char type)
 
 	if (gettimeofday(&tv, NULL) == -1)
 	{
-		printf("gettimeofday failed\n");
+		ft_error("gettimeofday failed", table);
 		free_all(table);
-		if (table->mlx_start)
-			mlx_terminate(table->mlx_start);
 		exit(EXIT_FAILURE);
 	}
 	if (type == 's')

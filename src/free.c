@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 11:30:55 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 16:11:01 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:44:42 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	free_table(char ***table)
 	*table = NULL;
 }
 
-void	free_int_table(uint32_t ***table)
+static void	free_int_table(uint32_t ***table)
 {
 	int	i;
 
@@ -58,7 +58,7 @@ void	free_int_table(uint32_t ***table)
 	*table = NULL;
 }
 
-void	free_and_null(char **ptr)
+static void	free_and_null(char **ptr)
 {
 	free(*ptr);
 	*ptr = NULL;
@@ -84,4 +84,6 @@ void	free_all(t_table *table)
 	free_and_null(&table->so_path_texture);
 	free_and_null(&table->ws_path_texture);
 	free_and_null(&table->es_path_texture);
+	if (table->mlx_start)
+		mlx_terminate(table->mlx_start);
 }

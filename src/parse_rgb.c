@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 10:39:51 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 18:27:58 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:51:43 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	convert_arr_to_int(int *array, char **rgb_arr)
 	return (0);
 }
 
-static int	check_rgb_len(char **rgb_arr)
+static int	check_rgb_len(char **rgb_arr, t_table *table)
 {
 	int	i;
 
@@ -67,7 +67,7 @@ static int	check_rgb_len(char **rgb_arr)
 	if (i != 3)
 	{
 		free_table(&rgb_arr);
-		printf("Invalid floor or ceiling color \n");
+		ft_error("Invalid floor or ceiling color", table);
 		return (1);
 	}
 	return (0);
@@ -82,7 +82,7 @@ int	parse_rgb(t_table *table, char *color, char c)
 	free(color);
 	if (!rgb_arr)
 		return (1);
-	if (check_rgb_len(rgb_arr))
+	if (check_rgb_len(rgb_arr, table))
 		return (1);
 	array = ft_calloc(3, sizeof(int));
 	if (!array)

@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 14:55:16 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:02:32 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_sprite(t_table *table, t_enemy sp, int x)
+static void	draw_sprite(t_table *table, t_enemy sp, int x)
 {
 	int	tex_x;
 	int	tex_y;
@@ -40,7 +40,7 @@ void	draw_sprite(t_table *table, t_enemy sp, int x)
 			table->sprite_frames++;
 }
 
-void	select_texture_part_size_and_draw(t_table *table, t_enemy sp)
+static void	select_texture_part_size_and_draw(t_table *table, t_enemy sp)
 {
 	int		x;
 	float	column_angle;
@@ -65,7 +65,7 @@ void	select_texture_part_size_and_draw(t_table *table, t_enemy sp)
 	}
 }
 
-void	render_sprite(t_table *table, int i)
+static void	render_sprite(t_table *table, int i)
 {
 	float	angle_diff;
 
@@ -82,7 +82,7 @@ void	render_sprite(t_table *table, int i)
 	select_texture_part_size_and_draw(table, table->enemies[i]);
 }
 
-void	real_drawing(t_table *table)
+static void	real_drawing(t_table *table)
 {
 	int	y;
 	int	x;

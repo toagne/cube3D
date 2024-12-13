@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:13:30 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 14:19:12 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:54:25 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	get_time_each_frame(t_table *table)
+static void	get_time_each_frame(t_table *table)
 {
 	long	current_time;
 	long	delta_time;
@@ -23,7 +23,7 @@ void	get_time_each_frame(t_table *table)
 	table->d_t_in_s = (float)delta_time / 1000000;
 }
 
-void	move_player(t_table *table)
+static void	move_player(t_table *table)
 {
 	t_collision	p_coll;
 
@@ -35,7 +35,7 @@ void	move_player(t_table *table)
 	move_visual(table);
 }
 
-void	move_sprite(t_table *table, float move_x, float move_y, int i)
+static void	move_sprite(t_table *table, float move_x, float move_y, int i)
 {
 	t_collision	s_coll;
 
@@ -52,7 +52,7 @@ void	move_sprite(t_table *table, float move_x, float move_y, int i)
 	check_collisions(table, &table->enemies[i], &s_coll);
 }
 
-void	sprite_movements(t_table *table)
+static void	sprite_movements(t_table *table)
 {
 	int		i;
 	float	move_x;

@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:37:42 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 16:46:36 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:00:20 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	check_player_dir(char dir)
 	return ('\0');
 }
 
-void	set_player_position(t_table *table)
+static void	set_player_position(t_table *table)
 {
 	size_t	player_pos_x;
 	size_t	player_pos_y;
@@ -98,11 +98,6 @@ int	read_map(t_table *table, int fd, char *line)
 		return (1);
 	}
 	table->columns = ft_strlen(map[0]);
-	if (table->columns > MAX_COLUMNS || table->rows > MAX_ROWS)
-	{
-		printf("limit for max n of rows or columns reached\n");
-		return (1);
-	}
 	table->map = map;
 	set_player_position(table);
 	return (0);

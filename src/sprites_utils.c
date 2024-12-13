@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:47:36 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 14:46:27 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:01:38 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_limits(t_table *table, t_enemy *sp, float v_offset)
+static void	check_limits(t_table *table, t_enemy *sp, float v_offset)
 {
 	if (sp->x_start < 0)
 	{

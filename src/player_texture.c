@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 15:15:57 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 15:19:50 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:10:36 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	draw_animation(t_table *t, t_fireball *f, int x, int y)
+static void	draw_animation(t_table *t, t_fireball *f, int x, int y)
 {
 	float		tx;
 	float		ty;
@@ -70,7 +70,7 @@ void	animate_attack(t_table *t, t_fireball *f)
 	}
 }
 
-void	draw_scaled_fireball(t_fireball	fireball, float tx, float ty,
+static void	draw_scaled_fireball(t_fireball	fireball, float tx, float ty,
 	t_table *table)
 {
 	int			y;

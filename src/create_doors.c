@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 11:34:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 18:30:54 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:41:56 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	flood_fill(int h, int w, char labeled_map[MAX_ROWS][MAX_COLUMNS],
+static void	flood_fill(int h, int w, char labeled_map[MAX_ROWS][MAX_COLUMNS],
 	t_door_helper door)
 {
 	if (door.x < 0 || door.y < 0 || door.x >= w || door.y >= h
@@ -30,7 +30,7 @@ void	flood_fill(int h, int w, char labeled_map[MAX_ROWS][MAX_COLUMNS],
 	flood_fill(h, w, labeled_map, door);
 }
 
-void	place_doors(t_table *table, int door_index, t_door_helper *door)
+static void	place_doors(t_table *table, int door_index, t_door_helper *door)
 {
 	int	i;
 	int	room_1;
@@ -59,7 +59,7 @@ void	place_doors(t_table *table, int door_index, t_door_helper *door)
 	}
 }
 
-void	label_map(char labeled_map[MAX_ROWS][MAX_COLUMNS],
+static void	label_map(char labeled_map[MAX_ROWS][MAX_COLUMNS],
 	t_door_helper *helper)
 {
 	helper->room_1 = '0';
@@ -83,7 +83,7 @@ void	label_map(char labeled_map[MAX_ROWS][MAX_COLUMNS],
 	}
 }
 
-void	walls_separating_rooms(t_table *t, int h, int w,
+static void	walls_separating_rooms(t_table *t, int h, int w,
 	char labeled_map[MAX_ROWS][MAX_COLUMNS])
 {
 	t_door_helper	temp_door[MAX_COLUMNS * MAX_ROWS];

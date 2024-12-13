@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:32:35 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 15:56:23 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:03:20 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	is_pos_valid(t_table *t, int x_tile, int y_tile)
+static int	is_pos_valid(t_table *t, int x_tile, int y_tile)
 {
 	if (abs(x_tile - t->player_col) > (int)t->columns / 2
 		&& abs(y_tile - t->player_row) > (int)t->rows / 2)
@@ -56,7 +56,7 @@ void	get_random_win_spot(t_table *table)
 		printf("Warning: map too small to place win spot\n");
 }
 
-int	is_position_valid(t_table *table, size_t x, size_t y)
+static int	is_position_valid(t_table *table, size_t x, size_t y)
 {
 	int	e_y;
 	int	e_x;
@@ -78,7 +78,7 @@ int	is_position_valid(t_table *table, size_t x, size_t y)
 	return (1);
 }
 
-int	max_attempt_reached(int attempts)
+static int	max_attempt_reached(int attempts)
 {
 	if (attempts == 20)
 	{

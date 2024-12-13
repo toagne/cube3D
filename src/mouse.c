@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:10:53 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/12 16:27:30 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:53:32 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	move_visual_with_mouse(t_table *table)
+static void	move_visual_with_mouse(t_table *table)
 {
 	int	delta_x_mouse;
 
@@ -38,7 +38,7 @@ void	move_visual_with_mouse(t_table *table)
 	}
 }
 
-int	click_play_button(t_table *t)
+static int	click_play_button(t_table *t)
 {
 	if (t->x_mouse > t->play_button.white->instances[0].x
 		&& t->x_mouse < t->play_button.white->instances[0].x + t->width / 6
@@ -62,7 +62,7 @@ int	click_play_button(t_table *t)
 	return (0);
 }
 
-void	click_exit_button(t_table *t)
+static void	click_exit_button(t_table *t)
 {
 	if (t->x_mouse > t->exit_button.white->instances[0].x
 		&& t->x_mouse < t->exit_button.white->instances[0].x + t->width / 6
@@ -74,7 +74,6 @@ void	click_exit_button(t_table *t)
 		if (mlx_is_mouse_down(t->mlx_start, MLX_MOUSE_BUTTON_LEFT))
 		{
 			free_all(t);
-			mlx_terminate(t->mlx_start);
 			exit (EXIT_SUCCESS);
 		}
 	}
@@ -85,7 +84,7 @@ void	click_exit_button(t_table *t)
 	}
 }
 
-void	click_controls_button(t_table *t)
+static void	click_controls_button(t_table *t)
 {
 	if (t->x_mouse > t->controls_button.white->instances[0].x
 		&& t->x_mouse < t->controls_button.white->instances[0].x + t->width / 6

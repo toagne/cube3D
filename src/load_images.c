@@ -6,44 +6,44 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:32:58 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 16:41:08 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:50:15 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-mlx_texture_t	*load_texture(char *str)
+static mlx_texture_t	*load_texture(char *str, t_table *table)
 {
 	mlx_texture_t	*texture;
 
 	texture = mlx_load_png(str);
 	if (!texture)
 	{
-		ft_error("Load texture failed");
+		ft_error("Load texture failed", table);
 		return (NULL);
 	}
 	return (texture);
 }
 
-mlx_image_t	*load_image(mlx_t *mlx, char *str)
+mlx_image_t	*load_image(mlx_t *mlx, char *str, t_table *table)
 {
 	mlx_image_t		*img;
 	mlx_texture_t	*texture;
 
-	texture = load_texture(str);
+	texture = load_texture(str, table);
 	if (!texture)
 		return (NULL);
 	img = mlx_texture_to_image(mlx, texture);
 	mlx_delete_texture(texture);
 	if (!img)
 	{
-		ft_error("Load image failed");
+		ft_error("Load image failed", table);
 		return (NULL);
 	}
 	return (img);
 }
 
-void	alloc_colors_memory(t_table *t, uint32_t ***tx_colors,
+static void	alloc_colors_memory(t_table *t, uint32_t ***tx_colors,
 	mlx_texture_t *tx)
 {
 	uint32_t	i;
@@ -52,7 +52,7 @@ void	alloc_colors_memory(t_table *t, uint32_t ***tx_colors,
 	if (!(*tx_colors))
 	{
 		free_all(t);
-		printf("Memory allocation failed for rows\n");
+		ft_error("Memory allocation failed for rows", t);
 		exit(EXIT_FAILURE);
 	}
 	i = -1;
@@ -62,14 +62,18 @@ void	alloc_colors_memory(t_table *t, uint32_t ***tx_colors,
 				sizeof(uint32_t));
 		if (!(*tx_colors)[i])
 		{
+			while (--i)
+				free((*tx_colors)[i]);
+			free(*tx_colors);
+			*tx_colors = NULL;
 			free_all(t);
-			printf("Memory allocation failed for columns\n");
+			ft_error("Memory allocation failed for columns", t);
 			exit(EXIT_FAILURE);
 		}
 	}
 }
 
-void	populate_colors_array(uint32_t ***tx_colors, mlx_texture_t	*tx)
+static void	populate_colors_array(uint32_t ***tx_colors, mlx_texture_t	*tx)
 {
 	uint32_t	i;
 	uint32_t	x;
@@ -94,11 +98,11 @@ void	convert_tx(t_table *t, t_texture *my_tx,
 {
 	mlx_texture_t	*tx;
 
-	tx = load_texture(str);
+	tx = load_texture(str, t);
 	if (!tx)
 	{
 		free_all(t);
-		printf("Load texture failed \n");
+		ft_error("Load texture failed", t);
 		exit(EXIT_FAILURE);
 	}
 	alloc_colors_memory(t, tx_colors, tx);

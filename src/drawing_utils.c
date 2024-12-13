@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 13:14:14 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/11 13:56:56 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:42:44 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	find_increment(int i0, int i1)
+static int	find_increment(int i0, int i1)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ int	find_increment(int i0, int i1)
 	return (i);
 }
 
-void	find_next_point(t_line *line)
+static void	find_next_point(t_line *line)
 {
 	line->e2 = 2 * line->err;
 	if (line->e2 > -line->dy)
