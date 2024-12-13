@@ -6,13 +6,13 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:45:34 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/05 18:36:50 by mpellegr         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:57:47 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	fix_fisheye(t_table *table, float ray_angle)
+static void	fix_fisheye(t_table *table, float ray_angle)
 {
 	int	camera_angle;
 
@@ -24,7 +24,8 @@ void	fix_fisheye(t_table *table, float ray_angle)
 	table->ray.f_v = table->ray.f_v * cos(deg_to_rad(camera_angle));
 }
 
-void	get_wall_dimensions(t_table *table, float ray_angle)
+static void	get_wall_dimensions(t_table *table, float ray_angle,
+	int r, int n_of_rays)
 {
 	fix_fisheye(table, ray_angle);
 	table->ray.wall_h = T_SIZE * table->height / table->ray.f_v;
@@ -41,38 +42,50 @@ void	get_wall_dimensions(t_table *table, float ray_angle)
 	table->ray.end_wall = table->ray.wall_h / 2 + table->height / 2;
 	if (table->ray.end_wall >= table->height)
 		table->ray.end_wall = table->height - 1;
-}
-
-void	get_v_lines_for_each_ray(t_table *table, int r, int n_of_rays)
-{
 	table->ray.x_start = r * (table->width / n_of_rays);
 	table->ray.x_end = (r + 1) * (table->width / n_of_rays) - 1;
 }
 
-void	draw_v_lines(t_table *table)
+static void	draw_floor_and_ceiling(t_table *t, int i)
+{
+	t_line	line;
+
+	line.x0 = i;
+	line.y0 = 0;
+	line.x1 = i;
+	line.y1 = t->ray.start_wall;
+	line.color = get_rgba(t->c_color[0], t->c_color[1], t->c_color[2], 255);
+	draw_line(&line, t, 1, t->mlx_raycast);
+	line.x0 = i;
+	line.y0 = t->ray.end_wall;
+	line.x1 = i;
+	line.y1 = t->height - 1;
+	line.color = get_rgba(t->f_color[0], t->f_color[1], t->f_color[2], 255);
+	draw_line(&line, t, 1, t->mlx_raycast);
+}
+
+static void	draw_v_lines(t_table *t)
 {
 	int	i;
 	int	j;
 	int	tex_x;
 	int	tex_y;
 
-	i = table->ray.x_start;
-	while (i <= table->ray.x_end)
+	i = t->ray.x_start;
+	while (i <= t->ray.x_end)
 	{
-		draw_line(table->mlx_3D, i, 0, i, table->ray.start_wall, get_rgba(table->c_color[0], table->c_color[1], table->c_color[2], 255), table, 1);
-		draw_line(table->mlx_3D, i, table->ray.end_wall, i, table->height - 1, get_rgba(table->f_color[0], table->f_color[1], table->f_color[2], 255), table, 1);
-		j = table->ray.start_wall;
-		table->ray.ty = table->ray.tx_v_offset * table->ray.tx_v_step;
-		while (j <= table->ray.end_wall)
+		draw_floor_and_ceiling(t, i);
+		j = t->ray.start_wall;
+		t->ray.ty = t->ray.tx_v_offset * t->ray.tx_v_step;
+		while (j <= t->ray.end_wall)
 		{
-			tex_x = (int)table->ray.tx;
-			tex_y = (int)table->ray.ty;
-			if (tex_y >= (int)table->ray.texture.height)
-				tex_y = table->ray.texture.height - 1;
-			if (table->ray.texture.colors[tex_y][tex_x] != table->w_colors[j][i])
-				table->w_colors[j][i] = table->ray.texture.colors[tex_y][tex_x];
-			//mlx_put_pixel(table->mlx_3D, i, j, table->ray.texture.colors[tex_y][tex_x]);
-			table->ray.ty += table->ray.tx_v_step;
+			tex_x = (int)t->ray.tx;
+			tex_y = (int)t->ray.ty;
+			if (tex_y >= (int)t->ray.texture.height)
+				tex_y = t->ray.texture.height - 1;
+			if (t->ray.texture.colors[tex_y][tex_x] != t->w_colors[j][i])
+				t->w_colors[j][i] = t->ray.texture.colors[tex_y][tex_x];
+			t->ray.ty += t->ray.tx_v_step;
 			j++;
 		}
 		i++;
@@ -97,15 +110,12 @@ void	draw_raycasting(t_table *table)
 		check_vertical_lines(table, angle);
 		check_horizontal_lines(table, angle);
 		chose_shortest_ray(table);
-		// following line not needed
-		draw_line(table->mlx_2D, table->player_x / 4, table->player_y / 4, table->ray.f_x / 4, table->ray.f_y / 4, 0xFFFF00FF, table, 0);
-		convert_rays_for_minimap(table, angle, ray_angle);
 		select_texture(table, &table->ray.texture);
-		get_wall_dimensions(table, ray_angle);
-		get_v_lines_for_each_ray(table, r, table->n_of_rays);
+		get_wall_dimensions(table, ray_angle, r, table->n_of_rays);
 		get_coordinates_in_texture(table);
 		draw_v_lines(table);
 		ray_angle = ray_angle + ((float)60 / table->n_of_rays);
 	}
 	draw_sprites(table);
+	draw_pointer(table);
 }

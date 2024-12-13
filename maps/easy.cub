@@ -1,18 +1,12 @@
 NO ./pngs/texture_no.png
-SO ./pngs/GrayWalls.png
-WE ./pngs/DesolatedHut.png
-EA ./pngs/ColdDungeon.png
+SO ./pngs/texture_so.png
+WE ./pngs/texture_es.png
+EA ./pngs/texture_ws.png
 
-F 220,100,0
-C 225,30,0
-
-1111111111
-1000000001
-1000000001
-1000000001
-1000000001
-1000N00001
-1000000001
-1000000001
-1000000001
-1111111111
+F 0,100,0
+C 173,216,230
+ 
+1111
+1001
+1N01
+1111

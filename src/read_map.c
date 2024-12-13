@@ -6,7 +6,7 @@
 /*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 09:37:42 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 10:16:14 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:00:20 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	read_lines(int fd, char ***map, t_table *table, char *line)
 	char	*trimmed;
 
 	ln = 1;
-	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		line = get_next_line(fd);
@@ -27,7 +26,8 @@ static int	read_lines(int fd, char ***map, t_table *table, char *line)
 			trimmed = ft_strtrim(line, "\n");
 		if (!*map || !trimmed)
 		{
-			free_map(*map, ln);
+			free_map(map, ln);
+			free(trimmed);
 			free(line);
 			return (0);
 		}
@@ -54,7 +54,7 @@ static char	check_player_dir(char dir)
 	return ('\0');
 }
 
-void	set_player_position(t_table *table)
+static void	set_player_position(t_table *table)
 {
 	size_t	player_pos_x;
 	size_t	player_pos_y;
@@ -86,22 +86,16 @@ int	read_map(t_table *table, int fd, char *line)
 {
 	char	**map;
 
-	map = malloc(1 * sizeof(char *));
+	map = ft_calloc(1, sizeof(char *));
 	if (!map)
-	{
-		close(fd);
 		return (1);
-	}
 	map[0] = line;
 	if (!read_lines(fd, &map, table, line))
-	{
-		close(fd);
 		return (1);
-	}
 	if (fill_ones_to_map(&map))
 	{
 		free_table(&map);
-		return (0);
+		return (1);
 	}
 	table->columns = ft_strlen(map[0]);
 	table->map = map;

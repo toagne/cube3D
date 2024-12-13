@@ -3,49 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:56:44 by mpellegr          #+#    #+#             */
-/*   Updated: 2024/12/09 08:33:55 by giuls            ###   ########.fr       */
+/*   Updated: 2024/12/13 12:02:32 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_sprite(t_table *table, t_enemy sp, int x)
+static void	draw_sprite(t_table *table, t_enemy sp, int x)
 {
 	int	tex_x;
 	int	tex_y;
 	int	y;
-	int animation_x_offset;
+	int	animation_x_offset;
 
 	animation_x_offset = table->sprite_frames * 200;
-	tex_x = ((x - sp.x_start) * (table->sprite_tx.width / 11)) / sp.screen_size + sp.tx_start_x + animation_x_offset;
+	tex_x = ((x - sp.x_start) * (table->sprite_tx.width / 11))
+		/ sp.screen_size + sp.tx_start_x + animation_x_offset;
 	y = sp.y_start - 1;
 	while (++y < sp.y_end)
 	{
 		tex_y = (y - sp.y_start) * (table->sprite_tx.height - 1)
-			/ sp.screen_size;
-		// printf("%08X\n", table->sprite_tx.colors[0][0]);
+			/ sp.screen_size + sp.tx_start_y;
 		if (table->sprite_tx.colors[tex_y][tex_x] != 0x00000000)
 		{
 			if (table->sprite_tx.colors[tex_y][tex_x] != table->w_colors[y][x])
 				table->w_colors[y][x] = table->sprite_tx.colors[tex_y][tex_x];
-			//mlx_put_pixel(table->mlx_3D, x, y,
-			//	table->sprite_tx.colors[tex_y][tex_x]);
 		}
 	}
-	// printf("%d\n", table->sprite_frames);
 	if (table->sprite_frames == 10)
 		table->sprite_frames = 0;
 	else
-	{
 		if (table->frame_counter % 20 == 0)
 			table->sprite_frames++;
-	}
 }
 
-void	select_texture_part_size_and_draw(t_table *table, t_enemy sp)
+static void	select_texture_part_size_and_draw(t_table *table, t_enemy sp)
 {
 	int		x;
 	float	column_angle;
@@ -70,11 +65,10 @@ void	select_texture_part_size_and_draw(t_table *table, t_enemy sp)
 	}
 }
 
-void	render_sprite(t_table *table, int i)
+static void	render_sprite(t_table *table, int i)
 {
 	float	angle_diff;
 
-	draw_dot(table, table->enemies[i].x / 4, table->enemies[i].y / 4, 2);
 	table->enemies[i].angle = atan2(table->enemies[i].dy,
 			table->enemies[i].dx) * 180 / PI;
 	if (table->enemies[i].angle < 0)
@@ -84,68 +78,48 @@ void	render_sprite(t_table *table, int i)
 		angle_diff -= 360;
 	if (angle_diff < -180)
 		angle_diff += 360;
-	if (check_sprite_is_visible(table, table->enemies[i]))
-	{
-		convert_sprite_sizes(table, angle_diff, &table->enemies[i]);
-		select_texture_part_size_and_draw(table, table->enemies[i]);
-	}
+	convert_sprite_sizes(table, angle_diff, &table->enemies[i]);
+	select_texture_part_size_and_draw(table, table->enemies[i]);
 }
 
-void	order_sprites(t_table *table, t_enemy *sp)
+static void	real_drawing(t_table *table)
 {
-	int		i;
-	int		j;
-	t_enemy	temp;
+	int	y;
+	int	x;
 
-	i = -1;
-	while (++i < N_ENEMIES)
+	y = -1;
+	while (++y < table->height)
 	{
-		sp[i].dx = sp[i].x - table->player_x;
-		sp[i].dy = sp[i].y - table->player_y;
-		sp[i].dist = sqrt((sp[i].dx * sp[i].dx) + (sp[i].dy * sp[i].dy));
-		if (sp[i].dist < 30)
-		{
-			init_dynamic_data(table);
-			display_gameover(table);
-		}
+		x = -1;
+		while (++x < table->width)
+			mlx_put_pixel(table->mlx_raycast, x, y, table->w_colors[y][x]);
 	}
-	i = -1;
-	while (++i < N_ENEMIES - 1)
-	{
-		j = -1;
-		while (++j < N_ENEMIES - i - 1)
-		{
-			if (sp[j].dist < sp[j + 1].dist)
-			{
-				temp = sp[j];
-				sp[j] = sp[j + 1];
-				sp[j + 1] = temp;
-			}
-		}
-	}
+	table->left_hand->instances[0].enabled = true;
+	table->right_hand->instances[0].enabled = true;
+	table->ball_image->instances[0].enabled = true;
 }
 
-void	draw_sprites(t_table *table)
+void	draw_sprites(t_table *t)
 {
 	int	i;
 
-	order_sprites(table, table->enemies);
 	i = -1;
 	while (++i < N_ENEMIES)
-		if (table->enemies[i].x != 0 && table->enemies[i].y != 0 && !table->enemies[i].dead)
-			render_sprite(table, i);
-	int y = -1;
-	while (++y < table->height)
 	{
-		int x = -1;
-		while (++x < table->width)
-			mlx_put_pixel(table->mlx_3D, x, y, table->w_colors[y][x]);
+		t->enemies[i].dx = t->enemies[i].x - t->player_x;
+		t->enemies[i].dy = t->enemies[i].y - t->player_y;
+		t->enemies[i].dist = sqrt((t->enemies[i].dx * t->enemies[i].dx)
+				+ (t->enemies[i].dy * t->enemies[i].dy));
+		if (t->enemies[i].dist < 30)
+		{
+			init_dynamic_data(t);
+			display_gameover(t);
+		}
 	}
-	int lim_1 = table->height / 100;
-	int lim_2 = lim_1 / 2;
-	draw_line(table->mlx_3D, table->width / 2 - lim_1, table->height / 2, table->width / 2 - lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_3D, table->width / 2, table->height / 2 - lim_1, table->width / 2, table->height / 2 - lim_2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_3D, table->width / 2 + lim_1, table->height / 2, table->width / 2 + lim_2, table->height / 2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_3D, table->width / 2, table->height / 2 + lim_1, table->width / 2, table->height / 2 + lim_2, 0xFFFFFFFF, table, 0);
-	draw_line(table->mlx_3D, table->width / 2, table->height / 2, table->width / 2, table->height / 2, 0xFFFFFFFF, table, 0);
+	order_sprites(t->enemies);
+	i = -1;
+	while (++i < N_ENEMIES)
+		if (t->enemies[i].x != 0 && t->enemies[i].y != 0 && !t->enemies[i].dead)
+			render_sprite(t, i);
+	real_drawing(t);
 }

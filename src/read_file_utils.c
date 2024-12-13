@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   read_file_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 09:55:33 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 10:01:18 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:41:29 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	open_file(const char *filename)
+int	open_file(const char *filename, t_table *table)
 {
 	int	fd;
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		ft_error("File could not be opened");
+		ft_error("File could not be opened", table);
 	return (fd);
 }
 

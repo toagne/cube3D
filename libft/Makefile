@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+         #
+#    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/22 10:55:41 by omartela          #+#    #+#              #
-#    Updated: 2024/06/27 15:18:43 by omartela         ###   ########.fr        #
+#    Updated: 2024/12/12 09:32:50 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,8 +51,7 @@ SRCS = ft_atoi.c \
 	get_next_line_utils.c \
 	ft_realloc.c \
 	ft_recalloc.c \
-	ft_strndup.c \
-	ft_string_replace.c
+	ft_strndup.c
 
 BONUS_SRCS = ft_lstadd_back_bonus.c \
 	ft_lstadd_front_bonus.c \

@@ -3,8 +3,8 @@ SO ./pngs/texture_so.png
 WE ./pngs/texture_es.png
 EA ./pngs/texture_ws.png
 
-F 220,100,0
 C 225,30,0
+F 220,100,0
 
 111111111111111111111
 101000001000000000001

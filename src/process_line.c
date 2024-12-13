@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 09:50:20 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 10:00:53 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:42:00 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	process_trimmed_line(char *line, char *trimnl, t_table *table)
 	temp = ft_skipwhitespace(trimnl);
 	if (check_element_ids(table, temp))
 	{
-		ft_error("Set element texture failed");
+		ft_error("Set element texture failed", table);
 		free(line);
 		free(trimnl);
 		return (1);

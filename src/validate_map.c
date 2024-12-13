@@ -3,27 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: giuls <giuls@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 11:44:07 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 09:47:05 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/13 10:51:05 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
 static int	check_sides(t_table *table, size_t row, size_t col)
 {
 	while (row < table->rows)
 	{
 		if (table->map[row][col] != '1')
 		{
-			ft_error("Map has invalid characters at sides");
+			ft_error("Map has invalid characters at sides", table);
 			return (0);
 		}
 		++row;
 	}
 	return (1);
 }
+
 static int	validate_walls_sides(t_table *table)
 {
 	size_t	col;
@@ -49,7 +51,7 @@ static int	validate_walls_top_bot(t_table *table)
 	{
 		if (table->map[0][col] != '1' && table->map[0][col] != ' ')
 		{
-			ft_error("Map has invalid characters top");
+			ft_error("Map has invalid characters top", table);
 			return (0);
 		}
 		++col;
@@ -60,7 +62,7 @@ static int	validate_walls_top_bot(t_table *table)
 		if (table->map[table->rows - 1][col] != '1' &&
 				table->map[table->rows - 1][col] != ' ')
 		{
-			ft_error("Map has invalid characters bot");
+			ft_error("Map has invalid characters bot", table);
 			return (0);
 		}
 		++col;

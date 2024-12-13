@@ -6,7 +6,7 @@
 #    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/12/04 14:12:20 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/12/12 17:49:07 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ SRC             = $(SRC_DIR)/main.c $(SRC_DIR)/init.c $(SRC_DIR)/keyboard.c $(SR
 					$(SRC_DIR)/minimap.c $(SRC_DIR)/raycasting.c $(SRC_DIR)/player_texture.c \
 					$(SRC_DIR)/sprites.c $(SRC_DIR)/drawing_utils.c $(SRC_DIR)/walls_check.c \
 					$(SRC_DIR)/walls_texture.c $(SRC_DIR)/sprites_utils.c $(SRC_DIR)/mainmenu.c \
-					$(SRC_DIR)/create_doors.c $(SRC_DIR)/game_state_images.c $(SRC_DIR)/validate_map_utils.c \
+					$(SRC_DIR)/create_doors.c $(SRC_DIR)/game_state_images.c $(SRC_DIR)/mouse.c \
+					$(SRC_DIR)/movement.c $(SRC_DIR)/collisions.c $(SRC_DIR)/kill_sprite.c  \
+					$(SRC_DIR)/utils_1.c $(SRC_DIR)/validate_map_utils.c \
 					$(SRC_DIR)/read_map_utils.c $(SRC_DIR)/parse_rgb.c $(SRC_DIR)/parse_element_identifier.c $(SRC_DIR)/mainmenu_utils.c \
 					$(SRC_DIR)/init_game_state_images.c $(SRC_DIR)/read_file_utils.c $(SRC_DIR)/process_line.c
 OBJ_DIR         = obj
@@ -32,7 +34,7 @@ LIBFT           = $(LIBFT_DIR)/libft.a
 
 RM              = rm -f
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code -g\
+CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code\
 					-I$(INC_DIR) \
 					-I$(MLX42_DIR)/include
 LDFLAGS         = -ldl -lglfw -pthread -lm

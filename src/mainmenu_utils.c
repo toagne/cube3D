@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mainmenu_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 09:36:58 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 10:47:42 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:50:51 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int	init_b_img(t_table *table, t_button *b, char *c, char *w)
 {
-	b->colored = load_image(table->mlx_start, c);
-	b->white = load_image(table->mlx_start, w);
+	b->colored = load_image(table->mlx_start, c, table);
+	b->white = load_image(table->mlx_start, w, table);
 	if (!b->colored || !b->white)
 		return (1);
 	if (!mlx_resize_image(b->colored, b->width, b->height))

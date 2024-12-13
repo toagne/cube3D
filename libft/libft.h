@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:34:29 by omartela          #+#    #+#             */
-/*   Updated: 2024/11/14 10:45:32 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:32:42 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void	*ft_recalloc(void *ptr, size_t old_size, size_t new_size);
 char	*ft_strndup(const char *s1, size_t n);
-char    *ft_string_replace(char *str, char *delimiter, char *insert);
 
 #endif

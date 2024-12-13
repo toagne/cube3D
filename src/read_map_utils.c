@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omartela <omartela@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 10:34:15 by omartela          #+#    #+#             */
-/*   Updated: 2024/12/12 10:15:48 by omartela         ###   ########.fr       */
+/*   Updated: 2024/12/13 10:53:10 by mpellegr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static int	find_length_of_longest_line(char **map)
 	i = 0;
 	current_len = 0;
 	len = 0;
-	if (!map || !*map)
-		return (-1);
 	while (map[i])
 	{
 		current_len = ft_strlen(map[i]);
@@ -37,7 +35,6 @@ static char	*fill_ones(int len, char *line)
 {
 	char	*newline;
 	int		src_len;
-	int		i;
 
 	newline = malloc((len + 1) * sizeof(char));
 	if (!newline)
@@ -50,14 +47,20 @@ static char	*fill_ones(int len, char *line)
 		src_len++;
 	}
 	newline[len] = '\0';
+	return (newline);
+}
+
+static void	fill_ones_middle(char *line)
+{
+	int	i;
+
 	i = 0;
-	while (i < len)
+	while (line[i])
 	{
-		if (newline[i] == ' ')
-			newline[i] = '1';
+		if (line[i] == ' ')
+			line[i] = '1';
 		++i;
 	}
-	return (newline);
 }
 
 int	fill_ones_to_map(char ***map)
@@ -67,6 +70,8 @@ int	fill_ones_to_map(char ***map)
 	char	*temp;
 
 	i = 0;
+	if (!map || !*map || !(*map)[0])
+		return (1);
 	len = find_length_of_longest_line(*map);
 	while ((*map)[i])
 	{
@@ -78,6 +83,7 @@ int	fill_ones_to_map(char ***map)
 			free((*map)[i]);
 			(*map)[i] = temp;
 		}
+		fill_ones_middle((*map)[i]);
 		++i;
 	}
 	return (0);
