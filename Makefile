@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpellegr <mpellegr@student.hive.fi>        +#+  +:+       +#+         #
+#    By: mpellegr <mpellegr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/29 09:05:38 by mpellegr          #+#    #+#              #
-#    Updated: 2024/12/12 17:49:07 by mpellegr         ###   ########.fr        #
+#    Updated: 2024/12/16 11:27:27 by mpellegr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,11 @@ LIBFT           = $(LIBFT_DIR)/libft.a
 
 RM              = rm -f
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code\
+CFLAGS          = -Wall -Wextra -Werror -Wunreachable-code \
 					-I$(INC_DIR) \
-					-I$(MLX42_DIR)/include
-LDFLAGS         = -ldl -lglfw -pthread -lm
+					-I$(MLX42_DIR)/include \
+					-I/opt/homebrew/opt/glfw/include
+LDFLAGS         = -ldl -L/opt/homebrew/opt/glfw/lib -lglfw -pthread -lm
 
 all:	$(LIBFT) $(MLX42_LIB) $(NAME)
 
